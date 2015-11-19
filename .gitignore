@@ -7,3 +7,4 @@ lib/
 libsera.so*
 examples/*/bin/
 examples/*/build/
+runagent
