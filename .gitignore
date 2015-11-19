@@ -4,3 +4,6 @@ doc
 Makefile
 build/
 lib/
+libsera.so*
+examples/*/bin/
+examples/*/build/
