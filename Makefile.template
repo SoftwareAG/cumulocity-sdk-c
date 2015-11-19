@@ -1,0 +1,48 @@
+include init.mk
+
+BUILD:=debug
+
+SRC_DIR:=src
+BUILD_DIR:=build
+SRC:=$(wildcard $(SRC_DIR)/*.cc)
+OBJ:=$(addprefix $(BUILD_DIR)/,$(notdir $(SRC:.cc=.o)))
+
+LIB_DIR:=lib
+LIBNAME:=libsera
+REALNAME:=$(LIBNAME).so.1.16
+SONAME:=$(LIBNAME).so.1
+LINKNAME:=$(LIBNAME).so
+CXXFLAGS+=-std=c++11 -fPIC -pthread -Iinclude -MMD\
+		  -Iext/LuaBridge/Source/LuaBridge
+LDFLAGS+=-Wl,-soname,$(SONAME) -Wl,--no-undefined -shared
+LDFLAGS+=-pthread
+
+ifeq ($(BUILD), release)
+CXXFLAGS+=-O2 -DNDEBUG
+LDFLAGS+=-O2 -s -flto
+else
+CXXFLAGS+=-O0 -g -DDEBUG
+LDFLAGS+=-O0 -g
+endif
+
+.PHONY: all release clean
+
+all: $(REALNAME)
+
+release:
+	make "BUILD=release"
+
+$(REALNAME): $(OBJ)
+	@mkdir -p $(LIB_DIR)
+	$(CXX) $(LDFLAGS) $^ $(LDLIBS) -o $(LIB_DIR)/$@
+	@cd $(LIB_DIR) && ln -fs $(REALNAME) $(SONAME)
+	@cd $(LIB_DIR) && ln -fs $(SONAME) $(LINKNAME)
+
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cc
+	@mkdir -p $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
+
+clean:
+	@rm -f $(BUILD_DIR)/*.o $(BUILD_DIR)/*.d $(LIB_DIR)/$(LIBNAME).*
+
+-include $(OBJ:.o=.d)
