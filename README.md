@@ -1,13 +1,13 @@
 # Cumulocity C++ Library #
 
-C++ Library for easy connecting embedded Linux powered devices to the Cumulocity cloud.
+Cumulocity C++ Library is an asynchronous, event-driven networking library to ease your development for connecting to the Cumulocity cloud. The library uses Cumulocity's self invented SmartREST protocol for M2M communication which targets any device that are capable of running embedded Linux.
 
 ### Prerequisites ###
 
 * *C++ 11*
 * *Linux* >= 2.6.32
 * *libcurl* >= 7.26.0
-* *Lua* >= 5.0 (optional, for Lua support only)
+* *Lua* >= 5.0 (optional, for Lua support)
 
 ### How to build the library? ###
 
