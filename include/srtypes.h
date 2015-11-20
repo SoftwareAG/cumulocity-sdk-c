@@ -19,8 +19,9 @@ struct SrNews
          *
          *  0 means no buffering, request will be discarded if the SrReporter
          *  can not send it after multiple trials. 1 means buffering, request
-         *  will be buffered and retried later if the SrReporter thread fail to
-         *  send the request.
+         *  will be buffered and retried later if the SrReporter thread fails
+         *  to send the request.
+         *
          *  Note buffering still does not mean 100% guarantee, as the buffer
          *  of the SrReporter has an explicit capacity. Buffered old requests
          *  will be discarded if the capacity is exhausted.

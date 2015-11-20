@@ -125,13 +125,39 @@ public:
          *  scheduling. Note this function does not return.
          */
         void loop();
+        /**
+         *  \brief Add an SrTimer timer to the agent. Non thread-safe.
+         *
+         *  This function does not start the timer, you have to start the timer
+         *  first.
+         *
+         *  Note this function does no existence check, adding the same timer
+         *  multiple times results in the timer being added multiple times.
+         *
+         *  \param timer reference to an SrTimer to add to the agent.
+         */
         void addTimer(SrTimer &timer) {timers.push_back(&timer);}
+        /**
+         *  \brief Add a message handler to the agent. Non thread-safe.
+         *
+         *  Register a new handler for the same message ID overwrites the old
+         *  one. Register with NULL clears the handler for this message.
+         *
+         *  \param msgid the message ID.
+         *  \param functor pointer to a message handler.
+         */
         void addMsgHandler(MsgID msgid, AbstractMsgHandler *functor) {
                 handlers[msgid] = functor;
         }
 
 public:
+        /**
+            \brief Incoming queue for receiving SmartREST responses.
+         */
         SrQueue<SrOpBatch> ingress;
+        /**
+         *  \brief Outgoing queue for sending SmartREST requests.
+         */
         SrQueue<SrNews> egress;
 
 private:
