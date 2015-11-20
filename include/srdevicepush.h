@@ -5,29 +5,30 @@
 #include "srnetsocket.h"
 #include "srlogger.h"
 
-
+/**
+ * \class SrDevicePush srdevicepush.h
+ * \brief SmartREST real-time notification implementation.
+ *
+ *  This class implements the real-time notification in the SmartREST
+ *  protocol. It maintains long polling connection to the server using
+ *  the bayeux protocol (handshake, subscribe, connect), and block waiting
+ *  for the response. To sustain the connection, a single space character
+ *  as heartbeat is sent from the server every 10 minutes. When a batch of
+ *  operation is received, it redo the connect or handshake based on the
+ *  received bayeux advice. The class also features reliable push
+ *  (message: 88,batch number) to avoid missing operations due to a
+ *  broken connection.
+ */
 class SrDevicePush
 {
 public:
         /**
          *  \brief SrDevicePush constructor.
-         *
-         *  This class implements the real time notification in the SmartREST
-         *  protocol. It maintains long polling connection to the server using
-         *  the bayeux protocol (handshake, subscribe, connect), and block
-         *  waiting for the response. To sustain the connection, a single space
-         *  character as heartbeat is sent from the server every 10 minutes.
-         *  When a batch of operation is received, it redo the connect or
-         *  handshake based on the received bayeux advice. The class also
-         *  features reliable push (the 88,<batch number> message as the end),
-         *  to avoid missing operations due to a broken connection.
-         *
          *  \param server the server url.
          *  \param xid eXternal ID of the registered SmartREST template.
          *  \param auth Authentication token get from the SrAgent.
          *  \param chn bayeux channel (the managed object ID of the device).
          *  \param queue reference to the ingress queue of the SrAgent.
-         *  \return return type
          */
         SrDevicePush(const std::string &server, const std::string &xid,
                      const std::string &auth, const std::string &chn,
@@ -45,13 +46,13 @@ public:
          */
         int start();
         /**
-         *  \brief Check if the thread is sleeping.
+         *  \brief Check if device push is sleeping.
          *
          *  \return true if sleeping, false otherwise.
          */
         bool isSleeping() const {return sleeping;}
         /**
-         *  \brief Puts device push to sleep.
+         *  \brief Put device push to sleep.
          *
          *  Notice the thread is still running, except the long polling
          *  connection is not maintained anymore, and all received operations
@@ -75,20 +76,24 @@ public:
 
 protected:
         /**
-         *  \brief Implements the bayeux handshake process.
+         *  \brief Implement the bayeux handshake process.
          */
         int handshake();
         /**
-         *  \brief Implements the bayeux subscribe process.
+         *  \brief Implement the bayeux subscribe process.
          */
         int subscribe();
         /**
-         *  \brief Implements the bayeux connect process.
+         *  \brief Implement the bayeux connect process.
          */
         int connect();
         /**
-         *  \brief Process the received bayeux advice and the batch number for
-         *  reliable push.
+         *  \brief Process the received bayeux advice and the batch
+         *  number for reliable push.
+         *
+         *  Note this function removes the bayeux advice and the batch number
+         *  messages from s after processing.
+         *
          *  \param s the entire response.
          */
         void process(std::string &s);
@@ -98,7 +103,6 @@ protected:
          *  \param arg a pointer to an SrDevicePush instance.
          */
         static void *func(void *arg);
-
 
 private:
         SrNetSocket sock;

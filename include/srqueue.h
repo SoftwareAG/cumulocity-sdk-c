@@ -6,30 +6,31 @@
 #include <semaphore.h>
 #include <iostream>
 
-#define Q_TIMEOUT -1
-#define Q_BUSY -2
-#define Q_EMPTY -3
-#define Q_NOTIME -4
-#define Q_UNKNOW -5
-
-template<typename T>
-class SrQueue
+/**
+ *  \class SrQueue srqueue.h
+ *  \brief Multi-thread communication queue.
+ *
+ *  SrQueue is a consumer/producer queue for multi-thread communication.
+ *  It uses the mutex facility from pthread to implement atomic get and
+ *  put operations, and semaphore to avoid busy waiting.
+ */
+template<typename T> class SrQueue
 {
 public:
         /**
-         *  \brief Event wraps the element type and an error code in an Event.
+         *  \brief Enumeration of all possible error code.
+         */
+        enum ErrCode {Q_OK = 0, Q_TIMEOUT, Q_BUSY, Q_EMPTY, Q_NOTIME, Q_UNKNOW};
+        /**
+         *  \brief Event wraps the element type and an error code.
          *
          *  The error code must be first checked before access the element T.
          *  When the error code is not 0, the content of element T is default
          *  constructed, thus element T requires a default constructor.
          */
-        typedef std::pair<T, int> Event;
+        typedef std::pair<T, ErrCode> Event;
         /**
          *  \brief SrQueue constructor.
-         *
-         *  SrQueue is a consumer/producer queue for multi-thread communication.
-         *  It uses the mutex facility from pthread to implement atomic get and
-         *  put operations, and semaphore to avoid busy waiting.
          */
         SrQueue(): q() {
                 if (pthread_mutex_init(&mutex, NULL))

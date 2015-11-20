@@ -15,65 +15,75 @@ class SrAgent;
  */
 bool operator<=(const timespec &l, const timespec &r);
 
+/**
+ *  \class AbstractTimerFunctor srtimer.h
+ *  \brief Virtual abstract functor for the SrTimer callback interface.
+ */
 class AbstractTimerFunctor
 {
 public:
         virtual ~AbstractTimerFunctor() {}
         /**
-         *  \brief Timer callback interface.
-         *  \param timer reference to the timer that fires the callback.
+         *  \brief SrTimer callback interface.
+         *  \param timer reference to the SrTimer which fires the callback.
          *  \param agent reference to the SrAgent instance.
          */
         virtual void operator()(SrTimer &timer, SrAgent &agent) = 0;
 };
 
 
+/**
+ *  \class SrTimer srtimer.h
+ *  \brief A periodical timer with millisecond resolution.
+ */
 class SrTimer
 {
 public:
         /**
-         *  \brief SrTimer Constructor.
+         *  \brief SrTimer constructor.
          *
-         *  Beware that the timer is inactive when first created.
+         *  Note the timer is inactive when first constructed.
          *  \param millisec timer period in milliseconds.
          *  \param callback functor to be executed when the timer fires.
-         *  \return return type
          */
         SrTimer(int millisec, AbstractTimerFunctor *callback = NULL):
                 cb(callback), val(millisec), active(false) {}
         virtual ~SrTimer() {}
 
         /**
-         *  \brief Query if the timer is active.
+         *  \brief Check if the timer is active.
          *  \return true if active, false otherwise.
          */
-        bool isActive() const { return active; }
+        bool isActive() const {return active;}
         /**
          *  \brief Get the current period of the timer.
          *  \return the current timer period in milliseconds.
          */
-        int interval() const { return val; }
+        int interval() const {return val;}
         /**
          *  \brief Get the schedule time of the timer.
-         *  \return the schedule time. Meaningless if tiemr is inactive.
+         *  \return the schedule time, undefined if timer is inactive.
          */
-        const timespec &shedTime() const { return beg; }
+        const timespec &shedTime() const {return beg;}
         /**
          *  \brief Get the fire time of the timer.
-         *  \return the schedule time. Meaningless if tiemr is inactive.
+         *  \return the schedule time, undefined if timer is inactive.
          */
-        const timespec &fireTime() const { return end; }
+        const timespec &fireTime() const {return end;}
         /**
          *  \brief Run the connected callback if not NULL.
          *  \param agent reference to the SrAgent instance.
          */
-        void run(SrAgent &agent) { if (cb) (*cb)(*this, agent); }
+        void run(SrAgent &agent) {if (cb) (*cb)(*this, agent);}
         /**
-         *  \brief Set the period for the timer.
-         *  \param millisec the new period in milliseconds. Calling this
-         *  function with a negative interval causing undefined behavior.
+         *  \brief Set the period to millisec for the timer.
+         *
+         *  Note this function does not activate the timer.
+         *  Set a negative interval causes undefined behavior.
+         *
+         *  \param millisec the new period in milliseconds.
          */
-        void setInterval(int millisec) { val = millisec; }
+        void setInterval(int millisec) {val = millisec;}
         /**
          *  \brief Connect callback functor to the timer.
          *
@@ -83,11 +93,12 @@ public:
          *
          *  \param functor A subclass of AbstractTimerFunctor.
          */
-        void connect(AbstractTimerFunctor *functor) { cb = functor; }
+        void connect(AbstractTimerFunctor *functor) {cb = functor;}
         /**
-         *  \brief Starts the timer.
+         *  \brief Start the timer.
          *
-         *  Sets the timer to active and the schedule time to now.
+         *  This function activates the timer, sets the schedule time to now,
+         *  and the fire time according to the current period.
          */
         void start() {
                 clock_gettime(CLOCK_MONOTONIC, &beg);
@@ -96,11 +107,9 @@ public:
                 active = true;
         }
         /**
-         *  \brief Stops the timer.
-         *
-         *  Sets the timer to inactive.
+         *  \brief Stop the timer. Sets the timer to inactive.
          */
-        void stop() { active = false; }
+        void stop() {active = false;}
 
 private:
         typedef AbstractTimerFunctor*  Callback;

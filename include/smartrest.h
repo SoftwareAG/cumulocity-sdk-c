@@ -2,19 +2,33 @@
 #define SMARTREST_H
 #include <vector>
 #include <string>
-
-
-enum SrTokType {SR_NONE = 0, SR_ERROR, SR_STRING, SR_INT, SR_FLOAT,
-                SR_EOB, SR_NEWLINE};
-typedef std::pair<SrTokType, std::string> SrToken;
-
-
+/**
+ *  \class SrLexer smartrest.h
+ *  \brief Lexical scanner for SmartREST messages.
+ *
+ *  A SmartREST message consists of a comma-separated-values. Notice the
+ *  value can contain white spaces, and escaped commas, double quote,
+ *  control characters, etc.
+ */
 class SrLexer
 {
 public:
         /**
-         *  \brief SrLexer constructor. A SmartREST string (CSV) lexer.
-         *  \param _s the string for lexing.
+         *  \enum SrTokType
+         *  \brief Token data type used by SrLexer for lexical scanning.
+         */
+        enum SrTokType {SR_NONE = 0, SR_ERROR, SR_STRING,
+                        SR_INT, SR_FLOAT, SR_EOB, SR_NEWLINE};
+
+        /**
+         *  \typedef SrToken
+         *  \brief Data structure used for holding a SmartREST token
+         *  with its data type.
+         */
+        typedef std::pair<SrTokType, std::string> SrToken;
+        /**
+         *  \brief SrLexer constructor.
+         *  \param _s the string for lexical scanning.
          */
         SrLexer(const std::string& _s): s(_s), i(0), delimit(false) {}
         virtual ~SrLexer() {}
@@ -46,10 +60,9 @@ public:
         /**
          *  \brief Reset the lexer with a new string.
          *
-         *  This function clears all internal states of the lexer, and sets
-         *  its buffer to the given string. The purpose of this function is
-         *  for re-using an existing lexer, instead of create a new one
-         *  every time.
+         *  This function clears all internal states of the lexer, and sets its
+         *  buffer to the given string. The purpose of this function is for
+         *  re-using an existing lexer, instead of create a new one every time.
          *
          *  \param _s the new string for lexing.
          */
@@ -66,29 +79,33 @@ private:
 };
 
 
+/**
+ *  \class SrRecord smartrest.h
+ *  \brief Data structure represents a SmartREST record.
+ *
+ *  A SmartREST record is a list of CSVs (comma separated values), along with
+ *  its scanned type returned from a SrLexer.
+ */
 class SrRecord
 {
 public:
         /**
-         *  \brief SrRecord constructor. Container for a SmartREST record.
-         *
-         *  A SmartREST record is a list of CSVs (comma separated values),
-         *  along with its scanned type returned from a SrLexer.
+         *  \brief SrRecord constructor.
          */
         SrRecord() {}
         virtual ~SrRecord() {}
 
         /**
-         *  \brief append a token to the record.
+         *  \brief Append a token to the record.
          *  \param tok token to be appended.
          */
-        void push_back(SrToken &tok) { data.push_back(tok); }
+        void push_back(SrLexer::SrToken &tok) {data.push_back(tok);}
         /**
          *  \brief Get the i-th token from the record.
          *  \param i index, cause undefined behavior if i is out of range.
          *  \return the token at position i.
          */
-        const SrToken &operator[](size_t i) const {return data[i];}
+        const SrLexer::SrToken &operator[](size_t i) const {return data[i];}
         /**
          *  \brief Get the value of i-th token.
          *  \param i index, cause undefined behavior if i is out of range.
@@ -100,7 +117,7 @@ public:
          *  \param i index, cause undefined behavior if i is out of range.
          *  \return the scanned type by a SrLexer.
          */
-        SrTokType type(size_t i) const {return data[i].first;}
+        SrLexer::SrTokType type(size_t i) const {return data[i].first;}
         /**
          *  \brief Get the type of i-th token at an integer.
          *
@@ -119,22 +136,23 @@ public:
         size_t size() const {return data.size();}
 
 private:
-        std::vector<SrToken> data;
+        std::vector<SrLexer::SrToken> data;
 };
 
 
+/**
+ *  \class SmartRest smartrest.h
+ *  \brief SmartREST response parser.
+ *
+ *  As the SmartREST protocol supports message aggregation, multiple SmartREST
+ *  messages can be aggregated into one response. This class is designed for
+ *  parsing one single response, which in turn contains multiple SrRecord.
+ */
 class SmartRest
 {
 public:
         /**
-         *  \brief SmartREST constructor. A container for holding a list of
-         *  SrRecord.
-         *
-         *  As the SmartREST protocol supports message aggregation, multiple
-         *  SmartREST messages can be aggregated in one request or returned
-         *  in one response. This class is designed for holding one single
-         *  request or response, which in turn contains multiple SrRecord.
-         *
+         *  \brief SmartREST constructor. A container for a list of SrRecord.
          *  \param _s message contains the hold request or response.
          */
         SmartRest(const std::string &_s): lex(_s) {}
@@ -151,7 +169,8 @@ public:
          */
         SrRecord next() {
                 SrRecord r;
-                for (SrToken t=lex.next(); !lex.isdelimiter(t); t=lex.next())
+                for (SrLexer::SrToken t = lex.next(); !lex.isdelimiter(t);
+                     t = lex.next())
                         r.push_back(t);
                 return r;
         }
