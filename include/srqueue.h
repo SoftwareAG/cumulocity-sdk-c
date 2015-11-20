@@ -16,8 +16,21 @@ template<typename T>
 class SrQueue
 {
 public:
+        /**
+         *  \brief Event wraps the element type and an error code in an Event.
+         *
+         *  The error code must be first checked before access the element T.
+         *  When the error code is not 0, the content of element T is default
+         *  constructed, thus element T requires a default constructor.
+         */
         typedef std::pair<T, int> Event;
-
+        /**
+         *  \brief SrQueue constructor.
+         *
+         *  SrQueue is a consumer/producer queue for multi-thread communication.
+         *  It uses the mutex facility from pthread to implement atomic get and
+         *  put operations, and semaphore to avoid busy waiting.
+         */
         SrQueue(): q() {
                 if (pthread_mutex_init(&mutex, NULL))
                         std::cerr << "Mutex init failed.\n";
@@ -28,7 +41,17 @@ public:
                 sem_destroy(&sem);
                 pthread_mutex_destroy(&mutex);
         }
-
+        /**
+         *  \brief get an element from the queue.
+         *
+         *  This a blocking call, it never returns until the underlying semaphore
+         *  signals that there is at least one element available in the queue.
+         *  Notice you still have to check the error code after this function
+         *  returns, as the mutex locking could fail, or another thread may have
+         *  retrieved the element first.
+         *
+         *  \return the element T with error code.
+         */
         Event get() {
                 sem_wait(&sem);
                 Event e;
@@ -45,6 +68,16 @@ public:
                 }
                 return e;
         }
+        /**
+         *  \brief get an element from the queue.
+         *
+         *  Similar to the get function with no parameter, except this function
+         *  waits at most millisec milliseconds instead of waiting forever. This
+         *  function can fail additionally when timed out. Calling this function
+         *  with negative value causes undefined behavior.
+         *
+         *  \return the element T with error code.
+         */
         Event get(int millisec) {
                 timespec t;
                 Event e;
@@ -73,6 +106,12 @@ public:
                 }
                 return e;
         }
+        /**
+         *  \brief put element item into the queue.
+         *
+         *  \param item the element to put into the queue.
+         *  \return 0 on success, -1 otherwise.
+         */
         int put(const T& item) {
                 if (pthread_mutex_lock(&mutex) == 0) {
                         q.push(item);
@@ -82,8 +121,24 @@ public:
                 }
                 return -1;
         }
-        size_t size() const { return q.size(); }
-        bool empty() const { return q.empty(); }
+        /**
+         *  \brief get the number of elements in the queue.
+         *
+         *  Beware this function is not thread-safe, it should only be used as a
+         *  hint rather than an accurate measure.
+         *
+         *  \return the number of elements currently in the queue.
+         */
+        size_t size() const {return q.size();}
+        /**
+         *  \brief check if the queue is empty.
+         *
+         *  Beware this function is not thread-safe, it should only be used as a
+         *  hint rather than an accurate measure.
+         *
+         *  \return true if the queue is empty, false otherwise.
+         */
+        bool empty() const {return q.empty();}
 private:
         std::queue<T> q;
         sem_t sem;

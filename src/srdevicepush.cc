@@ -43,7 +43,7 @@ static int parseHttpHeader(string &s)
 SrDevicePush::SrDevicePush(const string &server, const string &xid,
                            const string &auth, const string &chn,
                            SrQueue<SrOpBatch> &queue):
-        queue(queue), sock(server), channel(chn),
+        sock(server), queue(queue), channel(chn),
         header(packHeader(server, xid, auth)), bnum(0),
         bayeuxPolicy(1), sleeping(false) {}
 
