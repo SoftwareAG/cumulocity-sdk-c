@@ -39,13 +39,9 @@ struct SrOpBatch
         SrOpBatch() {}
         SrOpBatch(const std::string &s): data(s) {}
         /**
-         *  \brief Buffer contains the response.
+         *  \brief buffer contains the response.
          */
         std::string data;
 };
-
-
-// template<typename T1, typename T2>
-// union MixPointer { T1 fptr; T2 functor; };
 
 #endif /* SRTYPES_H */

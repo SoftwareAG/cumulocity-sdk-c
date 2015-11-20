@@ -24,7 +24,7 @@ class SrDevicePush
 public:
         /**
          *  \brief SrDevicePush constructor.
-         *  \param server the server url.
+         *  \param server the server URL.
          *  \param xid eXternal ID of the registered SmartREST template.
          *  \param auth Authentication token get from the SrAgent.
          *  \param chn bayeux channel (the managed object ID of the device).
