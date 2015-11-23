@@ -39,7 +39,7 @@ int SrBootstrap::requestCredential()
                         continue;
 
                 SrLexer lexer(http.response());
-                SrToken tok = lexer.next();
+                SrLexer::SrToken tok = lexer.next();
                 if (tok.second == "70") {
                         tok = lexer.next();
                         tok = lexer.next();

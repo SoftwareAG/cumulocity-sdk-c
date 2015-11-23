@@ -138,8 +138,8 @@ int SrDevicePush::subscribe()
                 return -1;
         }
         SrLexer lex(s);
-        SrToken tok = lex.next();
-        return lex.isdelimiter(tok) || tok.first == SR_NONE ? 0 : -1;
+        SrLexer::SrToken tok = lex.next();
+        return lex.isdelimiter(tok) || tok.first == SrLexer::SR_NONE ? 0 : -1;
 }
 
 

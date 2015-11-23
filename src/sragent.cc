@@ -102,7 +102,7 @@ void SrAgent::loop()
                 }
 
                 SrQueue<SrOpBatch>::Event e = ingress.get(200);
-                if (e.second) continue;
+                if (e.second != SrQueue<SrOpBatch>::Q_OK) continue;
                 SmartRest sr(e.first.data);
                 for (SrRecord r = sr.next(); r.size(); r = sr.next()) {
                         MsgID j = strtoul(r[0].second.c_str(), NULL, 10);

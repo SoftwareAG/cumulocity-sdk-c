@@ -47,12 +47,12 @@ void* SrReporter::func(void *arg)
         while (true) {
                 aggre.clear();
                 SrQueue<SrNews>::Event e = rep->out.get();
-                if (e.second)
+                if (e.second != SrQueue<SrNews>::Q_OK)
                         continue;
                 _insert(rep->buffer, rep->_cap, aggre, e);
 
                 e = rep->out.get(400);
-                for (uint8_t i = 0; e.second == 0 && i < 40;
+                for (uint8_t i = 0; e.second == SrQueue<SrNews>::Q_OK && i < 40;
                      ++i, e = rep->out.get(400))
                         _insert(rep->buffer, rep->_cap, aggre, e);
                 if (aggre.empty() || rep->sleeping)

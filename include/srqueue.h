@@ -20,7 +20,7 @@ public:
         /**
          *  \brief Enumeration of all possible error code.
          */
-        enum ErrCode {Q_OK = 0, Q_TIMEOUT, Q_BUSY, Q_EMPTY, Q_NOTIME, Q_UNKNOW};
+        enum ErrCode {Q_OK = 0, Q_TIMEOUT, Q_BUSY, Q_EMPTY, Q_NOTIME};
         /**
          *  \brief Event wraps the element type and an error code.
          *
@@ -58,14 +58,14 @@ public:
                 Event e;
                 if (pthread_mutex_lock(&mutex) == 0) {
                         if (q.size()) {
-                                e = std::make_pair(q.front(), 0);
+                                e = std::make_pair(q.front(), Q_OK);
                                 q.pop();
                         } else {
                                 e.second = Q_EMPTY;
                         }
                         pthread_mutex_unlock(&mutex);
                 } else {
-                        e.second = Q_UNKNOW;
+                        e.second = Q_BUSY;
                 }
                 return e;
         }
@@ -96,7 +96,7 @@ public:
 
                 if (pthread_mutex_trylock(&mutex) == 0) {
                         if (q.size()) {
-                                e = std::make_pair(q.front(), 0);
+                                e = std::make_pair(q.front(), Q_OK);
                                 q.pop();
                         } else {
                                 e.second = Q_EMPTY;

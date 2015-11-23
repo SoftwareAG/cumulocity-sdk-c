@@ -2,9 +2,9 @@
 using namespace std;
 
 
-SrToken SrLexer::next()
+SrLexer::SrToken SrLexer::next()
 {
-        SrToken tok;
+        SrLexer::SrToken tok;
         if (i == s.size()) {
                 tok.first = SR_EOB;
                 return tok;
