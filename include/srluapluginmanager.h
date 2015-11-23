@@ -90,38 +90,19 @@ public:
          */
         void send(const string &s, LuaRef ref);
         /**
-         *  \brief Cumulocity HTTP binary post. For Lua plugins only.
-         *  \param dest file name to be stored on the remote server.
-         *  \param ct Content-Type of the actual data.
-         *  \param data buffer contains the actual data.
-         *  \return size of response on success, -1 on failure.
+         *  \brief Wrapper of SrNetBinHTTP post. For lua plugins only.
          */
         int post(const string &dest, const string& ct, const string &data);
         /**
-         *  \brief Cumulocity HTTP binary post. For Lua plugins only.
-         *  \param dest file name to be stored on the remote server.
-         *  \param ct Content-Type of the actual data.
-         *  \param file path to the file which stores the actual data.
-         *  \return size of response on success, -1 on failure.
+         *  \brief Wrapper of SrNetBinHTTP postf. For lua plugins only.
          */
         int postf(const string &dest, const string& ct, const string &file);
         /**
-         *  \brief Cumulocity HTTP binary get. For lua plugins only.
-         *  \param id Cumulocity binary resource unique identifier.
-         *  \return size of response on success, -1 on failure.
+         *  \brief Wrapper of SrNetBinHTTP get. For lua plugins only.
          */
         int get(const string &id);
         /**
-         *  \brief Cumulocity HTTP binary get. For lua plugins only.
-         *
-         *  Counterpart of the get API, except this function stores the response
-         *  directly to a file. Suitable for large binary files. Note when using
-         *  this function, the response can not be accessed by the resp function,
-         *  rather stored in a file located by argument path.
-         *
-         *  \param id Cumulocity binary resource unique identifier.
-         *  \param dest local file path to store the response.
-         *  \return size of file on success, -1 on failure.
+         *  \brief Wrapper of SrNetBinHTTP getf. For lua plugins only.
          */
         int getf(const string &id, const string &dest);
         /**

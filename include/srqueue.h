@@ -25,8 +25,8 @@ public:
          *  \brief Event wraps the element type and an error code.
          *
          *  The error code must be first checked before access the element T.
-         *  When the error code is not 0, the content of element T is default
-         *  constructed, thus element T requires a default constructor.
+         *  When the error code is not 0, element T is default constructed,
+         *  thus element T requires a default constructor.
          */
         typedef std::pair<T, ErrCode> Event;
         /**

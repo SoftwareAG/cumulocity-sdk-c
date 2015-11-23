@@ -5,7 +5,6 @@
 #include "srqueue.h"
 #include "srlogger.h"
 
-
 /**
  *  \class SrReporter srreporter.h
  *  \brief The reporter thread for sending all requests to Cumulocity.
@@ -30,7 +29,7 @@ public:
          *  \param auth authentication token from SrAgent.
          *  \param out reference to the SrAgent egress queue.
          *  \param in reference to the SrAgent ingress queue.
-         *  \param capacity capacity of the request buffer.
+         *  \param cap capacity of the request buffer.
          */
         SrReporter(const string &server, const string &xid, const string &auth,
                    SrQueue<SrNews> &out, SrQueue<SrOpBatch> &in,
