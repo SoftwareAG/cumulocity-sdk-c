@@ -10,13 +10,13 @@
       <tab type="namespacemembers" visible="yes" title="" intro=""/>
     </tab>
     <tab type="classes" visible="no" title="">
-      <tab type="classlist" visible="yes" title="" intro=""/>
+      <tab type="classlist" visible="yes" title="class" intro=""/>
       <tab type="classindex" visible="$ALPHABETICAL_INDEX" title=""/> 
       <tab type="hierarchy" visible="no" title="" intro=""/>
       <tab type="classmembers" visible="no" title="" intro=""/>
     </tab>
     <tab type="files" visible="no" title="">
-      <tab type="filelist" visible="yes" title="" intro=""/>
+      <tab type="filelist" visible="yes" title="header" intro=""/>
       <tab type="globals" visible="no" title="" intro=""/>
     </tab>
     <tab type="examples" visible="yes" title="" intro=""/>  

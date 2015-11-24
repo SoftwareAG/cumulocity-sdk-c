@@ -7,8 +7,6 @@
 #include "srintegrate.h"
 #include "srtimer.h"
 
-int readSrTemplate(const std::string &path, std::string &srv, std::string &srt);
-
 
 /**
  *  \class AbstractMsgHandler sragent.h
