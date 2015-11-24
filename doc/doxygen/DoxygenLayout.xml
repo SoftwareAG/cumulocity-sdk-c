@@ -17,7 +17,7 @@
     </tab>
     <tab type="files" visible="no" title="">
       <tab type="filelist" visible="yes" title="header" intro=""/>
-      <tab type="globals" visible="no" title="" intro=""/>
+      <tab type="globals" visible="yes" title="global" intro=""/>
     </tab>
     <tab type="examples" visible="yes" title="" intro=""/>  
   </navindex>
