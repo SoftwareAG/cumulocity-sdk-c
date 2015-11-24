@@ -3,7 +3,7 @@
 #include <string>
 
 /**
- *  \class SrNews srtypes.h
+ *  \class SrNews
  *  \brief Data type represents a SmartREST request (measurement, alarm, etc.).
  */
 struct SrNews
@@ -11,7 +11,7 @@ struct SrNews
         SrNews(uint8_t prio = 0): prio(prio) {}
         SrNews(const std::string &s, uint8_t prio = 0): data(s), prio(prio) {}
         /**
-         *  \brief the request to send to Cumulocity.
+         *  \brief The request to send to Cumulocity.
          */
         std::string data;
         /**
@@ -31,7 +31,7 @@ struct SrNews
 
 
 /**
- *  \class SrOpBatch srtypes.h
+ *  \class SrOpBatch
  *  \brief Data type represents a SmartREST response, i.e., a batch of
  *  multiple messages.
  */
@@ -40,7 +40,7 @@ struct SrOpBatch
         SrOpBatch() {}
         SrOpBatch(const std::string &s): data(s) {}
         /**
-         *  \brief buffer contains the response.
+         *  \brief Buffer contains the response.
          */
         std::string data;
 };

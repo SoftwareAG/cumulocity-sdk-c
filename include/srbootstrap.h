@@ -3,7 +3,7 @@
 #include <string>
 
 /**
- *  \class SrBootstrap srbootstrap.h
+ *  \class SrBootstrap
  *  \brief Implementation of Cumulocity bootstrap process.
  *
  *  Bootstrap (or register) to Cumulocity is the process of requesting a device

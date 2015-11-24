@@ -3,7 +3,7 @@
 #include "srnetinterface.h"
 
 /**
- *  \class SrNetSocket srnetsocket.h
+ *  \class SrNetSocket
  *  \brief Low-level socket interface implementation.
  *
  *  SrNetSocket implements low-level socket interface with the advantage of

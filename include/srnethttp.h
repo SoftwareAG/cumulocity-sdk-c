@@ -3,7 +3,7 @@
 #include "srnetinterface.h"
 
 /**
- *  \class SrNetHttp srnethttp.h
+ *  \class SrNetHttp
  *  \brief Tailored HTTP implementation for Cumulocity SmartREST protocol.
  *  Supports both HTTP and HTTPS.
  */

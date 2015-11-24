@@ -7,7 +7,7 @@
 #include <iostream>
 
 /**
- *  \class SrQueue srqueue.h
+ *  \class SrQueue
  *  \brief Multi-thread communication queue.
  *
  *  SrQueue is a consumer/producer queue for multi-thread communication.
@@ -29,9 +29,6 @@ public:
          *  thus element T requires a default constructor.
          */
         typedef std::pair<T, ErrCode> Event;
-        /**
-         *  \brief SrQueue constructor.
-         */
         SrQueue(): q() {
                 if (pthread_mutex_init(&mutex, NULL))
                         std::cerr << "Mutex init failed.\n";

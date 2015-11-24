@@ -16,7 +16,7 @@ class SrAgent;
 bool operator<=(const timespec &l, const timespec &r);
 
 /**
- *  \class AbstractTimerFunctor srtimer.h
+ *  \class AbstractTimerFunctor
  *  \brief Virtual abstract functor for the SrTimer callback interface.
  */
 class AbstractTimerFunctor
@@ -33,7 +33,7 @@ public:
 
 
 /**
- *  \class SrTimer srtimer.h
+ *  \class SrTimer
  *  \brief A periodical timer with millisecond resolution.
  */
 class SrTimer

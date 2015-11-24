@@ -6,7 +6,7 @@
 class SrAgent;
 
 /**
- *  \class SrIntegrate srintegrate.h
+ *  \class SrIntegrate
  *  \brief Interface class for defining your own integration process.
  *
  *  This function defines the interface API to be called by SrAgent after

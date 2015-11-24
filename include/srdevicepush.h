@@ -6,7 +6,7 @@
 #include "srlogger.h"
 
 /**
- * \class SrDevicePush srdevicepush.h
+ * \class SrDevicePush
  * \brief SmartREST real-time notification implementation.
  *
  *  This class implements the real-time notification in the SmartREST

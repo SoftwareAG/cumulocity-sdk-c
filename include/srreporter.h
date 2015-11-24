@@ -6,7 +6,7 @@
 #include "srlogger.h"
 
 /**
- *  \class SrReporter srreporter.h
+ *  \class SrReporter
  *  \brief The reporter thread for sending all requests to Cumulocity.
  *
  *  The SrReporter is responsible for sending all requests (measurements, alarms,

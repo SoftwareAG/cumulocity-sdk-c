@@ -3,7 +3,7 @@
 #include "srnetinterface.h"
 
 /**
- *  \class SrNetBinHttp srnetbinhttp.h
+ *  \class SrNetBinHttp
  *  \brief Cumulocity HTTP binary API implementation.
  *
  *  Cumulocity binary APIs are used for uploading and downloading big files to

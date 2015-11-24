@@ -4,7 +4,7 @@
 #include <curl/curl.h>
 
 /**
- *  \class SrNetInterface srnetinterface.h
+ *  \class SrNetInterface
  *  \brief Base class of all networking classes.
  */
 class SrNetInterface

@@ -3,7 +3,7 @@
 #include <vector>
 #include <string>
 /**
- *  \class SrLexer smartrest.h
+ *  \class SrLexer
  *  \brief Lexical scanner for SmartREST messages.
  *
  *  A SmartREST message consists of a comma-separated-values.
@@ -80,7 +80,7 @@ private:
 
 
 /**
- *  \class SrRecord smartrest.h
+ *  \class SrRecord
  *  \brief Data structure represents a SmartREST record.
  *
  *  A SmartREST record is a list of CSVs (comma separated values), along with
@@ -141,7 +141,7 @@ private:
 
 
 /**
- *  \class SmartRest smartrest.h
+ *  \class SmartRest
  *  \brief SmartREST response parser.
  *
  *  As the SmartREST protocol supports message aggregation, multiple SmartREST

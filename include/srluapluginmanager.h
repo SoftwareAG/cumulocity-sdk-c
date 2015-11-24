@@ -12,7 +12,7 @@ extern "C" {
 using namespace luabridge;
 
 /**
- *  \class SrLuaPluginManager srluapluginmanager.h
+ *  \class SrLuaPluginManager
  *  \brief Lua plugin manager.
  *
  *  The SrLuaPluginManager manages all timer based and message ID based callbacks

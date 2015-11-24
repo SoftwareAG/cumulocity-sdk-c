@@ -9,7 +9,7 @@
 
 
 /**
- *  \class AbstractMsgHandler sragent.h
+ *  \class AbstractMsgHandler
  *  \brief Virtual abstract functor for SmartREST message callbacks.
  */
 class AbstractMsgHandler
@@ -26,7 +26,7 @@ public:
 
 
 /**
- *  \class SrAgent sragent.h
+ *  \class SrAgent
  *  \brief Main implementation of a device agent.
  *
  *  SrAgent implements a highly performant event-driven framework for scheduling
