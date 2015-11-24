@@ -42,7 +42,7 @@ public:
         /**
          *  \brief SrTimer constructor.
          *
-         *  Note the timer is inactive when first constructed.
+         *  \note the timer is inactive when first constructed.
          *  \param millisec timer period in milliseconds.
          *  \param callback functor to be executed when the timer fires.
          */
@@ -78,8 +78,8 @@ public:
         /**
          *  \brief Set the period to millisec for the timer.
          *
-         *  Note this function does not activate the timer.
-         *  Set a negative interval causes undefined behavior.
+         *  \note This function does not activate the timer.
+         *  \note Set a negative interval causes undefined behavior.
          *
          *  \param millisec the new period in milliseconds.
          */

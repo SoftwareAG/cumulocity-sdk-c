@@ -47,8 +47,8 @@ public:
          *
          *  This a blocking call, it never returns until the underlying semaphore
          *  signals that there is at least one element available in the queue.
-         *  Notice you still have to check the error code after this function
-         *  returns, as the mutex locking could fail, or another thread may have
+         *  \note You must still check the error code after this function
+         *  returns, as the mutex locking may fail, or another thread may have
          *  retrieved the element first.
          *
          *  \return the element T with error code.
@@ -125,7 +125,7 @@ public:
         /**
          *  \brief get the number of elements in the queue.
          *
-         *  Beware this function is not thread-safe, it should only be used as a
+         *  \note This function is not thread-safe, it should only be used as a
          *  hint rather than an accurate measure.
          *
          *  \return the number of elements currently in the queue.
@@ -134,7 +134,7 @@ public:
         /**
          *  \brief check if the queue is empty.
          *
-         *  Beware this function is not thread-safe, it should only be used as a
+         *  \note This function is not thread-safe, it should only be used as a
          *  hint rather than an accurate measure.
          *
          *  \return true if the queue is empty, false otherwise.

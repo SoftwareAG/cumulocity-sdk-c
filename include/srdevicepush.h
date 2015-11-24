@@ -54,7 +54,7 @@ public:
         /**
          *  \brief Put device push to sleep.
          *
-         *  Notice the thread is still running, except the long polling
+         *  \note The thread is still running, except the long polling
          *  connection is not maintained anymore, and all received operations
          *  are discarded. sleep an already sleeping device push has no effect.
          */
@@ -91,7 +91,7 @@ protected:
          *  \brief Process the received bayeux advice and the batch
          *  number for reliable push.
          *
-         *  Note this function removes the bayeux advice and the batch number
+         *  \note This function removes the bayeux advice and the batch number
          *  messages from s after processing.
          *
          *  \param s the entire response.

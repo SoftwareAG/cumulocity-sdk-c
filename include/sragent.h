@@ -38,11 +38,10 @@ public:
  *  is received. The agent contains both an ingress and egress SrQueue, which
  *  are usually connected to an SrDevicePush and SrReporter for receiving
  *  responses and reporting requests.
- *
- *  Note the agent can not guarantee accurate timer scheduling, which is
- *  especially true when the system is under heavy load. The only guarantee is
- *  that a timer will not be scheduled before its intended fire time. Do NOT rely
- *  on the agent to perform real-time scheduling.
+ *  \note The agent does not guarantee accurate timer scheduling, which is
+ *  especially true when the system is under heavy load. The only guarantee
+ *  is that a timer will not be scheduled before its intended fire time.
+ *  \note Do NOT rely on the agent to perform real-time scheduling.
  */
 class SrAgent
 {
@@ -53,7 +52,7 @@ public:
         /**
          *  \brief SrAgent constructor.
          *
-         *  Note it is highly discouraged to instantiate more than one SrAgent
+         *  \note It is highly discouraged to instantiate more than one SrAgent
          *  instance.
          *
          *  \param _server server URL (with no trailing slash).
@@ -121,18 +120,18 @@ public:
         /**
          *  \brief Enter the agent loop.
          *
-         *  This function takes over the calling thread, starts the agent for
-         *  scheduling. Note this function does not return.
+         *  This function takes over the calling thread, starts the agent
+         *  for scheduling.
+         *  \note This function does not return.
          */
         void loop();
         /**
          *  \brief Add an SrTimer timer to the agent. Non thread-safe.
          *
-         *  This function does not start the timer, you have to start the timer
-         *  first.
-         *
-         *  Note this function does no existence check, adding the same timer
-         *  multiple times results in the timer being added multiple times.
+         *  \note This function does not start the timer, you have to start
+         *  the timer first.
+         *  \note This function also does no existence check, adding the same
+         *  timer multiple times results in the timer being added multiple times.
          *
          *  \param timer reference to an SrTimer to add to the agent.
          */

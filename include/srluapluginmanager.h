@@ -20,11 +20,10 @@ using namespace luabridge;
  *  schedule these Lua callbacks on the agent's behalf. Additionally, the Lua
  *  manager also exposes many functionality, such as request sending, binary API,
  *  and many properties of the SrAgent, such as server URL, managed object ID,
- *  to all Lua plugins.
- *
- *  The Lua manager is access-able to all Lua plugins as an object named c8y.
- *  Beware in the following documentation, function annotated with "For Lua
- *  plugins only" are used by Lua plugins, should NOT be called in C++ program.
+ *  to all Lua plugins. The Lua manager is access-able to all Lua plugins as
+ *  an object named c8y.
+ *  \note In the following documentation, function annotated with "For Lua
+ *  plugins only" are intended only to be called in Lua plugins.
  */
 class SrLuaPluginManager: public AbstractTimerFunctor, public AbstractMsgHandler
 {
@@ -74,9 +73,8 @@ public:
         /**
          *  \brief Get the response of the last performed HTTP binary API. For
          *  Lua plugins only.
-         *
-         *  Note you should first check the binary API's return code. The returned
-         *  response is undefined if the last HTTP binary API failed.
+         *  \note The return code of the performed binary API must be checked
+         *  first before access this function.
          */
         const string &resp() const {return net.response();}
         /**

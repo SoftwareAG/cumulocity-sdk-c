@@ -6,9 +6,9 @@
  *  \class SrLexer smartrest.h
  *  \brief Lexical scanner for SmartREST messages.
  *
- *  A SmartREST message consists of a comma-separated-values. Notice the
- *  value can contain white spaces, and escaped commas, double quote,
- *  control characters, etc.
+ *  A SmartREST message consists of a comma-separated-values.
+ *  \note The value can contain white spaces, and escaped commas, double
+ *  quote, control characters, etc.
  */
 class SrLexer
 {

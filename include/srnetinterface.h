@@ -47,15 +47,15 @@ public:
         /**
          *  \brief Get the response of last transaction.
          *
-         *  Note the response is not cleared after each transaction, use the clear
-         *  function if you do not want accumulated response.
+         *  \note The response is not cleared after each transaction, use the
+         *  clear function if you do not want accumulated response.
          *  \return const reference to the response buffer.
          */
         const string& response() const {return resp;}
         /**
          *  \brief Get a human-readable error message.
          *
-         *  Note you have to check the errNo first. If errNo is 0, then the
+         *  \note You have to check the errNo first. If errNo is 0, then the
          *  content of the errMsg buffer is undefined.
          *
          *  \return const pointer to the errMsg buffer.

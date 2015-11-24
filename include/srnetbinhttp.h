@@ -46,9 +46,9 @@ public:
          *  \brief Cumulocity HTTP binary get.
          *
          *  Counterpart of the get API, except this function stores the response
-         *  directly to a file. Suitable for large binary files. Note when using
-         *  this function, the response can not be accessed by the resp function,
-         *  rather stored in a file specified by argument path.
+         *  directly to a file. Suitable for large binary files.
+         *  \note when using this function, the response can not be accessed by
+         *  the resp function, rather stored in a file specified by argument path.
          *
          *  \param id Cumulocity binary resource unique identifier.
          *  \param dest local file path to store the response.

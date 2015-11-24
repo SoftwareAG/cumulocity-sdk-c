@@ -62,7 +62,7 @@ protected:
         /**
          *  \brief Save credential to storage when requestCredential succeeded.
          *
-         *  Note this function will not create directories if they do not
+         *  \note This function will not create directories if they do not
          *  exist, you have to make sure all directories in the path exist
          *  and are write-able.
          *

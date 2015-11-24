@@ -22,7 +22,7 @@ struct SrNews
          *  will be buffered and retried later if the SrReporter thread fails
          *  to send the request.
          *
-         *  Note buffering still does not mean 100% guarantee, as the buffer
+         *  \note Buffering still does not mean 100% guarantee, as the buffer
          *  of the SrReporter has an explicit capacity. Buffered old requests
          *  will be discarded if the capacity is exhausted.
          */
