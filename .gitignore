@@ -1,6 +1,6 @@
 *.mk
 synclib
-doc
+doc/latex
 Makefile
 build/
 lib/
