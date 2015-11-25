@@ -1,0 +1,5 @@
+<map id="SrNetInterface" name="SrNetInterface">
+<area shape="rect" id="node2" href="$classSrNetBinHttp.html" title="SrNetBinHttp" alt="" coords="5,80,105,107"/>
+<area shape="rect" id="node3" href="$classSrNetHttp.html" title="SrNetHttp" alt="" coords="129,80,211,107"/>
+<area shape="rect" id="node4" href="$classSrNetSocket.html" title="SrNetSocket" alt="" coords="235,80,332,107"/>
+</map>
