@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Cumulocity C++ Library: Lua Plugin Documentation</title>
+<!-- 2015-11-25 Wed 11:04 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="Cumulocity" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Cumulocity C++ Library: Lua Plugin Documentation</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. Initialization</a></li>
+<li><a href="#sec-2">2. Timer</a></li>
+<li><a href="#sec-3">3. Message Handler</a></li>
+<li><a href="#sec-4">4. Networking</a></li>
+<li><a href="#sec-5">5. Misc</a></li>
+<li><a href="#sec-6">6. Example</a></li>
+</ul>
+</div>
+</div>
+<p>
+All Lua plugins are managed by a single Lua plugin manager. The Lua plugin manager is access-able to all Lua plugins as an object named <i>c8y</i>. The <i>c8y</i> object exposes timers, SmartREST message based callbacks, HTTP binary APIs.
+</p>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Initialization</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Every Lua plugin must have a <code>init</code> function to perform the initialization task. If a Lua plugin has successfully initialized, it must return 0 to notify the Lua plugin manager. If for any reason the Lua plugin failed to initialize, e.g., the required resource is unavailable, a non-0 number must be returned. There is, however, no requirement what non-0 value a Lua plugin must return in case the initialization process failed.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Timer</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+A timer provides periodical execution of a Lua function. Related APIs are as following:
+</p>
+
+<ul class="org-ul">
+<li>c8y:addTimer(interval, callback) -&gt; timer
+
+<p>
+Create a timer object with a time period of <i>interval</i> milliseconds. The Lua function with the name equals to the string <i>callback</i> will be executed when the timer fires. A timer is inactive when first created.
+</p>
+</li>
+
+<li>timer:start()
+
+<p>
+Start a timer object. <i>timer</i> becomes active.
+</p>
+</li>
+
+<li>timer:stop()
+
+<p>
+Stop a timer object. <i>timer</i> becomes inactive.
+</p>
+</li>
+
+<li>timer.interval
+
+<p>
+A property of the <i>timer</i> object. Read this property to get the current period of this <i>timer</i>. Write this property to set a new period for this <i>timer</i>. Setting a timer's interval to 0 is undefined behavior.
+</p>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Message Handler</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+A message handler is a SmartREST message callback, which is executed when a message for the registered SmartREST template ID is received.
+</p>
+
+<ul class="org-ul">
+<li>c8y:addMsgHandler(MsgID, callback)
+
+<p>
+Register a message callback for message ID <i>MsgID</i>. The Lua function with the name equals to the string <i>callback</i> is executed when a message with ID <i>MsgID</i> is received. The <i>callback</i> function is called with a single SmartREST record parameter, see below about the record object APIs. Calling this function multiple times with the same MsgID overwrites the callback function.
+</p>
+</li>
+
+<li>record.size
+
+<p>
+Read-only property denotes the number of the tokens in the record.
+</p>
+</li>
+
+<li>record:value(i) -&gt; string
+
+<p>
+Return the value of the token at position <i>i</i>. Index <i>i</i> starts from 0.
+</p>
+</li>
+
+<li>record:type(i) -&gt; int
+
+<p>
+Return the type of the token at position <i>i</i>. Index <i>i</i> starts from 0.
+</p>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> Networking</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li>c8y:send(request, prio)
+
+<p>
+Send <i>request</i> to Cumulocity. Note this is asynchronous sending, this function returns immediately without any guarantee whether the request is sent successful or not. Set <i>prio</i> to 1 if you want the guarantee. Calling this function without <i>prio</i> or with <i>prio</i> equals 0 is the same default no guarantee sending. Be careful not to abuse the <i>prio</i> parameter, as there is a capacity for buffering failed requests, old requests will be discarded when this capacity is reached.
+</p>
+</li>
+
+<li>c8y:post(dest, ct, data) -&gt; int
+
+<p>
+HTTP multipart POST to upload a binary to Cumulocity. <i>dest</i> is the file name to be stored on the server. <i>ct</i> is the Content-Type of <i>data</i>. <i>data</i> contains the actual content to be posted. This function is synchronous, on success, it returns the size of the response, on failure, -1 is returned.
+</p>
+</li>
+
+<li>c8y:postf(dest, ct, file) -&gt; int
+
+<p>
+Counterpart of the <i>post</i> function that instead of asking the caller to read the data, the actual content to be posted is in a file pointed by parameter <i>file</i>. This function is also suitable when the file is large and can not be read once all in the memory. This function also returns -1 when read <i>file</i> failed.
+</p>
+</li>
+
+<li>c8y:get(id) -&gt; int
+
+<p>
+HTTP GET method to download a binary from Cumulocity. <i>id</i> is the unique resource identifier of the binary. This function is synchronous, on success, it returns the size of the response, on failure, -1 is returned.
+</p>
+</li>
+
+<li>c8y:getf(id, dest) -&gt; int
+
+<p>
+Counterpart of the <i>get</i> function, which instead of download a binary to memory, rather store the binary in a file pointed by <i>dest</i>. On success, the function returns the number of bytes written so far, on failure, the function returns -1. Note this function overwrites the file named <i>dest</i> if it exists.
+</p>
+</li>
+
+<li>c8y.resp
+
+<p>
+Read-only property stores the server response for <i>post</i>, <i>postf</i> and <i>get</i>. The content of <i>c8y.resp</i> is undefined when these functions failed.
+</p>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> Misc</h2>
+<div class="outline-text-2" id="text-5">
+<ul class="org-ul">
+<li>c8y.server
+</li>
+</ul>
+
+<p>
+server address the agent connects to.
+</p>
+
+<ul class="org-ul">
+<li>c8y.ID
+</li>
+</ul>
+
+<p>
+the managed object ID for the agent.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> Example</h2>
+<div class="outline-text-2" id="text-6">
+<div class="org-src-container">
+
+<pre class="src src-lua">local timer
+function init()
+-- create a 5 seconds timer with callback foo
+  timer = c8y:addTimer(5*1000, 'foo')
+-- start the timer
+  timer:start()
+-- register a callback bar for message 301
+  c8y:addMsgHandler(301, 'bar')
+-- notify the plugin manager the lua plugin has successfully initialized
+  return 0
+end
+
+function foo()
+  print('I am a timer!')
+end
+
+function bar(r)
+-- index starts from 0
+  for i = 0, r.size - 1 do
+    print(r:type(i), r:value(i))
+  end
+end
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Cumulocity (<a href="mailto:support@cumulocity.com">support@cumulocity.com</a>)</p>
+<p class="date">Date: </p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

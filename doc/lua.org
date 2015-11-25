@@ -1,3 +1,18 @@
+#+TITLE: Cumulocity C++ Library: Lua Plugin Documentation
+#+AUTHOR: Cumulocity
+#+EMAIL: support@cumulocity.com
+#+OPTIONS: html-link-use-abs-url:nil html-postamble:t html-preamble:t
+#+OPTIONS: html-scripts:t html-style:t html5-fancy:nil tex:t
+#+OPTIONS: creator:nil
+#+HTML_CONTAINER: div
+#+HTML_DOCTYPE: xhtml-strict
+#+HTML_HEAD:
+#+HTML_HEAD_EXTRA:
+#+HTML_LINK_HOME:
+#+HTML_LINK_UP:
+#+HTML_MATHJAX:
+#+INFOJS_OPT:
+#+LATEX_HEADER:
 All Lua plugins are managed by a single Lua plugin manager. The Lua plugin manager is access-able to all Lua plugins as an object named /c8y/. The /c8y/ object exposes timers, SmartREST message based callbacks, HTTP binary APIs.
 * Initialization
   Every Lua plugin must have a =init= function to perform the initialization task. If a Lua plugin has successfully initialized, it must return 0 to notify the Lua plugin manager. If for any reason the Lua plugin failed to initialize, e.g., the required resource is unavailable, a non-0 number must be returned. There is, however, no requirement what non-0 value a Lua plugin must return in case the initialization process failed.
@@ -5,54 +20,72 @@ All Lua plugins are managed by a single Lua plugin manager. The Lua plugin manag
   A timer provides periodical execution of a Lua function. Related APIs are as following:
 
   - c8y:addTimer(interval, callback) -> timer
+
     Create a timer object with a time period of /interval/ milliseconds. The Lua function with the name equals to the string /callback/ will be executed when the timer fires. A timer is inactive when first created.
 
   - timer:start()
+
     Start a timer object. /timer/ becomes active.
 
   - timer:stop()
+
     Stop a timer object. /timer/ becomes inactive.
 
   - timer.interval
+
     A property of the /timer/ object. Read this property to get the current period of this /timer/. Write this property to set a new period for this /timer/. Setting a timer's interval to 0 is undefined behavior.
 * Message Handler
   A message handler is a SmartREST message callback, which is executed when a message for the registered SmartREST template ID is received.
 
   - c8y:addMsgHandler(MsgID, callback)
+
     Register a message callback for message ID /MsgID/. The Lua function with the name equals to the string /callback/ is executed when a message with ID /MsgID/ is received. The /callback/ function is called with a single SmartREST record parameter, see below about the record object APIs. Calling this function multiple times with the same MsgID overwrites the callback function.
 
   - record.size
+
     Read-only property denotes the number of the tokens in the record.
 
   - record:value(i) -> string
+
     Return the value of the token at position /i/. Index /i/ starts from 0.
 
   - record:type(i) -> int
+
     Return the type of the token at position /i/. Index /i/ starts from 0.
 
 * Networking
   - c8y:send(request, prio)
+
     Send /request/ to Cumulocity. Note this is asynchronous sending, this function returns immediately without any guarantee whether the request is sent successful or not. Set /prio/ to 1 if you want the guarantee. Calling this function without /prio/ or with /prio/ equals 0 is the same default no guarantee sending. Be careful not to abuse the /prio/ parameter, as there is a capacity for buffering failed requests, old requests will be discarded when this capacity is reached.
 
-  - c8y:post(dest, ct, data) -> errno
+  - c8y:post(dest, ct, data) -> int
+
     HTTP multipart POST to upload a binary to Cumulocity. /dest/ is the file name to be stored on the server. /ct/ is the Content-Type of /data/. /data/ contains the actual content to be posted. This function is synchronous, on success, it returns the size of the response, on failure, -1 is returned.
 
-  - c8y:postf(dest, ct, file) -> errno
+  - c8y:postf(dest, ct, file) -> int
+
     Counterpart of the /post/ function that instead of asking the caller to read the data, the actual content to be posted is in a file pointed by parameter /file/. This function is also suitable when the file is large and can not be read once all in the memory. This function also returns -1 when read /file/ failed.
 
-  - c8y:get(id) -> errno
+  - c8y:get(id) -> int
+
     HTTP GET method to download a binary from Cumulocity. /id/ is the unique resource identifier of the binary. This function is synchronous, on success, it returns the size of the response, on failure, -1 is returned.
 
-  - c8y:getf(id, dest) -> errno
+  - c8y:getf(id, dest) -> int
+
     Counterpart of the /get/ function, which instead of download a binary to memory, rather store the binary in a file pointed by /dest/. On success, the function returns the number of bytes written so far, on failure, the function returns -1. Note this function overwrites the file named /dest/ if it exists.
 
   - c8y.resp
+
     Read-only property stores the server response for /post/, /postf/ and /get/. The content of /c8y.resp/ is undefined when these functions failed.
 
 * Misc
-  - c8y.server: server address the agent connects to.
-  - c8y.ID: the managed object ID for the agent.
+  - c8y.server
 
+  server address the agent connects to.
+
+  - c8y.ID
+
+  the managed object ID for the agent.
 * Example
 #+BEGIN_SRC lua
 local timer
