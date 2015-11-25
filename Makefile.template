@@ -15,7 +15,7 @@ LINKNAME:=$(LIBNAME).so
 CXXFLAGS+=-std=c++11 -fPIC -pthread -Iinclude -MMD\
 		  -Iext/LuaBridge/Source/LuaBridge
 LDFLAGS+=-Wl,-soname,$(SONAME) -Wl,--no-undefined -shared
-LDFLAGS+=-pthread
+LDLIBS+=-pthread
 
 ifeq ($(BUILD), release)
 CXXFLAGS+=-O2 -DNDEBUG
