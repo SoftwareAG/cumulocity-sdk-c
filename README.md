@@ -19,7 +19,7 @@ Cumulocity C++ Library is an asynchronous, event-driven networking library to ea
 git clone --recursive git@bitbucket.org:m2m/cumulocity-sdk-c.git
 ```
 
-* Define your init.mk with device specific CXXFLAGS, LDFLAGS, LDLIBS (see common.mk for reference), and CXX if cross compiling.
+* Define your init.mk with device specific CPPFLAGS, CXXFLAGS, LDFLAGS, LDLIBS (see common.mk for reference), and CXX if cross compiling.
 * Copy the template *Makefile*:
 
 ```
