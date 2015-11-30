@@ -12,16 +12,18 @@ LIBNAME:=libsera
 REALNAME:=$(LIBNAME).so.1.17
 SONAME:=$(LIBNAME).so.1
 LINKNAME:=$(LIBNAME).so
-CXXFLAGS+=-std=c++11 -fPIC -pthread -Iinclude -MMD\
-		  -Iext/LuaBridge/Source/LuaBridge
+CPPFLAGS+=-Iinclude -Iext/LuaBridge/Source/LuaBridge
+CXXFLAGS+=-std=c++11 -fPIC -pthread -MMD
 LDFLAGS+=-Wl,-soname,$(SONAME) -Wl,--no-undefined -shared
 LDLIBS+=-pthread
 
 ifeq ($(BUILD), release)
-CXXFLAGS+=-O2 -DNDEBUG
+CPPFLAGS+=-DNDEBUG
+CXXFLAGS+=-O2
 LDFLAGS+=-O2 -s -flto
 else
-CXXFLAGS+=-O0 -g -DDEBUG
+CPPFLAGS+=-DDEBUG
+CXXFLAGS+=-O0 -g
 LDFLAGS+=-O0 -g
 endif
 
@@ -40,7 +42,7 @@ $(REALNAME): $(OBJ)
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cc
 	@mkdir -p $(BUILD_DIR)
-	$(CXX) $(CXXFLAGS) -c -o $@ $<
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c -o $@ $<
 
 clean:
 	@rm -f $(BUILD_DIR)/*.o $(BUILD_DIR)/*.d $(LIB_DIR)/$(LIBNAME).*
