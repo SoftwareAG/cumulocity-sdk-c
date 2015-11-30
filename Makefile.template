@@ -29,14 +29,15 @@ endif
 
 .PHONY: all release clean
 
-all: $(REALNAME)
+all: $(LIB_DIR)/$(REALNAME) 
+	@:
 
 release:
 	make "BUILD=release"
 
-$(REALNAME): $(OBJ)
+$(LIB_DIR)/$(REALNAME): $(OBJ)
 	@mkdir -p $(LIB_DIR)
-	$(CXX) $(LDFLAGS) $^ $(LDLIBS) -o $(LIB_DIR)/$@
+	$(CXX) $(LDFLAGS) $^ $(LDLIBS) -o $@
 	@cd $(LIB_DIR) && ln -fs $(REALNAME) $(SONAME)
 	@cd $(LIB_DIR) && ln -fs $(SONAME) $(LINKNAME)
 
