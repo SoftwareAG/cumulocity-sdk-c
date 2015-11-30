@@ -9,7 +9,7 @@ OBJ:=$(addprefix $(BUILD_DIR)/,$(notdir $(SRC:.cc=.o)))
 
 LIB_DIR:=lib
 LIBNAME:=libsera
-REALNAME:=$(LIBNAME).so.1.17
+REALNAME:=$(LIBNAME).so.1.18
 SONAME:=$(LIBNAME).so.1
 LINKNAME:=$(LIBNAME).so
 CPPFLAGS+=-Iinclude -Iext/LuaBridge/Source/LuaBridge
