@@ -5,7 +5,11 @@
 using namespace std;
 
 
+#ifdef SR_HTTP_1_0
+static const char *H1 = "POST /devicecontrol/notifications HTTP/1.0\r\nHost: ";
+#else
 static const char *H1 = "POST /devicecontrol/notifications HTTP/1.1\r\nHost: ";
+#endif
 static const char *H2 = "\r\n";
 static const char *H3 = "\r\nX-Id: ";
 static const char *H4 = "\r\nContent-Length: ";
@@ -22,7 +26,7 @@ static string packHeader(const string &s, const string &xid, const string &a)
 
 static string pack(const string &header, const string &body)
 {
-        return header + to_string(body.size()+2) + H5 + body + "\r\n";
+        return header + to_string(body.size()+2) + H5 + body;
 }
 
 
