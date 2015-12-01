@@ -6,9 +6,9 @@ using namespace std;
 
 
 #ifdef SR_HTTP_1_0
-static const char *H1 = "POST /devicecontrol/notifications HTTP/1.0\r\nHost: ";
+static const char *H1 = "/devicecontrol/notifications HTTP/1.0\r\nHost: ";
 #else
-static const char *H1 = "POST /devicecontrol/notifications HTTP/1.1\r\nHost: ";
+static const char *H1 = "/devicecontrol/notifications HTTP/1.1\r\nHost: ";
 #endif
 static const char *H2 = "\r\n";
 static const char *H3 = "\r\nX-Id: ";
@@ -20,20 +20,24 @@ static string packHeader(const string &s, const string &xid, const string &a)
 {
         size_t i = s.find("://");
         i = i == string::npos ? 0 : i + 3;
-        return H1+s.substr(i)+H2+a+H3+xid+H4;
+#ifdef SR_PUSH_FULLURI
+        return "POST " + s + H1 + s.substr(i) + H2 + a + H3 + xid + H4;
+#else
+        return string("POST ") + H1 + s.substr(i) + H2 + a + H3 + xid + H4;
+#endif
 }
 
 
 static string pack(const string &header, const string &body)
 {
-        return header + to_string(body.size()+2) + H5 + body;
+        return header + to_string(body.size()) + H5 + body;
 }
 
 
 static int parseHttpHeader(string &s)
 {
-        if (s.size() < 12) return -1;
-        else if (s[9] != '2') return -1;
+        if (s.size() < 12 || s[9] != '2')
+                return -1;
 
         const char delimiter[] = "\r\n\r\n";
         size_t pos = s.find(delimiter, 12);
@@ -117,7 +121,7 @@ int SrDevicePush::handshake()
                 return -1;
         string s = sock.response();
         if (parseHttpHeader(s) == -1) {
-                ::sleep(5);
+                ::sleep(10);
                 return -1;
         }
         SmartRest sr(s);
@@ -138,7 +142,7 @@ int SrDevicePush::subscribe()
                 return -1;
         string s = sock.response();
         if (parseHttpHeader(s) == -1) {
-                ::sleep(5);
+                ::sleep(10);
                 return -1;
         }
         SrLexer lex(s);
@@ -162,7 +166,7 @@ int SrDevicePush::connect()
                 return -1;
         const string &s = sock.response();
         if (s.size() < 12 || s[9] != '2') {
-                ::sleep(5);
+                ::sleep(10);
                 return -1;
         } else if (s.compare(s.size() - 5, 5, "\r\n\r\n "))
                 return 0;
