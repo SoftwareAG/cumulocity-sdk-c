@@ -22,7 +22,7 @@ SrLexer::SrToken SrLexer::next()
                         }
                 }
         }
-        for (;i < s.size() && !isprint(s[i]) && s[i] != '\n'; ++i);
+        for (;i < s.size() && !isgraph(s[i]) && s[i] != '\n'; ++i);
         bool escape = false;
         size_t digits = 0, others = 0, dots = 0;
         if (s[i] == '"') {
