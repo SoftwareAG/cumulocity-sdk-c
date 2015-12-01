@@ -73,6 +73,9 @@ void *SrDevicePush::func(void *arg)
         SrDevicePush *push = (SrDevicePush*)arg;
         bool connected = false;
         while (true) {
+#ifdef SR_HTTP_1_0
+                connected = false;
+#endif
                 if (push->sleeping) {
                         ::sleep(2);
                         continue;
@@ -88,12 +91,18 @@ void *SrDevicePush::func(void *arg)
                                 srWarning("push: handshake failed!");
                                 break;
                         }
+#ifdef SR_HTTP_1_0
+                        push->sock.connect();
+#endif
                 case 2: push->sock.clear();
                         if (push->subscribe() == -1) {
                                 connected = false;
                                 srWarning("push: subscribe failed!");
                                 break;
                         }
+#ifdef SR_HTTP_1_0
+                        push->sock.connect();
+#endif
                 case 3: push->sock.clear();
                         if (push->connect() == -1) {
                                 connected = false;
