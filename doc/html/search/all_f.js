@@ -35,7 +35,7 @@ var searchData=
   ['srnews',['SrNews',['../structSrNews.html',1,'']]],
   ['srnotice',['srNotice',['../srlogger_8h.html#acb9f032798456f53e4672b1e717a0eb7',1,'srlogger.h']]],
   ['sropbatch',['SrOpBatch',['../structSrOpBatch.html',1,'']]],
-  ['srqueue',['SrQueue',['../classSrQueue.html',1,'SrQueue&lt; T &gt;'],['../classSrQueue.html#acd1ba342c4c32abb276b47ed89f9106d',1,'SrQueue::SrQueue()']]],
+  ['srqueue',['SrQueue',['../classSrQueue.html',1,'']]],
   ['srqueue_3c_20srnews_20_3e',['SrQueue&lt; SrNews &gt;',['../classSrQueue.html',1,'']]],
   ['srqueue_3c_20sropbatch_20_3e',['SrQueue&lt; SrOpBatch &gt;',['../classSrQueue.html',1,'']]],
   ['srrecord',['SrRecord',['../classSrRecord.html',1,'SrRecord'],['../classSrRecord.html#a35ad4d45fa1445cccf4ab2f175177648',1,'SrRecord::SrRecord()']]],

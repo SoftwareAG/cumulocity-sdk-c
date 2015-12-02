@@ -31,7 +31,6 @@ var searchData=
   ['srnetinterface',['SrNetInterface',['../classSrNetInterface.html#ae63bc1eaa253cbd47d24725cb0ffd902',1,'SrNetInterface']]],
   ['srnetsocket',['SrNetSocket',['../classSrNetSocket.html#a60f231fc1611dbbb87188c350ff7e4b6',1,'SrNetSocket']]],
   ['srnotice',['srNotice',['../srlogger_8h.html#acb9f032798456f53e4672b1e717a0eb7',1,'srlogger.h']]],
-  ['srqueue',['SrQueue',['../classSrQueue.html#acd1ba342c4c32abb276b47ed89f9106d',1,'SrQueue']]],
   ['srrecord',['SrRecord',['../classSrRecord.html#a35ad4d45fa1445cccf4ab2f175177648',1,'SrRecord']]],
   ['srreporter',['SrReporter',['../classSrReporter.html#a90fc2fb6dc654cad7ec22da32495bcc7',1,'SrReporter']]],
   ['srtimer',['SrTimer',['../classSrTimer.html#a34b099913f5920ab29d72009f2e8b4c7',1,'SrTimer']]],
