@@ -2,7 +2,7 @@
 #define SRDEVICEPUSH_H
 #include "srtypes.h"
 #include "srqueue.h"
-#include "srnetsocket.h"
+#include "srnethttp.h"
 #include "srlogger.h"
 
 /**
@@ -105,7 +105,7 @@ protected:
         static void *func(void *arg);
 
 private:
-        SrNetSocket sock;
+        SrNetHttp http;
         pthread_t tid;
         SrQueue<SrOpBatch> &queue;
         std::string bayeuxID;
