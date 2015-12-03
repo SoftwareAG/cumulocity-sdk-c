@@ -8,6 +8,7 @@ SrNetInterface::SrNetInterface(const string &server): errNo(0),curl(NULL), t(0)
         curl = curl_easy_init();
         curl_easy_setopt(curl, CURLOPT_URL, server.c_str());
         curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, _errMsg);
+        curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1);
 #ifdef DEBUG
         curl_easy_setopt(curl, CURLOPT_VERBOSE, 1);
 #endif

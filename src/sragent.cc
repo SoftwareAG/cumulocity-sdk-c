@@ -2,6 +2,7 @@
 #include <sragent.h>
 #include <srlogger.h>
 #include <curl/curl.h>
+#include <signal.h>
 #ifndef AGENT_VAL
 #define AGENT_VAL 5
 #endif
@@ -41,10 +42,23 @@ static string b64Encode(const string &s)
 }
 
 
+static void ignoreSignal(int sig)
+{
+        struct sigaction sa;
+        sa.sa_handler = SIG_IGN;
+        sigemptyset(&sa.sa_mask);
+        sa.sa_flags = 0;
+        sigaction(sig, &sa, NULL);
+}
+
+
 SrAgent::SrAgent(const string &_server, const string &deviceid,
                  SrIntegrate *igt, SrBootstrap *boot):
         _server(_server), did(deviceid), pboot(boot), pigt(igt)
-{curl_global_init(CURL_GLOBAL_DEFAULT);}
+{
+        curl_global_init(CURL_GLOBAL_DEFAULT);
+        ignoreSignal(SIGPIPE);
+}
 
 
 SrAgent::~SrAgent() {curl_global_cleanup();}
