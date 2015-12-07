@@ -106,23 +106,20 @@ int SrDevicePush::connect()
 void SrDevicePush::process(string &s)
 {
         SmartRest sr(s);
-        size_t cur = 0;
-        size_t p1 = string::npos, p2 = string::npos;
+        size_t p1 = string::npos, p2 = string::npos, s1 = 0, s2 = 0;
         for (SrRecord r = sr.next(); r.size(); r = sr.next()) {
-                if (r[0].second == "86" && r.size() > 4) {
-                        p1 = cur ? s.find("\n86,", cur - 1) : s.find("86,");
-                        bayeuxPolicy =  r[4].second == "retry" ? 3 : 1;
-                } else if (r[0].second == "88" && r.size() > 1) {
-                        p2 = cur ? s.find("\n88,", cur - 1) : s.find("88,");
-                        bnum = strtol(r[1].second.c_str(), NULL, 0);
+                if (r[0].second == "88") {
+                        p1 = sr.pre;
+                        bnum = strtoul(r[1].second.c_str(), NULL, 10);
+                        s1 = sr.end - p1;
+                } else if (r[0].second == "86") {
+                        p2 = sr.pre;
+                        bayeuxPolicy = r[4].second == "retry" ? 3 : 1;
+                        s2 = sr.end - p2;
                 }
-                for (size_t i = 0; i < r.size(); ++i)
-                        cur += r[i].second.size() + 1;
         }
-        const size_t min = p1 <= p2 ? p1 : p2;
-        const size_t max = p1 <= p2 ? p2 : p1;
-        if (max < s.size())
-                s.erase(max, s.find('\n', max + 1) - max);
-        if (min < s.size())
-                s.erase(min, s.find('\n', min + 1) - min);
+        if (p2 != string::npos)
+                s.erase(p2, s2);
+        if (p1 != string::npos)
+                s.erase(p1, s1);
 }
