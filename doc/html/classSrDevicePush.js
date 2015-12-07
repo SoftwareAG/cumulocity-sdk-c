@@ -6,6 +6,8 @@ var classSrDevicePush =
     [ "isSleeping", "classSrDevicePush.html#a60ffc0e5102f6aec2a73220a9b93fa2f", null ],
     [ "sleep", "classSrDevicePush.html#afd72d3f89287bd19372ebdced14c38ea", null ],
     [ "resume", "classSrDevicePush.html#ac0cd6bb91a6cadcc7fd93d303fea8ef9", null ],
+    [ "subscribe", "classSrDevicePush.html#a7d5b69759938024dc2827c28e8d4fdbf", null ],
+    [ "unsubscribe", "classSrDevicePush.html#a8f6b05904401703ad24787edd567621c", null ],
     [ "handshake", "classSrDevicePush.html#a732e0b3f32cf6f05ae7e536132f639a8", null ],
     [ "subscribe", "classSrDevicePush.html#a33aa0a330c47e9b206dc5ccbf7dc4e03", null ],
     [ "connect", "classSrDevicePush.html#a1268b9f9ad8aea2d640fe8ca438f834d", null ],

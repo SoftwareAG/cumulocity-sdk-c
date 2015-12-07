@@ -48,5 +48,5 @@ var searchData=
   ['start',['start',['../classSrDevicePush.html#a4196feba9d48011b274478d343948674',1,'SrDevicePush::start()'],['../classSrReporter.html#af53d3618f1c459921cdeeded86ecbac5',1,'SrReporter::start()'],['../classSrTimer.html#ab6bcaa98ff30138ab349cd9430944165',1,'SrTimer::start()']]],
   ['statuscode',['statusCode',['../classSrNetHttp.html#ace97fddeb5b7f47c25a1e36a30d87b24',1,'SrNetHttp']]],
   ['stop',['stop',['../classSrTimer.html#a389cc0fe771270a45cdc46ae1a8f89c9',1,'SrTimer']]],
-  ['subscribe',['subscribe',['../classSrDevicePush.html#a33aa0a330c47e9b206dc5ccbf7dc4e03',1,'SrDevicePush']]]
+  ['subscribe',['subscribe',['../classSrDevicePush.html#a7d5b69759938024dc2827c28e8d4fdbf',1,'SrDevicePush::subscribe(const std::string &amp;xid)'],['../classSrDevicePush.html#a33aa0a330c47e9b206dc5ccbf7dc4e03',1,'SrDevicePush::subscribe()']]]
 ];

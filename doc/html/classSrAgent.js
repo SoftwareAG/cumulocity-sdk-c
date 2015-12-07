@@ -1,6 +1,7 @@
 var classSrAgent =
 [
     [ "MsgID", "classSrAgent.html#acc09364a68394026852e245b3f8710cd", null ],
+    [ "MsgXID", "classSrAgent.html#aff24b891a28990c277574111b60b3fda", null ],
     [ "SrAgent", "classSrAgent.html#a6b9b0fadd6848cc45d5aef449178e6b0", null ],
     [ "~SrAgent", "classSrAgent.html#a155b1a55c81af729ae21f39d7f58dcb6", null ],
     [ "tenant", "classSrAgent.html#a5cae802bae3dfd05ec3e47213c55c08a", null ],
@@ -17,6 +18,7 @@ var classSrAgent =
     [ "loop", "classSrAgent.html#a89e89dfb8c859f3eeb2448684461e95f", null ],
     [ "addTimer", "classSrAgent.html#ab845fe6b40039f580d5eb0216dd2fa36", null ],
     [ "addMsgHandler", "classSrAgent.html#a49bf6d256f2936b91690928471c5bd49", null ],
+    [ "addXMsgHandler", "classSrAgent.html#a8884ffcdf857fd63fa44bf271aae6069", null ],
     [ "ingress", "classSrAgent.html#acff6edc6927d1eb52cc4110e9a337a2c", null ],
     [ "egress", "classSrAgent.html#abf68a407c98ef6cd4d9b504a58a0d62b", null ]
 ];

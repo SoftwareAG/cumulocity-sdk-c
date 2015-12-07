@@ -37,5 +37,5 @@ var searchData=
   ['srwarning',['srWarning',['../srlogger_8h.html#a9035e4bba60e3e34afb8ca6a1b841349',1,'srlogger.h']]],
   ['start',['start',['../classSrDevicePush.html#a4196feba9d48011b274478d343948674',1,'SrDevicePush::start()'],['../classSrReporter.html#af53d3618f1c459921cdeeded86ecbac5',1,'SrReporter::start()'],['../classSrTimer.html#ab6bcaa98ff30138ab349cd9430944165',1,'SrTimer::start()']]],
   ['stop',['stop',['../classSrTimer.html#a389cc0fe771270a45cdc46ae1a8f89c9',1,'SrTimer']]],
-  ['subscribe',['subscribe',['../classSrDevicePush.html#a33aa0a330c47e9b206dc5ccbf7dc4e03',1,'SrDevicePush']]]
+  ['subscribe',['subscribe',['../classSrDevicePush.html#a7d5b69759938024dc2827c28e8d4fdbf',1,'SrDevicePush::subscribe(const std::string &amp;xid)'],['../classSrDevicePush.html#a33aa0a330c47e9b206dc5ccbf7dc4e03',1,'SrDevicePush::subscribe()']]]
 ];

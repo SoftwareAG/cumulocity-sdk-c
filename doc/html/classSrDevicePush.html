@@ -123,6 +123,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac0cd6bb91a6cadcc7fd93d303fea8ef9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSrDevicePush.html#ac0cd6bb91a6cadcc7fd93d303fea8ef9">resume</a> ()</td></tr>
 <tr class="memdesc:ac0cd6bb91a6cadcc7fd93d303fea8ef9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resume a formerly sleeping device push.  <a href="#ac0cd6bb91a6cadcc7fd93d303fea8ef9">More...</a><br /></td></tr>
 <tr class="separator:ac0cd6bb91a6cadcc7fd93d303fea8ef9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d5b69759938024dc2827c28e8d4fdbf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSrDevicePush.html#a7d5b69759938024dc2827c28e8d4fdbf">subscribe</a> (const std::string &amp;xid)</td></tr>
+<tr class="memdesc:a7d5b69759938024dc2827c28e8d4fdbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subscribe notifications for a new SmartREST template.  <a href="#a7d5b69759938024dc2827c28e8d4fdbf">More...</a><br /></td></tr>
+<tr class="separator:a7d5b69759938024dc2827c28e8d4fdbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f6b05904401703ad24787edd567621c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSrDevicePush.html#a8f6b05904401703ad24787edd567621c">unsubscribe</a> (const std::string &amp;xid)</td></tr>
+<tr class="memdesc:a8f6b05904401703ad24787edd567621c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unsubscribe notifications from a SmartREST template.  <a href="#a8f6b05904401703ad24787edd567621c">More...</a><br /></td></tr>
+<tr class="separator:a8f6b05904401703ad24787edd567621c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -303,6 +309,72 @@ Static Protected Member Functions</h2></td></tr>
 
 <p>Resume a formerly sleeping device push. </p>
 <p>This function restarts the long polling connection again for receiving operations. resume a non-sleeping device push has no effect. </p>
+
+</div>
+</div>
+<a class="anchor" id="a7d5b69759938024dc2827c28e8d4fdbf"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SrDevicePush::subscribe </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>xid</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Subscribe notifications for a new SmartREST template. </p>
+<p>Device push is able to listen notifications for multiple SmartREST templates. By adding another XID, the device push will also start listening notifications for this SmartREST template. </p><dl class="section note"><dt>Note</dt><dd>Subscribe to same XID multiple times has no effect.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">xid</td><td>XID for the new SmartREST template. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a8f6b05904401703ad24787edd567621c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SrDevicePush::unsubscribe </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>xid</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Unsubscribe notifications from a SmartREST template. </p>
+<p>After unsubscribe, device push will no longer receive notifications for this SmartREST template. </p><dl class="section note"><dt>Note</dt><dd>Unsubscribe from a previous not subscribed XID does nothing.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">xid</td><td>XID for the SmartREST template to be unsubscribed. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
