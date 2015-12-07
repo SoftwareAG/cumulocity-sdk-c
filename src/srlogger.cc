@@ -48,14 +48,14 @@ void SrLogger::log(SrLogLevel lvl, const string &msg)
 {
         if (_lvl > lvl)
                 return;
-        if (std::cout.rdbuf() == out.rdbuf() && out.tellp() != -1 &&
-            out.tellp() > _quota)
-                rotate();
         char buf[30];
         const time_t now = time(NULL);
         strftime(buf, sizeof(buf), "%b %d %T ", localtime(&now));
         if (pthread_mutex_lock(&mutex) == 0) {
                 std::cout << buf << strlvls[lvl] << ": " << msg << std::endl;
+                if (std::cout.rdbuf() == out.rdbuf() &&
+                    out.tellp() != -1 && out.tellp() > _quota)
+                        rotate();
                 pthread_mutex_unlock(&mutex);
         }
 }
@@ -63,19 +63,14 @@ void SrLogger::log(SrLogLevel lvl, const string &msg)
 
 void SrLogger::rotate()
 {
-        if (pthread_mutex_lock(&mutex) == 0) {
-                if (out.tellp() > _quota) {
-                        rename((fn + ".1").c_str(), (fn + ".2").c_str());
-                        rename(fn.c_str(), (fn + ".1").c_str());
-                        out.close();
-                        out.open(fn, std::ios::trunc | std::ios::binary);
-                        if (out.fail())
-                                std::cerr << fn << ": Rotate fail.\n";
-                        else
-                                std::cout.rdbuf(out.rdbuf());
-                }
-                pthread_mutex_unlock(&mutex);
-        }
+        rename((fn + ".1").c_str(), (fn + ".2").c_str());
+        rename(fn.c_str(), (fn + ".1").c_str());
+        out.close();
+        out.open(fn, std::ios::trunc | std::ios::binary);
+        if (out.fail())
+                std::cerr << fn << ": Rotate fail.\n";
+        else
+                std::cout.rdbuf(out.rdbuf());
 }
 
 
