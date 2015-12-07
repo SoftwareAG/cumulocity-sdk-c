@@ -47,6 +47,7 @@ private:
         using string = std::string;
 public:
         typedef uint16_t MsgID;
+        typedef uint32_t MsgXID;
         /**
          *  \brief SrAgent constructor.
          *
@@ -146,6 +147,9 @@ public:
         void addMsgHandler(MsgID msgid, AbstractMsgHandler *functor) {
                 handlers[msgid] = functor;
         }
+        void addXMsgHandler(MsgXID msgxid, MsgID msgid, AbstractMsgHandler *f) {
+                sh[XMsgID(msgxid, msgid)] = f;
+        }
 
 public:
         /**
@@ -158,12 +162,17 @@ public:
         SrQueue<SrNews> egress;
 
 private:
-        typedef AbstractMsgHandler* _Callback;
-        typedef std::map<MsgID, _Callback> _Handler;
+        void processMessages();
+
+private:
+        typedef std::map<MsgID, AbstractMsgHandler*> _Handler;
+        typedef std::pair<MsgXID, MsgID> XMsgID;
+        typedef std::map<XMsgID, AbstractMsgHandler*> _XHandler;
         typedef std::vector<SrTimer*> _Timer;
         typedef _Timer::iterator _TimerIter;
         _Timer timers;
         _Handler handlers;
+        _XHandler sh;
         string _tenant;
         string _username;
         string _password;

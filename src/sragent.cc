@@ -99,6 +99,48 @@ int SrAgent::integrate(const string &srv, const string &srt)
 int SrAgent::send(const SrNews &news) {return egress.put(news);}
 
 
+static string _com(const uint32_t xid, const string &id)
+{
+        return id + "@" + to_string(xid);
+}
+
+
+void SrAgent::processMessages()
+{
+        SrQueue<SrOpBatch>::Event e = ingress.get(200);
+        if (e.second != SrQueue<SrOpBatch>::Q_OK) return;
+        MsgXID m = strtoul(xid.c_str(), NULL, 10);
+        MsgXID c = m;
+        SmartRest sr(e.first.data);
+        for (SrRecord r = sr.next(); r.size(); r = sr.next()) {
+                MsgID j = strtoul(r[0].second.c_str(), NULL, 10);
+                if (j == 87) {
+                        c = strtoul(r[2].second.c_str(), NULL, 10);
+                } else if (c == m) {
+                        _Handler::iterator it = handlers.find(j);
+                        if (it != handlers.end() && it->second) {
+                                srDebug("Trigger Msg " + r[0].second);
+                                (*it->second)(r, *this);
+#ifdef DEBUG
+                        } else {
+                                srDebug("Drop Msg " + r[0].second);
+#endif
+                        }
+                } else {
+                        _XHandler::iterator it = sh.find(XMsgID(c, j));
+                        if (it != sh.end() && it->second) {
+                                srDebug("Trigger Msg " + _com(c, r[0].second));
+                                (*it->second)(r, *this);
+#ifdef DEBUG
+                        } else {
+                                srDebug("Drop Msg " + _com(c, r[0].second));
+#endif
+                        }
+                }
+        }
+}
+
+
 void SrAgent::loop()
 {
         const timespec ts = {AGENT_VAL / 1000, (AGENT_VAL % 1000) * 1000000};
@@ -114,21 +156,6 @@ void SrAgent::loop()
                                         i->start();
                         }
                 }
-
-                SrQueue<SrOpBatch>::Event e = ingress.get(200);
-                if (e.second != SrQueue<SrOpBatch>::Q_OK) continue;
-                SmartRest sr(e.first.data);
-                for (SrRecord r = sr.next(); r.size(); r = sr.next()) {
-                        MsgID j = strtoul(r[0].second.c_str(), NULL, 10);
-                        _Handler::iterator it = handlers.find(j);
-                        if (it != handlers.end()) {
-                                srDebug("Trigger Msg " + r[0].second);
-                                (*it->second)(r, *this);
-#ifdef DEBUG
-                        } else {
-                                srDebug("No handler for MSG " + r[0].second);
-#endif
-                        }
-                }
+                processMessages();
         }
 }
