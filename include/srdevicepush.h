@@ -73,6 +73,38 @@ public:
                 sleeping = false;
                 srNotice("push: resumed.");
         }
+        /**
+         *  \brief Subscribe notifications for a new SmartREST template.
+         *
+         *  Device push is able to listen notifications for multiple SmartREST
+         *  templates. By adding another XID, the device push will also start
+         *  listening notifications for this SmartREST template.
+         *  \note Subscribe to same XID multiple times has no effect.
+         *
+         *  \param xid XID for the new SmartREST template.
+         */
+        void subscribe(const std::string &xid) {
+                if (xids.find(xid) == std::string::npos) {
+                        xids += "," + xid;
+                        bayeuxPolicy = bayeuxPolicy == 3 ? 2 : bayeuxPolicy;
+                }
+        }
+        /**
+         *  \brief Unsubscribe notifications from a SmartREST template.
+         *
+         *  After unsubscribe, device push will no longer receive notifications
+         *  for this SmartREST template.
+         *  \note Unsubscribe from a previous not subscribed XID does nothing.
+         *
+         *  \param xid XID for the SmartREST template to be unsubscribed.
+         */
+        void unsubscribe(const std::string &xid) {
+                const size_t pos = xids.find(xid);
+                if (pos != std::string::npos) {
+                        xids.erase(pos - 1, xid.size() + 1);
+                        bayeuxPolicy = bayeuxPolicy == 3 ? 2 : bayeuxPolicy;
+                }
+        }
 
 protected:
         /**
@@ -107,11 +139,11 @@ protected:
 private:
         SrNetHttp http;
         pthread_t tid;
-        SrQueue<SrOpBatch> &queue;
         std::string bayeuxID;
-        const std::string channel;
-        const std::string header;
+        std::string xids;
         size_t bnum;
+        SrQueue<SrOpBatch> &queue;
+        const std::string &channel;
         uint8_t bayeuxPolicy;
         bool sleeping;
 };

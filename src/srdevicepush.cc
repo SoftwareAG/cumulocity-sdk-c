@@ -9,8 +9,8 @@ const char *p = "/devicecontrol/notifications";
 SrDevicePush::SrDevicePush(const string &server, const string &xid,
                            const string &auth, const string &chn,
                            SrQueue<SrOpBatch> &queue):
-        http(server+p, xid, auth), queue(queue), channel(chn),
-        bnum(0), bayeuxPolicy(1), sleeping(false) {}
+        http(server+p, xid, auth), bnum(0), queue(queue), channel(chn),
+        bayeuxPolicy(1), sleeping(false) {}
 
 
 int SrDevicePush::start()
@@ -79,7 +79,9 @@ int SrDevicePush::handshake()
 int SrDevicePush::subscribe()
 {
         http.setTimeout(30);
-        if (http.post("81," + bayeuxID + ",/" + channel) < 0)
+        const string request = "81," + bayeuxID + ",/" + channel + (
+                xids.empty() ? "" : xids);
+        if (http.post(request) < 0)
                 return -1;
         SrLexer lex(http.response());
         SrLexer::SrToken tok = lex.next();
