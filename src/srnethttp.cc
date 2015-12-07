@@ -1,9 +1,7 @@
 #include <srnethttp.h>
 #include <srlogger.h>
-#include <string>
+#include <utility>
 using namespace std;
-
-struct Progress {time_t start; time_t last;};
 
 
 static int xferinfo(void *ptr, curl_off_t dltotal, curl_off_t dlnow,
@@ -12,17 +10,15 @@ static int xferinfo(void *ptr, curl_off_t dltotal, curl_off_t dlnow,
         (void)dltotal;
         (void)ultotal;
         (void)ulnow;
-        Progress *p = (Progress*)ptr;
         timespec tv;
         if (clock_gettime(CLOCK_MONOTONIC, &tv) == -1)
                 return 0;
-        if(tv.tv_sec - p->last >= 660) {
-                p->last = tv.tv_sec;
+        pair<time_t, time_t> *p = (pair<time_t, time_t> *)ptr;
+        if(tv.tv_sec - p->second >= 660) {
+                p->second = tv.tv_sec;
                 srDebug("HTTP recv counter: " + to_string(dlnow));
-                if ((p->last - p->start) / 660 > dlnow) {
-                        srError("Heartbeat miss!");
+                if ((p->second - p->first) / 660 > dlnow)
                         return -1;
-                }
         }
         return 0;
 }
@@ -46,21 +42,29 @@ static size_t writeFunc(void *ptr, size_t size, size_t nmemb, void *data)
 }
 
 
-SrNetHttp::SrNetHttp(const std::string &server, const std::string &xid,
-                     const std::string &auth):
-        SrNetInterface(server), chunk(NULL)
+static curl_slist *_init(const string &xid, const string &auth)
 {
-        chunk = curl_slist_append(chunk, "Accept:");
+        curl_slist *chunk = curl_slist_append(NULL, "Accept:");
         chunk = curl_slist_append(chunk, "Content-Type:");
         chunk = curl_slist_append(chunk, auth.c_str());
         if (!xid.empty()) {
                 std::string s = "X-Id: " + xid;
                 chunk = curl_slist_append(chunk, s.c_str());
         }
+        return chunk;
+}
+
+
+SrNetHttp::SrNetHttp(const std::string &server, const std::string &xid,
+                     const std::string &auth):
+        SrNetInterface(server), chunk(NULL)
+{
+        chunk = _init(xid, auth);
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, chunk);
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeFunc);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &resp);
         curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1);
+
         /* for libcurl older than 7.32.0 */
         curl_easy_setopt(curl, CURLOPT_PROGRESSFUNCTION, progress);
 #ifdef CURLOPT_XFERINFOFUNCTION
@@ -75,23 +79,25 @@ SrNetHttp::~SrNetHttp() {curl_slist_free_all(chunk);}
 
 int SrNetHttp::post(const std::string &request)
 {
-        timespec tv;
+        srDebug("HTTP post: " + request);
+        timespec tv = {0, 0};
         clock_gettime(CLOCK_MONOTONIC, &tv);
-        Progress p = {tv.tv_sec, tv.tv_sec};
+        // Progress meter, for device push heartbeat. <start, last>
+        pair<time_t, time_t> meter(tv.tv_sec, tv.tv_sec);
         /* for libcurl older than 7.32.0 */
-        curl_easy_setopt(curl, CURLOPT_PROGRESSDATA, &p);
+        curl_easy_setopt(curl, CURLOPT_PROGRESSDATA, &meter);
 #ifdef CURLOPT_XFERINFODATA
-        curl_easy_setopt(curl, CURLOPT_XFERINFODATA, &p);
+        curl_easy_setopt(curl, CURLOPT_XFERINFODATA, &meter);
 #endif
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, request.c_str());
         curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, request.size());
-        srDebug("HTTP post: " + request);
         errNo = curl_easy_perform(curl);
         if (errNo == CURLE_OK) {
                 srDebug("HTTP recv: " + resp);
                 curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &statusCode);
                 return resp.size();
+        } else {
+                srError(string("HTTP post: ") + _errMsg);
+                return -1;
         }
-        srError(string("HTTP post: ") + _errMsg);
-        return -1;
 }
