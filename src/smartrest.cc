@@ -5,54 +5,59 @@ using namespace std;
 SrLexer::SrToken SrLexer::next()
 {
         SrLexer::SrToken tok;
-        if (i == s.size()) {
+        if (end == s.size()) {
                 tok.first = SR_EOB;
+                pre = start = end;
                 return tok;
         }
         if (delimit) {
-                for (; i < s.size(); ++i) {
-                        if (s[i] == ',') {
-                                ++i;
+                pre = end;
+                for (; end < s.size(); ++end) {
+                        if (s[end] == ',') {
+                                ++end;
                                 break;
-                        } else if (s[i] == '\n') {
+                        } else if (s[end] == '\n') {
+                                start = end;
                                 tok.first = SR_NEWLINE;
-                                tok.second = s[i++];
+                                tok.second = s[end++];
                                 delimit = false;
                                 return tok;
                         }
                 }
         }
-        for (;i < s.size() && !isgraph(s[i]) && s[i] != '\n'; ++i);
+        pre = end;
+        for (;end < s.size() && !isgraph(s[end]) && s[end] != '\n'; ++end);
+        start = end;
         bool escape = false;
         size_t digits = 0, others = 0, dots = 0;
-        if (s[i] == '"') {
+        if (s[end] == '"') {
                 escape = true;
-                ++i;
-        } else if (s[i] == '+' || s[i] == '-') {
-                tok.second += s[i++];
+                ++end;
+        } else if (s[end] == '+' || s[end] == '-') {
+                tok.second += s[end++];
         }
-        for (; isprint(s[i]) || escape; ++i) {
-                if (isdigit(s[i])) {
+        for (; isprint(s[end]) || escape; ++end) {
+                if (isdigit(s[end])) {
                         ++digits;
-                } else if (s[i] == '.') {
+                } else if (s[end] == '.') {
                         ++dots;
-                } else if (s[i] == '"') {
+                } else if (s[end] == '"') {
                         if (!escape)
                                 break;
-                        ++i;
-                        if (s[i] == '"') {
+                        ++end;
+                        if (s[end] == '"') {
                                 ++others;
                         } else {
                                 escape = false;
                                 break;
                         }
-                } else if (s[i] == ',' || s[i] == '\n') {
+                } else if (s[end] == ',' || s[end] == '\n') {
                         if (escape) ++others;
                         else break;
                 } else {
                         ++others;
                 }
-                tok.second += s[i];
+                tok.second += s[end];
         }
         if (escape)
                 tok.first = SR_ERROR;

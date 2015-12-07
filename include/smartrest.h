@@ -30,7 +30,7 @@ public:
          *  \brief SrLexer constructor.
          *  \param _s the string for lexical scanning.
          */
-        SrLexer(const std::string& _s): s(_s), i(0), delimit(false) {}
+        SrLexer(const std::string& _s) {reset(_s);}
         virtual ~SrLexer() {}
         /**
          *  \brief Get the next token from the lexer.
@@ -68,13 +68,17 @@ public:
          */
         void reset(const std::string &_s) {
                 s = _s;
-                i = 0;
+                pre = start = end = 0;
                 delimit = false;
         }
 
+public:
+        size_t pre;
+        size_t start;
+        size_t end;
+
 private:
         std::string s;
-        size_t i;
         bool delimit;
 };
 
@@ -169,16 +173,23 @@ public:
          */
         SrRecord next() {
                 SrRecord r;
-                for (SrLexer::SrToken t = lex.next(); !lex.isdelimiter(t);
-                     t = lex.next())
+                SrLexer::SrToken t = lex.next();
+                pre = lex.pre;
+                start = lex.start;
+                for (; !lex.isdelimiter(t); t = lex.next())
                         r.push_back(t);
+                end = lex.end;
                 return r;
         }
         /**
          *  \brief Reset the SmartREST parser with a new buffer.
          *  \param _s reference to the new buffer.
          */
-        void reset(const std::string &_s) { lex.reset(_s); }
+        void reset(const std::string &_s) {lex.reset(_s);}
+public:
+        size_t pre;
+        size_t start;
+        size_t end;
 
 private:
         SrLexer lex;
