@@ -2,6 +2,7 @@ var searchData=
 [
   ['readsrtemplate',['readSrTemplate',['../srutils_8h.html#a0d23ea434b0aa701807b0aeb0704a580',1,'srutils.h']]],
   ['recv',['recv',['../classSrNetSocket.html#ae1d2458f08169bf8007f1b633bbe3d91',1,'SrNetSocket']]],
+  ['registersrtemplate',['registerSrTemplate',['../srutils_8h.html#af205c1ea0de8b2d9adb0c723839f4dc7',1,'registerSrTemplate(const std::string &amp;url, const std::string &amp;auth, std::string &amp;srv, const std::string &amp;srt):&#160;srutils.h'],['../srutils_8h.html#a75cc5112b2d95201e91121dd9a112fc1',1,'registerSrTemplate(SrNetHttp &amp;http, std::string &amp;srv, const std::string &amp;srt):&#160;srutils.h']]],
   ['requestcredential',['requestCredential',['../classSrBootstrap.html#af4af2c7351dbdfb792f1ce5c49eac3a4',1,'SrBootstrap']]],
   ['reset',['reset',['../classSrLexer.html#a8b105816542a68fc7c0b10c326093884',1,'SrLexer::reset()'],['../classSmartRest.html#aa2623235f87c4bb109673ce2c73109c0',1,'SmartRest::reset()']]],
   ['resp',['resp',['../classSrNetInterface.html#ac94f3e4bf3ab071507f7bb2fa17b1f6a',1,'SrNetInterface::resp()'],['../classSrLuaPluginManager.html#a296cbb6a952ea870924e9f1682e78a0a',1,'SrLuaPluginManager::resp()']]],

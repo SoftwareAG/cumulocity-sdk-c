@@ -101,12 +101,19 @@ $(document).ready(function(){initNavTree('srutils_8h.html','');});
 <p>Misc SmartREST utility functions.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;string&gt;</code><br />
+<code>#include &quot;srnethttp.h&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a0d23ea434b0aa701807b0aeb0704a580"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="srutils_8h.html#a0d23ea434b0aa701807b0aeb0704a580">readSrTemplate</a> (const std::string &amp;path, std::string &amp;srv, std::string &amp;srt)</td></tr>
 <tr class="memdesc:a0d23ea434b0aa701807b0aeb0704a580"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a SmartREST template from file.  <a href="#a0d23ea434b0aa701807b0aeb0704a580">More...</a><br /></td></tr>
 <tr class="separator:a0d23ea434b0aa701807b0aeb0704a580"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af205c1ea0de8b2d9adb0c723839f4dc7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="srutils_8h.html#af205c1ea0de8b2d9adb0c723839f4dc7">registerSrTemplate</a> (const std::string &amp;url, const std::string &amp;auth, std::string &amp;srv, const std::string &amp;srt)</td></tr>
+<tr class="memdesc:af205c1ea0de8b2d9adb0c723839f4dc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a SmartREST template.  <a href="#af205c1ea0de8b2d9adb0c723839f4dc7">More...</a><br /></td></tr>
+<tr class="separator:af205c1ea0de8b2d9adb0c723839f4dc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75cc5112b2d95201e91121dd9a112fc1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="srutils_8h.html#a75cc5112b2d95201e91121dd9a112fc1">registerSrTemplate</a> (<a class="el" href="classSrNetHttp.html">SrNetHttp</a> &amp;http, std::string &amp;srv, const std::string &amp;srt)</td></tr>
+<tr class="memdesc:a75cc5112b2d95201e91121dd9a112fc1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a SmartREST template.  <a href="#a75cc5112b2d95201e91121dd9a112fc1">More...</a><br /></td></tr>
+<tr class="separator:a75cc5112b2d95201e91121dd9a112fc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Misc SmartREST utility functions. </p>
@@ -148,6 +155,102 @@ Functions</h2></td></tr>
     <tr><td class="paramname">path</td><td>path specifies the file contains the SmartREST template. </td></tr>
     <tr><td class="paramname">srv</td><td>the returned SmartREST template version number. </td></tr>
     <tr><td class="paramname">srt</td><td>the returned SmartREST template content. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 otherwise. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="af205c1ea0de8b2d9adb0c723839f4dc7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int registerSrTemplate </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>url</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>auth</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string &amp;&#160;</td>
+          <td class="paramname"><em>srv</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>srt</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Register a SmartREST template. </p>
+<p>This function checks if the SmartREST template already exists in the server and then register it if it doesn't exist yet. </p><dl class="section note"><dt>Note</dt><dd>On success, the parameter <em>srv</em> will be updated with the registered SmartREST template XID, otherwise <em>srv</em> is untouched.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">url</td><td>Cumulocity server url, format &lt;server&gt;/s, where '/s' is endpoint. </td></tr>
+    <tr><td class="paramname">auth</td><td>HTTP basic authorization token. </td></tr>
+    <tr><td class="paramname">srv</td><td>SmartREST version number. </td></tr>
+    <tr><td class="paramname">srt</td><td>SmartREST template content. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 otherwise. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a75cc5112b2d95201e91121dd9a112fc1"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int registerSrTemplate </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classSrNetHttp.html">SrNetHttp</a> &amp;&#160;</td>
+          <td class="paramname"><em>http</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string &amp;&#160;</td>
+          <td class="paramname"><em>srv</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>srt</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Register a SmartREST template. </p>
+<p>This function encourages re-using an existing HTTP connection instead of creating a new HTTP connection every time, it's preferred over its counterpart since the former one creates a new connection every time.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">url</td><td>Cumulocity server url, format &lt;server&gt;/s, where '/s' is endpoint. </td></tr>
+    <tr><td class="paramname">auth</td><td>HTTP basic authorization token. </td></tr>
+    <tr><td class="paramname">srv</td><td>will be written with SmartREST template XID on success. </td></tr>
+    <tr><td class="paramname">srt</td><td>SmartREST template content. </td></tr>
   </table>
   </dd>
 </dl>

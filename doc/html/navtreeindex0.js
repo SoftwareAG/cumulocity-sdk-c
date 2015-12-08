@@ -212,6 +212,8 @@ var NAVTREEINDEX0 =
 "srlogger_8h.html#ae95f70250f68e2c683d90f573a0e5081":[1,0,7],
 "srutils_8h.html":[1,1],
 "srutils_8h.html#a0d23ea434b0aa701807b0aeb0704a580":[1,1,0],
+"srutils_8h.html#a75cc5112b2d95201e91121dd9a112fc1":[1,1,2],
+"srutils_8h.html#af205c1ea0de8b2d9adb0c723839f4dc7":[1,1,1],
 "structSrNews.html":[0,13],
 "structSrNews.html#a0092f58779b059dbc11af693d20446c7":[0,13,1],
 "structSrNews.html#a47222b6feb200818a0b6084fb6e1913a":[0,13,3],
