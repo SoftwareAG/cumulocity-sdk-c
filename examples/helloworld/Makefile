@@ -12,11 +12,12 @@ LDLIBS:=-lsera
 
 .PHONY: all clean
 
-all: $(BIN)
+all: $(BIN_DIR)/$(BIN)
+	@:
 
-$(BIN): $(OBJ)
+$(BIN_DIR)/$(BIN): $(OBJ)
 	@mkdir -p $(BIN_DIR)
-	$(CXX) $(LDFLAGS) $^ $(LDLIBS) -o $(BIN_DIR)/$@
+	$(CXX) $(LDFLAGS) $^ $(LDLIBS) -o $@
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cc
 	@mkdir -p $(BUILD_DIR)
