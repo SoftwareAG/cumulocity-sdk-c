@@ -7,7 +7,7 @@ using namespace std;
 static void _insert(deque<string> &d, uint16_t cap, string &buf,
                     const SrQueue<SrNews>::Event &e)
 {
-        if (e.first.prio) {
+        if (e.first.prio & 1) {
                 if (d.size() >= cap)
                         d.pop_front();
                 d.push_back(e.first.data + "\n");
