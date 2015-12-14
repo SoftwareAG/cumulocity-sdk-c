@@ -146,10 +146,9 @@ void SrAgent::loop()
         const timespec ts = {AGENT_VAL / 1000, (AGENT_VAL % 1000) * 1000000};
         while (true) {
                 clock_nanosleep(CLOCK_MONOTONIC, 0, &ts, NULL);
-                for (_TimerIter t = timers.begin(); t != timers.end(); ++t) {
+                for (auto &i: timers) {
                         timespec now;
                         clock_gettime(CLOCK_MONOTONIC, &now);
-                        SrTimer *i = *t;
                         if (i->isActive() && i->fireTime() <= now) {
                                 i->run(*this);
                                 if (i->isActive())
