@@ -50,7 +50,7 @@ public:
          *
          *  \return true if sleeping, false otherwise.
          */
-        bool isSleeping() const {return sleeping;}
+        bool isSleeping() const {return bayeuxPolicy == 0;}
         /**
          *  \brief Put device push to sleep.
          *
@@ -59,7 +59,7 @@ public:
          *  are discarded. sleep an already sleeping device push has no effect.
          */
         void sleep() {
-                sleeping = true;
+                bayeuxPolicy = 0;
                 srNotice("push: slept.");
         }
         /**
@@ -70,7 +70,7 @@ public:
          *  effect.
          */
         void resume() {
-                sleeping = false;
+                bayeuxPolicy = 1;
                 srNotice("push: resumed.");
         }
         /**
@@ -145,7 +145,6 @@ private:
         SrQueue<SrOpBatch> &queue;
         const std::string &channel;
         uint8_t bayeuxPolicy;
-        bool sleeping;
 };
 
 #endif /* SRDEVICEPUSH_H */

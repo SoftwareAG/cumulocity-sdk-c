@@ -10,7 +10,7 @@ SrDevicePush::SrDevicePush(const string &server, const string &xid,
                            const string &auth, const string &chn,
                            SrQueue<SrOpBatch> &queue):
         http(server+p, xid, auth), bnum(0), queue(queue), channel(chn),
-        bayeuxPolicy(1), sleeping(false) {}
+        bayeuxPolicy(1) {}
 
 
 int SrDevicePush::start()
@@ -29,11 +29,9 @@ void *SrDevicePush::func(void *arg)
 {
         SrDevicePush *push = (SrDevicePush*)arg;
         while (true) {
-                if (push->sleeping) {
-                        ::sleep(2);
-                        continue;
-                }
                 switch (push->bayeuxPolicy) {
+                case 0: ::sleep(2);
+                        break;
                 case 1: push->http.clear();
                         if (push->handshake() == -1) {
                                 ::sleep(10);
@@ -53,7 +51,7 @@ void *SrDevicePush::func(void *arg)
                         } else {
                                 SrOpBatch b(push->http.response());
                                 push->process(b.data);
-                                if (!push->sleeping)
+                                if (!push->isSleeping())
                                         push->queue.put(b);
                         }
                 }
