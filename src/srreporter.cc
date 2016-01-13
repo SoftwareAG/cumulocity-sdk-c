@@ -44,6 +44,7 @@ void* SrReporter::func(void *arg)
         SrReporter *rep = (SrReporter*)arg;
         rep->http.setTimeout(20);
         string aggre;
+        const string selector = "87,," + rep->xid + "\n";
         while (true) {
                 aggre.clear();
                 SrQueue<SrNews>::Event e = rep->out.get();
@@ -64,7 +65,7 @@ void* SrReporter::func(void *arg)
                                 rep->buffer.clear();
                                 const string &resp = rep->http.response();
                                 if (!resp.empty()) {
-                                        rep->in.put(SrOpBatch(resp));
+                                        rep->in.put(SrOpBatch(selector + resp));
                                         rep->http.clear();
                                 }
                                 break;

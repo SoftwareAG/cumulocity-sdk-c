@@ -35,7 +35,7 @@ public:
                    SrQueue<SrNews> &out, SrQueue<SrOpBatch> &in,
                    uint16_t cap=1000):
                 http(server + "/s", xid, auth), out(out),
-                in(in), _cap(cap), sleeping(false) {}
+                in(in), xid(xid), _cap(cap), sleeping(false) {}
         virtual ~SrReporter() {}
 
         /**
@@ -92,6 +92,7 @@ private:
         pthread_t tid;
         SrQueue<SrNews> &out;
         SrQueue<SrOpBatch> &in;
+        const string &xid;
         uint16_t _cap;
         bool sleeping;
 };
