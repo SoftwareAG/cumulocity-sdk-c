@@ -1,4 +1,7 @@
+#include <string>
 #include <srnetinterface.h>
+#include "srlogger.h"
+using namespace std;
 
 
 SrNetInterface::SrNetInterface(const string &server): errNo(0),curl(NULL), t(0)
@@ -25,6 +28,7 @@ void SrNetInterface::setTimeout(long timeout)
 {
         t = timeout;
         curl_easy_setopt(curl, CURLOPT_TIMEOUT, timeout);
+        srDebug("Net: setTimeout to " + to_string(timeout));
 }
 
 
