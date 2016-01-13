@@ -26,6 +26,7 @@ public:
          *  \return 0 on success, -1 on failure.
          */
         int connect();
+        int sendBuf(const char *buf, size_t len);
         /**
          *  \brief Socket send method.
          *  \param request request to be sent.

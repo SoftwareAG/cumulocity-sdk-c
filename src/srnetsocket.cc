@@ -31,7 +31,7 @@ int SrNetSocket::connect()
         curl_easy_setopt(curl, CURLOPT_FRESH_CONNECT, 1);
         errNo = curl_easy_perform(curl);
         if (errNo != CURLE_OK) {
-                srWarning(string("SOCK connect: ") + _errMsg);
+                srWarning(string("Sock connect: ") + _errMsg);
                 return -1;
         }
 #ifdef CURLINFO_ACTIVESOCKET
@@ -43,32 +43,42 @@ int SrNetSocket::connect()
                 srError(string("Sock connect: ") + _errMsg);
                 return -1;
         }
+        srDebug("Sock connect: OK!");
         sockfd = sockextr;
         return errNo;
 }
 
 
-int SrNetSocket::send(const string &request)
+int SrNetSocket::sendBuf(const char *buf, size_t len)
 {
-        srDebug("SOCK send: " + request);
-        if (waitSocket(sockfd, 0, timeout()) < 0) {
-                srError(string("SOCK send: ") + strerror(errno));
+        srDebug("Sock send: " + string(buf, len));
+        int c = waitSocket(sockfd, 0, timeout());
+        if (c < 0) {
+                srError(string("Sock send: ") + strerror(errno));
+                return -1;
+        } else if (c == 0) {
+                srError("Sock send: timeout.");
                 return -1;
         }
-        const char *pch = request.c_str();
-        const size_t s = request.size();
         errNo = CURLE_OK;
-        for (size_t i = 0, n = 0; errNo == CURLE_OK && n < s;) {
-                errNo = curl_easy_send(curl, pch + n, s - n, &i);
-                n += i;
-        }
+        for (size_t i = 0, n = 0; errNo == CURLE_OK && n < len; n += i)
+                errNo = curl_easy_send(curl, buf + n, len - n, &i);
+
         if (errNo == CURLE_OK) {
                 srDebug("Sock send: OK!");
-                return s;
+                return len;
         } else {
-                srError(string("Sock send: (") + to_string(errNo) + ") "+ _errMsg);
+                srError(string("Sock send: ") + _errMsg);
                 return -1;
         }
+}
+
+
+int SrNetSocket::send(const string &request)
+{
+        const char *pch = request.c_str();
+        const size_t s = request.size();
+        return sendBuf(pch, s);
 }
 
 
@@ -76,7 +86,10 @@ int SrNetSocket::recv(size_t len)
 {
         const int c = waitSocket(sockfd, 1, timeout());
         if (c < 0) {
-                srError(string("SOCK recv: ") + strerror(errno));
+                srError(string("Sock recv: ") + strerror(errno));
+                return -1;
+        } else if (c == 0) {
+                srError("Sock recv: timeout.");
                 return -1;
         }
         char buf[SOCK_RECV_BUF_SIZE];
@@ -87,7 +100,7 @@ int SrNetSocket::recv(size_t len)
                 srDebug("Sock recv: " + resp);
                 return n;
         } else {
-                srError(string("Sock recv: (") + to_string(errNo) + ") "+ _errMsg);
+                srError(string("Sock recv: ") + _errMsg);
                 return -1;
         }
 }
