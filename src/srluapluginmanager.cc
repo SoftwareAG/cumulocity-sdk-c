@@ -1,5 +1,6 @@
 #include "srluapluginmanager.h"
 #include "srnetbinhttp.h"
+#include "srnetsocket.h"
 #include "srlogger.h"
 #define UNUSED(x) (void)x
 using namespace std;
@@ -67,12 +68,25 @@ int SrLuaPluginManager::load(const string &path)
                 .beginClass<SrTimer>("SrTimer")
                 .addFunction("start", &SrTimer::start)
                 .addFunction("stop", &SrTimer::stop)
-                .addProperty("interval", &SrTimer::interval, &SrTimer::setInterval)
+                .addProperty("interval", &SrTimer::interval,
+                             &SrTimer::setInterval)
                 .endClass()
                 .beginClass<SrRecord>("SrRecord")
                 .addFunction("type", &SrRecord::typeInt)
                 .addFunction("value", &SrRecord::value)
                 .addProperty("size", &SrRecord::size)
+                .endClass()
+                .beginClass<SrNetInterface>("SrNetInterface")
+                .addFunction("response", &SrNetInterface::response)
+                .addFunction("clear", &SrNetInterface::clear)
+                .addProperty("timeout", &SrNetInterface::timeout,
+                             &SrNetInterface::setTimeout)
+                .endClass()
+                .deriveClass<SrNetSocket, SrNetInterface>("SrNetSocket")
+                .addConstructor<void (*) (const string&)> ()
+                .addFunction("connect", &SrNetSocket::connect)
+                .addFunction("send", &SrNetSocket::sendBuf)
+                .addFunction("recv", &SrNetSocket::recv)
                 .endClass();
         push(L, this);
         lua_setglobal(L, "c8y");
