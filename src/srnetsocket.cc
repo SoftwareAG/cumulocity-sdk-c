@@ -7,6 +7,19 @@
 using namespace std;
 
 
+static int getSocket(CURL* curl, curl_socket_t &sockfd)
+{
+        long sockextr;
+#ifdef CURLINFO_ACTIVESOCKET
+        int c = curl_easy_getinfo(curl, CURLINFO_ACTIVESOCKET, &sockextr);
+#else  // Support for libcurl < 7.45.0
+        int c = curl_easy_getinfo(curl, CURLINFO_LASTSOCKET, &sockextr);
+#endif
+        sockfd = sockextr;
+        return c;
+}
+
+
 static int waitSocket(curl_socket_t sockfd, bool for_recv, int timeout)
 {
         struct timeval tv = {timeout, 0};
@@ -31,20 +44,10 @@ int SrNetSocket::connect()
         curl_easy_setopt(curl, CURLOPT_FRESH_CONNECT, 1);
         errNo = curl_easy_perform(curl);
         if (errNo != CURLE_OK) {
-                srWarning(string("Sock connect: ") + _errMsg);
-                return -1;
-        }
-#ifdef CURLINFO_ACTIVESOCKET
-        errNo = curl_easy_getinfo(curl, CURLINFO_ACTIVESOCKET, &sockextr);
-#else  // Support for libcurl < 7.45.0
-        errNo = curl_easy_getinfo(curl, CURLINFO_LASTSOCKET, &sockextr);
-#endif
-        if (errNo != CURLE_OK) {
                 srError(string("Sock connect: ") + _errMsg);
                 return -1;
         }
         srDebug("Sock connect: OK!");
-        sockfd = sockextr;
         return errNo;
 }
 
@@ -52,6 +55,12 @@ int SrNetSocket::connect()
 int SrNetSocket::sendBuf(const char *buf, size_t len)
 {
         srDebug("Sock send: " + string(buf, len));
+        curl_socket_t sockfd;
+        errNo = getSocket(curl, sockfd);
+        if (errNo != CURLE_OK) {
+                srError(string("Sock send: ") + _errMsg);
+                return -1;
+        }
         int c = waitSocket(sockfd, 0, timeout());
         if (c < 0) {
                 srError(string("Sock send: ") + strerror(errno));
@@ -84,6 +93,12 @@ int SrNetSocket::send(const string &request)
 
 int SrNetSocket::recv(size_t len)
 {
+        curl_socket_t sockfd;
+        errNo = getSocket(curl, sockfd);
+        if (errNo != CURLE_OK) {
+                srError(string("Sock recv: ") + _errMsg);
+                return -1;
+        }
         const int c = waitSocket(sockfd, 1, timeout());
         if (c < 0) {
                 srError(string("Sock recv: ") + strerror(errno));

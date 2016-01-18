@@ -42,9 +42,6 @@ public:
          */
         int recv(size_t len);
 
-private:
-        long sockextr;
-        curl_socket_t sockfd;
 };
 
 #endif /* SRNETSOCKET_H */
