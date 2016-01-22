@@ -1,45 +1,13 @@
 #include <cstdlib>
+#include <signal.h>
+#include <curl/curl.h>
 #include <sragent.h>
 #include <srlogger.h>
-#include <curl/curl.h>
-#include <signal.h>
+#include <srutils.h>
 #ifndef AGENT_VAL
 #define AGENT_VAL 5
 #endif
 using namespace std;
-
-
-static string b64Encode(const string &s)
-{
-        const unsigned m1 = 63 << 18, m2 = 63 << 12, m3 = 63 << 6;
-        const string char_set = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                "abcdefghijklmnopqrstuvwxyz0123456789+/";
-        string res;
-        unsigned a = 0, l = static_cast<unsigned>(s.size());
-        for (; l > 2; l -= 3) {
-                unsigned d = s[a++] << 16;
-                d |= s[a++] << 8;
-                d |= s[a++];
-                res.append(1, char_set.at((d & m1) >> 18));
-                res.append(1, char_set.at((d & m2) >> 12));
-                res.append(1, char_set.at((d & m3) >> 6));
-                res.append(1, char_set.at(d & 63));
-        }
-        if(l == 2) {
-                unsigned d = s[a++] << 16;
-                d |= s[a++] << 8;
-                res.append(1, char_set.at((d & m1) >> 18));
-                res.append(1, char_set.at((d & m2) >> 12));
-                res.append(1, char_set.at((d & m3) >> 6));
-                res.append(1, '=');
-        } else if(l == 1) {
-                unsigned d = s[a++] << 16;
-                res.append(1, char_set.at((d & m1) >> 18));
-                res.append(1, char_set.at((d & m2) >> 12));
-                res.append("==", 2);
-        }
-        return res;
-}
 
 
 static void ignoreSignal(int sig)
@@ -79,8 +47,8 @@ int SrAgent::bootstrap(const string &path)
                 _username = boot.username();
                 _password = boot.password();
         }
-        _auth = "Authorization: Basic " + b64Encode(
-                _tenant + "/" + _username + ":" + _password);
+        _auth = "Authorization: Basic ";
+        _auth += b64Encode(_tenant + "/" + _username + ":" + _password);
         return c;
 }
 
