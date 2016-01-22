@@ -8,3 +8,4 @@ libsera.so*
 examples/*/bin/
 examples/*/build/
 runagent
+.dir-locals.el
