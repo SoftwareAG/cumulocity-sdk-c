@@ -55,4 +55,7 @@ int registerSrTemplate(const std::string &url, const std::string &auth,
  */
 int registerSrTemplate(SrNetHttp &http, std::string &srv, const std::string &srt);
 
+std::string b64Encode(const std::string &s);
+std::string b64Decode(const std::string &s);
+
 #endif /* SRUTILS_H */
