@@ -18,6 +18,9 @@ SrNetInterface::SrNetInterface(const string &server): errNo(0),curl(NULL), t(0)
 #ifdef SR_HTTP_1_0
         curl_easy_setopt(curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
 #endif
+#ifdef SR_NO_SSL_VERIFYPEER
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0);
+#endif
 }
 
 
