@@ -87,7 +87,7 @@ int SrNetBinHttp::post(const string &dest, const string &ct, const string &data)
 
 int SrNetBinHttp::postf(const string &dest, const string &ct, const string &file)
 {
-        srInfo("BinHTTP postf: name:" + dest + " ,type:" + ct + " <- " + file);
+        srInfo("BinHTTP postf: name:" + dest + ", type:" + ct + " <- " + file);
         struct curl_httppost *formpost = NULL;
         struct curl_httppost *lastptr = NULL;
         const string fz = to_string(getfilesize(file));
