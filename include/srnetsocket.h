@@ -42,6 +42,8 @@ public:
          */
         int recv(size_t len);
 
+private:
+        const std::string _server;
 };
 
 #endif /* SRNETSOCKET_H */

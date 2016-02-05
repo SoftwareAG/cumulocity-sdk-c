@@ -33,7 +33,7 @@ static int waitSocket(curl_socket_t sockfd, bool for_recv, int timeout)
 }
 
 
-SrNetSocket::SrNetSocket(const string &server): SrNetInterface(server)
+SrNetSocket::SrNetSocket(const string &s): SrNetInterface(s), _server(s)
 {
         curl_easy_setopt(curl, CURLOPT_CONNECT_ONLY, 1L);
 }
@@ -42,6 +42,7 @@ SrNetSocket::SrNetSocket(const string &server): SrNetInterface(server)
 int SrNetSocket::connect()
 {
         curl_easy_setopt(curl, CURLOPT_FRESH_CONNECT, 1);
+        srInfo("Sock connect: to " + _server);
         errNo = curl_easy_perform(curl);
         if (errNo != CURLE_OK) {
                 srError(string("Sock connect: ") + _errMsg);
