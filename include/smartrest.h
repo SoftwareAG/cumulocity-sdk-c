@@ -73,8 +73,17 @@ public:
         }
 
 public:
+        /**
+         *  \brief Start position of the token, counting ALL garbage character.
+         */
         size_t pre;
+        /**
+         *  \brief Start position of the token, counting NO garbage character.
+         */
         size_t start;
+        /**
+         *  \brief End position of the token.
+         */
         size_t end;
 
 private:
@@ -187,8 +196,20 @@ public:
          */
         void reset(const std::string &_s) {lex.reset(_s);}
 public:
+        /**
+         *  \brief Start position of a record, equals to pre of the first token
+         *  in the record.
+         */
         size_t pre;
+        /**
+         *  \brief Start position of a record, equals to start of the first
+         *  token in the record.
+         */
         size_t start;
+        /**
+         *  \brief End position of a record, equals to end of the last token in
+         *  the record.
+         */
         size_t end;
 
 private:
