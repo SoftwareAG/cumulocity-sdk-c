@@ -37,7 +37,7 @@ public:
         SrLuaPluginManager(SrAgent &agent):
                 agent(agent), net(agent.server(), agent.auth()) {}
         virtual ~SrLuaPluginManager() {
-                for (_TimerIter it = timers.begin(); it != timers.end(); ++it)
+                for (auto it = timers.begin(); it != timers.end(); ++it)
                         delete it->first;
         }
 
@@ -124,7 +124,6 @@ private:
         typedef std::pair<lua_State*, std::string> _LuaCallback;
         typedef std::map<SrAgent::MsgID, _LuaCallback> _Handler;
         typedef std::map<SrTimer*, _LuaCallback> _Timer;
-        typedef _Timer::iterator _TimerIter;
         _Handler handlers;
         _Timer timers;
         string packagePath;
