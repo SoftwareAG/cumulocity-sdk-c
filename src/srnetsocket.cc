@@ -42,7 +42,7 @@ SrNetSocket::SrNetSocket(const string &s): SrNetInterface(s), _server(s)
 int SrNetSocket::connect()
 {
         curl_easy_setopt(curl, CURLOPT_FRESH_CONNECT, 1);
-        srInfo("Sock connect: to " + _server);
+        srInfo("Sock connect: " + _server);
         errNo = curl_easy_perform(curl);
         if (errNo != CURLE_OK) {
                 srError(string("Sock connect: ") + _errMsg);
