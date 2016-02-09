@@ -147,6 +147,16 @@ public:
         void addMsgHandler(MsgID msgid, AbstractMsgHandler *functor) {
                 handlers[msgid] = functor;
         }
+        /**
+         *  \brief Add a message handler to the agent. Non thread-safe.
+         *
+         *  Unlike addMsgHandler(), this function is for registering a message
+         *  callback for additional SmartREST template that are added to
+         *  SrDevicePush via subscribe() method.
+         *
+         *  \param msgxid XID of the SmartREST template.
+         *  \param msgid the message ID
+         */
         void addXMsgHandler(MsgXID msgxid, MsgID msgid, AbstractMsgHandler *f) {
                 sh[XMsgID(msgxid, msgid)] = f;
         }
