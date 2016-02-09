@@ -2,6 +2,7 @@ var searchData=
 [
   ['savecredential',['saveCredential',['../classSrBootstrap.html#a62016fda328e5849719acb758f8508be',1,'SrBootstrap']]],
   ['send',['send',['../classSrAgent.html#a3a9bc213877e949f1671385473b5839b',1,'SrAgent::send()'],['../classSrLuaPluginManager.html#a03f568c9dd5ccace1359e8782ffe26f5',1,'SrLuaPluginManager::send()'],['../classSrNetSocket.html#aff9596499eb7530c6876035fdf69dd05',1,'SrNetSocket::send()']]],
+  ['sendbuf',['sendBuf',['../classSrNetSocket.html#adbea741efc69bb62f5776e4bbc3717d0',1,'SrNetSocket']]],
   ['server',['server',['../classSrAgent.html#ab705bedf1cee0be9ea2a5fa7be684cba',1,'SrAgent::server()'],['../classSrLuaPluginManager.html#a559960d04b485837894b534bbc94eb40',1,'SrLuaPluginManager::server()']]],
   ['setcapacity',['setCapacity',['../classSrReporter.html#ad2ff76318b5fd5e47beccd5e5a03af16',1,'SrReporter']]],
   ['setdebug',['setDebug',['../classSrNetInterface.html#a90c3b3842cedccfa25b8b3fd11fce6c6',1,'SrNetInterface']]],
