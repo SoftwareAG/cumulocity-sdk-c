@@ -1,26 +1,25 @@
 #include <string>
-#include <cstring>
+#include <set>
 #include <iostream>
-
-#include <unistd.h>
-#include <sys/syscall.h>
-#include <sys/types.h>
-
-#include "srqueue.h"
+#include <cassert>
+#include <srqueue.h>
 using namespace std;
+
+SrQueue<string> Q;
+int N = 0;
 
 
 void *func(void *arg)
 {
-        SrQueue<string> *qptr = (SrQueue<string>*)arg;
-        while (true) {
-                SrQueue<string>::Event e = qptr->get();
-                cout << "Thread [" << syscall(SYS_gettid) << "] ";
-                if (e.second == 0)
-                        cout << "Item: " << e.first << endl;
-                else
-                        cout << "Error: " << e.second << endl;
-                // usleep(10);
+        const int timeout = 200;
+        const timespec ts = {10, 0};
+        set<string> &s = (*(set<string>*)arg);
+        for (int i = 0; i < N;) {
+                auto e = Q.get(timeout);
+                if (e.second == 0) {
+                        ++i;
+                        s.emplace(e.first);
+                }
         }
         return NULL;
 }
@@ -28,20 +27,20 @@ void *func(void *arg)
 
 int main()
 {
-        SrQueue<string> q;
-        const int N = 5;
-        pthread_t tid[N];
-        for (size_t i = 0; i < N; ++i) {
-                int err = pthread_create(&tid[i], NULL, &func, &q);
-                if (err)
-                        cerr << "Can not create thread: [%s]" << strerror(err);
+        cerr << "Test SrQueue: ";
+        set<string> s = {"hello", "World!", "haha", "abc", "eee", ""};
+        set<string> S;
+        set<string> S2;
+        N = s.size();
+        pthread_t tid;
+        pthread_create(&tid, NULL, &func, &S);
+        const timespec ts = {10, 0};
+        for (auto &e: s) {
+                if (Q.put(e) == 0)
+                        S2.emplace(e);
         }
-
-        for (size_t i = 0; i < 20; ++i) {
-                if (q.put("hello"))
-                        cerr << "Put item failed." << endl;
-                usleep(10);
-        }
-
+        pthread_join(tid, NULL);
+        assert(S == S2);
+        cerr << "OK!" << endl;
         return 0;
 }
