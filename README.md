@@ -16,7 +16,7 @@ Cumulocity C++ Library is an asynchronous, event-driven networking library to ea
 ```
 #!bash
 
-git clone --recursive git@bitbucket.org:m2m/cumulocity-sdk-c.git
+git clone git@bitbucket.org:m2m/cumulocity-sdk-c.git
 ```
 
 * Define your init.mk with device specific CPPFLAGS, CXXFLAGS, LDFLAGS, LDLIBS (see common.mk for reference), and CXX if cross compiling.
@@ -48,7 +48,7 @@ make release
 
 
 ### FAQ ###
-* I encountered an error when building the library.  
+* I encountered an error when building the library.
   Try removing all intermediate build files first and start a new clean build:
 
 ```
@@ -56,5 +56,13 @@ make release
 
 make clean
 ```
-* How can I contact Cumulocity in case I have questions?  
+* I don't want *Lua* support, how can I build the library without *Lua*?
+  *Lua* support is enabled by default, to build the library without *Lua* support, try:
+
+```
+#!bash
+
+make LUA=no
+```
+* How can I contact Cumulocity in case I have questions?
   You can reach us by email at support@cumulocity.com
