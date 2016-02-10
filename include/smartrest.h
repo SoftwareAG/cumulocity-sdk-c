@@ -161,15 +161,15 @@ private:
  *  messages can be aggregated into one response. This class is designed for
  *  parsing one single response, which in turn contains multiple SrRecord.
  */
-class SmartRest
+class SrParser
 {
 public:
         /**
          *  \brief SmartREST constructor. A container for a list of SrRecord.
          *  \param _s message contains the hold request or response.
          */
-        SmartRest(const std::string &_s): lex(_s) {}
-        virtual ~SmartRest() {}
+        SrParser(const std::string &_s): lex(_s) {}
+        virtual ~SrParser() {}
         /**
          *  \brief Get the next SmartREST record.
          *
@@ -215,5 +215,7 @@ public:
 private:
         SrLexer lex;
 };
+
+typedef SrParser SmartRest;
 
 #endif /* SMARTREST_H */
