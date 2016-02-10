@@ -1,4 +1,0 @@
-[submodule "ext/LuaBridge"]
-	path = ext/LuaBridge
-	url = https://github.com/Tiensbakung/LuaBridge.git
-	branch = develop
