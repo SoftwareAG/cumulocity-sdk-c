@@ -82,7 +82,7 @@ public:
          */
         size_t start;
         /**
-         *  \brief End position of the token.
+         *  \brief End position of the token. One past the last character.
          */
         size_t end;
 
