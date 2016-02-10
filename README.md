@@ -48,7 +48,7 @@ make release
 
 
 ### FAQ ###
-* I encountered an error when building the library.
+* I encountered an error when building the library.  
   Try removing all intermediate build files first and start a new clean build:
 
 ```
@@ -56,7 +56,7 @@ make release
 
 make clean
 ```
-* I don't want *Lua* support, how can I build the library without *Lua*?
+* I don't want *Lua* support, how can I build the library without *Lua*?  
   *Lua* support is enabled by default, to build the library without *Lua* support, try:
 
 ```
@@ -64,5 +64,5 @@ make clean
 
 make LUA=no
 ```
-* How can I contact Cumulocity in case I have questions?
+* How can I contact Cumulocity in case I have questions?  
   You can reach us by email at support@cumulocity.com
