@@ -1,5 +1,6 @@
 #ifndef SRLOGGER_H
 #define SRLOGGER_H
+#include <cstdint>
 #include <string>
 
 /**
