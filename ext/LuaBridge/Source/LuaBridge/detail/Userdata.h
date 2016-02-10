@@ -68,7 +68,7 @@ protected:
   /**
     Get an untyped pointer to the contained class.
   */
-  inline void* const getPointer ()
+  inline void* getPointer ()
   {
     return m_p;
   }
@@ -376,7 +376,7 @@ ud __parent (nil)
       lua_pop (L, 1);
       mismatch = true;
     }
-    
+
 	return !mismatch;
   }
 
@@ -757,7 +757,7 @@ struct StackHelper <T, false>
   {
     return *Userdata::get <T> (L, index, true);
   }
-  
+
   static inline bool is_a (lua_State* L, int index)
   {
     return Userdata::check <T> (L, index, true);
@@ -809,11 +809,11 @@ struct Stack <T*>
     UserdataPtr::push (L, p);
   }
 
-  static inline T* const get (lua_State* L, int index)
+  static inline T* get (lua_State* L, int index)
   {
     return Userdata::get <T> (L, index, false);
   }
-  
+
   static inline bool is_a (lua_State* L, int index)
   {
     return Userdata::check <T> (L, index, false);
@@ -829,7 +829,7 @@ struct Stack <T* const>
     UserdataPtr::push (L, p);
   }
 
-  static inline T* const get (lua_State* L, int index)
+  static inline T* get (lua_State* L, int index)
   {
     return Userdata::get <T> (L, index, false);
   }
@@ -849,7 +849,7 @@ struct Stack <T const*>
     UserdataPtr::push (L, p);
   }
 
-  static inline T const* const get (lua_State* L, int index)
+  static inline const T* get (lua_State* L, int index)
   {
     return Userdata::get <T> (L, index, true);
   }
@@ -869,7 +869,7 @@ struct Stack <T const* const>
     UserdataPtr::push (L, p);
   }
 
-  static inline T const* const get (lua_State* L, int index)
+  static inline const T* get (lua_State* L, int index)
   {
     return Userdata::get <T> (L, index, true);
   }
@@ -969,7 +969,7 @@ struct Stack <T const&>
   {
     return helper_t::get (L, index);
   }
-  
+
    static inline bool is_a (lua_State* L, int index)
   {
     return helper_t::is_a (L, index);
