@@ -9,3 +9,5 @@ examples/*/bin/
 examples/*/build/
 runagent
 .dir-locals.el
+tests/*.txt
+bin
