@@ -99,11 +99,16 @@ $(document).ready(function(){initNavTree('classSrParser.html','');});
 <div class="title">SrParser Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>SmartREST response parser.  
+ <a href="classSrParser.html#details">More...</a></p>
+
+<p><code>#include &lt;smartrest.h&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a04b3d8733d62112b6870672c179073e1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSrParser.html#a04b3d8733d62112b6870672c179073e1">SrParser</a> (const std::string &amp;_s)</td></tr>
-<tr class="memdesc:a04b3d8733d62112b6870672c179073e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">SmartREST constructor. A container for a list of <a class="el" href="classSrRecord.html" title="Data structure represents a SmartREST record. ">SrRecord</a>.  <a href="#a04b3d8733d62112b6870672c179073e1">More...</a><br /></td></tr>
+<tr class="memdesc:a04b3d8733d62112b6870672c179073e1"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classSrParser.html" title="SmartREST response parser. ">SrParser</a> constructor. A container for a list of <a class="el" href="classSrRecord.html" title="Data structure represents a SmartREST record. ">SrRecord</a>.  <a href="#a04b3d8733d62112b6870672c179073e1">More...</a><br /></td></tr>
 <tr class="separator:a04b3d8733d62112b6870672c179073e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4d569dca3756070994ece7fd5beeda81"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classSrRecord.html">SrRecord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSrParser.html#a4d569dca3756070994ece7fd5beeda81">next</a> ()</td></tr>
 <tr class="memdesc:a4d569dca3756070994ece7fd5beeda81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the next SmartREST record.  <a href="#a4d569dca3756070994ece7fd5beeda81">More...</a><br /></td></tr>
@@ -127,7 +132,10 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 <tr class="memdesc:a44767f5fd2997dcdfe5736bb4b5f1ab6"><td class="mdescLeft">&#160;</td><td class="mdescRight">End position of a record, equals to end of the last token in the record. <br /></td></tr>
 <tr class="separator:a44767f5fd2997dcdfe5736bb4b5f1ab6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>SmartREST response parser. </p>
+<p>As the SmartREST protocol supports message aggregation, multiple SmartREST messages can be aggregated into one response. This class is designed for parsing one single response, which in turn contains multiple <a class="el" href="classSrRecord.html" title="Data structure represents a SmartREST record. ">SrRecord</a>. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a04b3d8733d62112b6870672c179073e1"></a>
 <div class="memitem">
 <div class="memproto">
@@ -150,7 +158,7 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 </table>
 </div><div class="memdoc">
 
-<p>SmartREST constructor. A container for a list of <a class="el" href="classSrRecord.html" title="Data structure represents a SmartREST record. ">SrRecord</a>. </p>
+<p><a class="el" href="classSrParser.html" title="SmartREST response parser. ">SrParser</a> constructor. A container for a list of <a class="el" href="classSrRecord.html" title="Data structure represents a SmartREST record. ">SrRecord</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">_s</td><td>message contains the hold request or response. </td></tr>

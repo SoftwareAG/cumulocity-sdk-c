@@ -1,3 +1,6 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classSrLexer.html" title="Lexical scanner for SmartREST messages. " alt="" coords="5,5,72,32"/>
+<area shape="rect" id="node1" href="$classSrNetInterface.html" title="Base class of all networking classes. " alt="" coords="5,56,112,83"/>
+<area shape="rect" id="node2" href="$classSrNetBinHttp.html" title="Cumulocity HTTP binary API implementation. " alt="" coords="160,5,260,32"/>
+<area shape="rect" id="node3" href="$classSrNetHttp.html" title="Tailored HTTP implementation for Cumulocity SmartREST protocol. Supports both HTTP and HTTPS..." alt="" coords="169,56,251,83"/>
+<area shape="rect" id="node4" href="$classSrNetSocket.html" title="Low&#45;level socket interface implementation. " alt="" coords="161,107,259,133"/>
 </map>

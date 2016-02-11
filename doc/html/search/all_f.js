@@ -11,7 +11,6 @@ var searchData=
   ['shedtime',['shedTime',['../classSrTimer.html#a5abfc97139c7b32e8255419a9b0428c4',1,'SrTimer']]],
   ['size',['size',['../classSrRecord.html#a3e0f4d55f73beb2fb266483d03cf4ea1',1,'SrRecord::size()'],['../classSrQueue.html#a13d9431c15483305a8c4d12dd053ed31',1,'SrQueue::size()']]],
   ['sleep',['sleep',['../classSrDevicePush.html#afd72d3f89287bd19372ebdced14c38ea',1,'SrDevicePush::sleep()'],['../classSrReporter.html#a3f668ee0837ce89249b9c234003cffcc',1,'SrReporter::sleep()']]],
-  ['smartrest',['SmartRest',['../classSmartRest.html',1,'']]],
   ['sragent',['SrAgent',['../classSrAgent.html',1,'SrAgent'],['../classSrAgent.html#a6b9b0fadd6848cc45d5aef449178e6b0',1,'SrAgent::SrAgent()']]],
   ['srbootstrap',['SrBootstrap',['../classSrBootstrap.html',1,'SrBootstrap'],['../classSrBootstrap.html#a290aebed91f47ae15a47495551defa9f',1,'SrBootstrap::SrBootstrap()']]],
   ['srcritical',['srCritical',['../srlogger_8h.html#a2ba53dcb577415c7a53f94bc05ab6bd7',1,'srlogger.h']]],

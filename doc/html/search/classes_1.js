@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['smartrest',['SmartRest',['../classSmartRest.html',1,'']]],
   ['sragent',['SrAgent',['../classSrAgent.html',1,'']]],
   ['srbootstrap',['SrBootstrap',['../classSrBootstrap.html',1,'']]],
   ['srdevicepush',['SrDevicePush',['../classSrDevicePush.html',1,'']]],

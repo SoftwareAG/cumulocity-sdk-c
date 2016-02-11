@@ -2,7 +2,6 @@ var annotated =
 [
     [ "AbstractMsgHandler", "classAbstractMsgHandler.html", "classAbstractMsgHandler" ],
     [ "AbstractTimerFunctor", "classAbstractTimerFunctor.html", "classAbstractTimerFunctor" ],
-    [ "SmartRest", "classSmartRest.html", null ],
     [ "SrAgent", "classSrAgent.html", "classSrAgent" ],
     [ "SrBootstrap", "classSrBootstrap.html", "classSrBootstrap" ],
     [ "SrDevicePush", "classSrDevicePush.html", "classSrDevicePush" ],

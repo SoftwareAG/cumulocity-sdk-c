@@ -154,7 +154,7 @@ private:
 
 
 /**
- *  \class SmartRest
+ *  \class SrParser
  *  \brief SmartREST response parser.
  *
  *  As the SmartREST protocol supports message aggregation, multiple SmartREST
@@ -165,7 +165,7 @@ class SrParser
 {
 public:
         /**
-         *  \brief SmartREST constructor. A container for a list of SrRecord.
+         *  \brief SrParser constructor. A container for a list of SrRecord.
          *  \param _s message contains the hold request or response.
          */
         SrParser(const std::string &_s): lex(_s) {}
