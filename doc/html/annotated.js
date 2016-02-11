@@ -2,7 +2,7 @@ var annotated =
 [
     [ "AbstractMsgHandler", "classAbstractMsgHandler.html", "classAbstractMsgHandler" ],
     [ "AbstractTimerFunctor", "classAbstractTimerFunctor.html", "classAbstractTimerFunctor" ],
-    [ "SmartRest", "classSmartRest.html", "classSmartRest" ],
+    [ "SmartRest", "classSmartRest.html", null ],
     [ "SrAgent", "classSrAgent.html", "classSrAgent" ],
     [ "SrBootstrap", "classSrBootstrap.html", "classSrBootstrap" ],
     [ "SrDevicePush", "classSrDevicePush.html", "classSrDevicePush" ],
@@ -15,6 +15,7 @@ var annotated =
     [ "SrNetSocket", "classSrNetSocket.html", "classSrNetSocket" ],
     [ "SrNews", "structSrNews.html", "structSrNews" ],
     [ "SrOpBatch", "structSrOpBatch.html", "structSrOpBatch" ],
+    [ "SrParser", "classSrParser.html", "classSrParser" ],
     [ "SrQueue", "classSrQueue.html", "classSrQueue" ],
     [ "SrRecord", "classSrRecord.html", "classSrRecord" ],
     [ "SrReporter", "classSrReporter.html", "classSrReporter" ],

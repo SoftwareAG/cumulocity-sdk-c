@@ -55,7 +55,17 @@ int registerSrTemplate(const std::string &url, const std::string &auth,
  */
 int registerSrTemplate(SrNetHttp &http, std::string &srv, const std::string &srt);
 
+/**
+ *  \brief Base64 encode (for HTTP basic authorization).
+ *  \param s string for base64 encoding.
+ *  \return Encoded string.
+ */
 std::string b64Encode(const std::string &s);
+/**
+ *  \brief Base64 decode (for HTTP basic authorization)
+ *  \param s string for base64 decoding.
+ *  \return Decoded string.
+ */
 std::string b64Decode(const std::string &s);
 
 #endif /* SRUTILS_H */

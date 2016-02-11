@@ -121,6 +121,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aeb9a10824b41a163083bda543d400a05"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSrNetHttp.html#aeb9a10824b41a163083bda543d400a05">post</a> (const std::string &amp;request)</td></tr>
 <tr class="memdesc:aeb9a10824b41a163083bda543d400a05"><td class="mdescLeft">&#160;</td><td class="mdescRight">HTTP post for SmartREST protocol.  <a href="#aeb9a10824b41a163083bda543d400a05">More...</a><br /></td></tr>
 <tr class="separator:aeb9a10824b41a163083bda543d400a05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4093d31fd4e9cf2ca14157766c68ac84"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSrNetHttp.html#a4093d31fd4e9cf2ca14157766c68ac84">cancel</a> ()</td></tr>
+<tr class="memdesc:a4093d31fd4e9cf2ca14157766c68ac84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cancel the current HTTP transaction.  <a href="#a4093d31fd4e9cf2ca14157766c68ac84">More...</a><br /></td></tr>
+<tr class="separator:a4093d31fd4e9cf2ca14157766c68ac84"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classSrNetInterface"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classSrNetInterface')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classSrNetInterface.html">SrNetInterface</a></td></tr>
 <tr class="memitem:ae63bc1eaa253cbd47d24725cb0ffd902 inherit pub_methods_classSrNetInterface"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSrNetInterface.html#ae63bc1eaa253cbd47d24725cb0ffd902">SrNetInterface</a> (const string &amp;server)</td></tr>
 <tr class="memdesc:ae63bc1eaa253cbd47d24725cb0ffd902 inherit pub_methods_classSrNetInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classSrNetInterface.html" title="Base class of all networking classes. ">SrNetInterface</a> constructor.  <a href="#ae63bc1eaa253cbd47d24725cb0ffd902">More...</a><br /></td></tr>
@@ -246,6 +249,32 @@ char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>size of response on success, -1 on failure. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a4093d31fd4e9cf2ca14157766c68ac84"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SrNetHttp::cancel </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Cancel the current HTTP transaction. </p>
+<p>This is an asynchronous function, ought to be called from another thread since the <a class="el" href="classSrNetHttp.html#aeb9a10824b41a163083bda543d400a05" title="HTTP post for SmartREST protocol. ">post()</a> method will be blocking the current calling thread. This function will always succeed, but as its asynchronous feature, it only guarantees that the HTTP transaction is eventually canceled (normally less than a second). The <a class="el" href="classSrNetHttp.html#aeb9a10824b41a163083bda543d400a05" title="HTTP post for SmartREST protocol. ">post()</a> method will then fail with errNo set to CURLE_ABORTED_BY_CALLBACK. </p>
 
 </div>
 </div>
