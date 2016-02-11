@@ -1,6 +1,5 @@
 #include <srnethttp.h>
 #include <srlogger.h>
-#include <utility>
 using namespace std;
 
 
@@ -65,10 +64,13 @@ SrNetHttp::SrNetHttp(const std::string &server, const std::string &xid,
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &resp);
         curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1);
 
+        // Progress meter, for device push heartbeat. <start, last>
         /* for libcurl older than 7.32.0 */
         curl_easy_setopt(curl, CURLOPT_PROGRESSFUNCTION, progress);
+        curl_easy_setopt(curl, CURLOPT_PROGRESSDATA, &meter);
 #ifdef CURLOPT_XFERINFOFUNCTION
         curl_easy_setopt(curl, CURLOPT_XFERINFOFUNCTION, xferinfo);
+        curl_easy_setopt(curl, CURLOPT_XFERINFODATA, &meter);
 #endif
         curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0);
 }
@@ -82,13 +84,7 @@ int SrNetHttp::post(const std::string &request)
         srDebug("HTTP post: " + request);
         timespec tv = {0, 0};
         clock_gettime(CLOCK_MONOTONIC, &tv);
-        // Progress meter, for device push heartbeat. <start, last>
-        pair<time_t, time_t> meter(tv.tv_sec, tv.tv_sec);
-        /* for libcurl older than 7.32.0 */
-        curl_easy_setopt(curl, CURLOPT_PROGRESSDATA, &meter);
-#ifdef CURLOPT_XFERINFODATA
-        curl_easy_setopt(curl, CURLOPT_XFERINFODATA, &meter);
-#endif
+        meter.first = meter.second = tv.tv_sec;
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, request.c_str());
         curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, request.size());
         errNo = curl_easy_perform(curl);
