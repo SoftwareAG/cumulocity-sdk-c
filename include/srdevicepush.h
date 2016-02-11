@@ -87,6 +87,8 @@ public:
                 if (xids.find(xid) == std::string::npos) {
                         xids += "," + xid;
                         bayeuxPolicy = bayeuxPolicy == 3 ? 2 : bayeuxPolicy;
+                        http.cancel();
+                        srInfo("push: subscribed to XID " + xid);
                 }
         }
         /**
@@ -103,6 +105,8 @@ public:
                 if (pos != std::string::npos) {
                         xids.erase(pos - 1, xid.size() + 1);
                         bayeuxPolicy = bayeuxPolicy == 3 ? 2 : bayeuxPolicy;
+                        http.cancel();
+                        srInfo("push: unsubscribed from XID " + xid);
                 }
         }
 
