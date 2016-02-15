@@ -7,6 +7,9 @@
 #ifndef SR_REPORTER_NUM
 #define SR_REPORTER_NUM 32
 #endif
+#ifndef SR_REPORTER_RETRIES
+#define SR_REPORTER_RETRIES 10
+#endif
 using namespace std;
 
 
@@ -61,7 +64,7 @@ void* SrReporter::func(void *arg)
                         continue;
 
                 // exponential waiting
-                for (uint16_t i = 2; i & 1023; i <<= 1) {
+                for (uint32_t i = 0; i < SR_REPORTER_RETRIES; ++i) {
                         if (rep->http.post(s) >= 0) {
                                 rep->buffer.clear();
                                 const string &resp = rep->http.response();
@@ -71,7 +74,7 @@ void* SrReporter::func(void *arg)
                                 }
                                 break;
                         }
-                        ::sleep(i);
+                        ::sleep(1 << i);
                 }
         }
         return NULL;
