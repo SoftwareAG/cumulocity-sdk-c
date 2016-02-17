@@ -6,6 +6,10 @@
 using namespace std;
 
 
+static int _srLogGetLevel() {return srLogGetLevel();}
+static void _srLogSetLevel(int l) {srLogSetLevel((SrLogLevel)l);}
+
+
 static int appendLuaPath(lua_State *L, const string &path)
 {
         lua_getglobal(L, "package");
@@ -49,6 +53,7 @@ void SrLuaPluginManager::operator()(SrTimer &t, SrAgent &agent)
 
 int SrLuaPluginManager::load(const string &path)
 {
+        srNotice("LuaPM: load " + path);
         lua_State *L = luaL_newstate();
         luaL_openlibs(L);
         appendLuaPath(L, packagePath);
@@ -76,6 +81,16 @@ int SrLuaPluginManager::load(const string &path)
                 .addFunction("value", &SrRecord::value)
                 .addProperty("size", &SrRecord::size)
                 .endClass()
+                .addFunction("srDebug", srDebug)
+                .addFunction("srInfo", srInfo)
+                .addFunction("srNotice", srNotice)
+                .addFunction("srWarning", srWarning)
+                .addFunction("srError", srError)
+                .addFunction("srCritical", srCritical)
+                .addFunction("srLogGetLevel", _srLogGetLevel)
+                .addFunction("srLogSetLevel", _srLogSetLevel)
+                .addFunction("srLogGetQuota", srLogGetQuota)
+                .addFunction("srLogSetQuota", srLogSetQuota)
                 .beginClass<SrNetInterface>("SrNetInterface")
                 .addFunction("response", &SrNetInterface::response)
                 .addFunction("clear", &SrNetInterface::clear)
