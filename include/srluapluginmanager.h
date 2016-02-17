@@ -120,6 +120,18 @@ public:
         void addMsgHandler(SrAgent::MsgID msgid, const string &callback,
                            lua_State *L);
 
+protected:
+        /**
+         *  \brief Initialize the Lua plugin.
+         *
+         *  This is a callback function, which is invoked by the load() function
+         *  after successfully loads the Lua plugin and obtained the lua_State
+         *  handle. This function is ought to be overridden when sub-classing
+         *  SrLuaPluginManager, and tailor the C API exposure for Lua plugins.
+         *
+         *  \param L lua_State handle
+         */
+        virtual void init(lua_State *L);
 private:
         typedef std::pair<lua_State*, std::string> _LuaCallback;
         typedef std::map<SrAgent::MsgID, _LuaCallback> _Handler;

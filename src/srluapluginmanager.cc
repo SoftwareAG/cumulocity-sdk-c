@@ -51,12 +51,8 @@ void SrLuaPluginManager::operator()(SrTimer &t, SrAgent &agent)
 }
 
 
-int SrLuaPluginManager::load(const string &path)
+void SrLuaPluginManager::init(lua_State *L)
 {
-        srNotice("LuaPM: load " + path);
-        lua_State *L = luaL_newstate();
-        luaL_openlibs(L);
-        appendLuaPath(L, packagePath);
         getGlobalNamespace(L)
                 .beginClass<SrLuaPluginManager>("SrLuaPluginManager")
                 .addFunction("addMsgHandler", &SrLuaPluginManager::addMsgHandler)
@@ -103,6 +99,16 @@ int SrLuaPluginManager::load(const string &path)
                 .addFunction("send", &SrNetSocket::sendBuf)
                 .addFunction("recv", &SrNetSocket::recv)
                 .endClass();
+}
+
+
+int SrLuaPluginManager::load(const string &path)
+{
+        srNotice("LuaPM: load " + path);
+        lua_State *L = luaL_newstate();
+        luaL_openlibs(L);
+        appendLuaPath(L, packagePath);
+        init(L);
         push(L, this);
         lua_setglobal(L, "c8y");
         if (luaL_dofile(L, path.c_str()) == 0) {
