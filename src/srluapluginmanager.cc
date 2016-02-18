@@ -99,6 +99,8 @@ void SrLuaPluginManager::init(lua_State *L)
                 .addFunction("send", &SrNetSocket::sendBuf)
                 .addFunction("recv", &SrNetSocket::recv)
                 .endClass();
+        push(L, this);
+        lua_setglobal(L, "c8y");
 }
 
 
@@ -109,8 +111,6 @@ int SrLuaPluginManager::load(const string &path)
         luaL_openlibs(L);
         appendLuaPath(L, packagePath);
         init(L);
-        push(L, this);
-        lua_setglobal(L, "c8y");
         if (luaL_dofile(L, path.c_str()) == 0) {
                 LuaRef f = getGlobal(L, "init");
                 return f();
