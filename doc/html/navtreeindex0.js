@@ -95,6 +95,7 @@ var NAVTREEINDEX0 =
 "classSrLuaPluginManager.html#a559960d04b485837894b534bbc94eb40":[0,7,5],
 "classSrLuaPluginManager.html#a626e35f8bf973c168263db12ca6754f6":[0,7,15],
 "classSrLuaPluginManager.html#a744e1bf9bb88ad721d4a0e348b98b6c1":[0,7,12],
+"classSrLuaPluginManager.html#acb1af30f9cad7f968e557fabe4f655da":[0,7,16],
 "classSrLuaPluginManager.html#ad65b3c8bd8f08ca62c168fa82ae31ae0":[0,7,8],
 "classSrLuaPluginManager.html#adbce39b980f72c97ba588893d81d1470":[0,7,14],
 "classSrLuaPluginManager.html#ade374701dfd98a8dd2be9d98534f22a3":[0,7,11],

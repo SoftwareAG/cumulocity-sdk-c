@@ -34,7 +34,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Cumulocity C++ Library
-   &#160;<span id="projectnumber">0.1</span>
+   &#160;<span id="projectnumber">1.19</span>
    </div>
   </td>
    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
@@ -93,6 +93,7 @@ $(document).ready(function(){initNavTree('classSrLuaPluginManager.html','');});
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="classSrLuaPluginManager-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">SrLuaPluginManager Class Reference</div>  </div>
@@ -167,6 +168,12 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <tr class="memitem:a626e35f8bf973c168263db12ca6754f6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSrLuaPluginManager.html#a626e35f8bf973c168263db12ca6754f6">addMsgHandler</a> (SrAgent::MsgID msgid, const string &amp;callback, lua_State *L)</td></tr>
 <tr class="memdesc:a626e35f8bf973c168263db12ca6754f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a message ID based callback. For Lua plugins only.  <a href="#a626e35f8bf973c168263db12ca6754f6">More...</a><br /></td></tr>
 <tr class="separator:a626e35f8bf973c168263db12ca6754f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:acb1af30f9cad7f968e557fabe4f655da"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSrLuaPluginManager.html#acb1af30f9cad7f968e557fabe4f655da">init</a> (lua_State *L)</td></tr>
+<tr class="memdesc:acb1af30f9cad7f968e557fabe4f655da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the Lua plugin.  <a href="#acb1af30f9cad7f968e557fabe4f655da">More...</a><br /></td></tr>
+<tr class="separator:acb1af30f9cad7f968e557fabe4f655da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Lua plugin manager. </p>
@@ -459,6 +466,39 @@ plugins only" are intended only to be called in Lua plugins. </dd></dl>
     <tr><td class="paramname">msgid</td><td>message ID the callback registers to. </td></tr>
     <tr><td class="paramname">callback</td><td>name of callback function in the Lua plugin. </td></tr>
     <tr><td class="paramname">L</td><td>pointer to the calling Lua plugin. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="acb1af30f9cad7f968e557fabe4f655da"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void SrLuaPluginManager::init </td>
+          <td>(</td>
+          <td class="paramtype">lua_State *&#160;</td>
+          <td class="paramname"><em>L</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Initialize the Lua plugin. </p>
+<p>This is a callback function, which is invoked by the <a class="el" href="classSrLuaPluginManager.html#ad65b3c8bd8f08ca62c168fa82ae31ae0" title="Load a Lua plugin. ">load()</a> function after successfully loads the Lua plugin and obtained the lua_State handle. This function is ought to be overridden when sub-classing <a class="el" href="classSrLuaPluginManager.html" title="Lua plugin manager. ">SrLuaPluginManager</a>, and tailor the C API exposure for Lua plugins.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">L</td><td>lua_State handle </td></tr>
   </table>
   </dd>
 </dl>

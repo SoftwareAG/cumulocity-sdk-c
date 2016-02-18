@@ -15,5 +15,6 @@ var classSrLuaPluginManager =
     [ "get", "classSrLuaPluginManager.html#a744e1bf9bb88ad721d4a0e348b98b6c1", null ],
     [ "getf", "classSrLuaPluginManager.html#a175674789325c7e6df18818637702144", null ],
     [ "addTimer", "classSrLuaPluginManager.html#adbce39b980f72c97ba588893d81d1470", null ],
-    [ "addMsgHandler", "classSrLuaPluginManager.html#a626e35f8bf973c168263db12ca6754f6", null ]
+    [ "addMsgHandler", "classSrLuaPluginManager.html#a626e35f8bf973c168263db12ca6754f6", null ],
+    [ "init", "classSrLuaPluginManager.html#acb1af30f9cad7f968e557fabe4f655da", null ]
 ];
