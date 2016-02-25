@@ -57,14 +57,13 @@ SrNetBinHttp::~SrNetBinHttp() {curl_slist_free_all(chunk);}
 
 int SrNetBinHttp::post(const string &dest, const string &ct, const string &data)
 {
-        srInfo("BinHTTP post: name:" + dest + ", type:" + ct);
-        srDebug(data);
+        srInfo("BinHTTP post: name:" + dest + ", type:" + ct +
+               ", size:" + to_string(data.size()));
         struct curl_httppost *formpost = NULL;
         struct curl_httppost *lastptr = NULL;
-        const string fz = to_string(data.size());
         char obj[256];
         snprintf(obj, sizeof(obj), objfmt, dest.c_str(), ct.c_str());
-        _formadd(&formpost, &lastptr, obj, fz.c_str());
+        _formadd(&formpost, &lastptr, obj, to_string(data.size()).c_str());
         curl_formadd(&formpost, &lastptr, CURLFORM_COPYNAME, "file",
                      CURLFORM_BUFFER, dest.c_str(),
                      CURLFORM_BUFFERPTR, data.c_str(),
@@ -87,10 +86,11 @@ int SrNetBinHttp::post(const string &dest, const string &ct, const string &data)
 
 int SrNetBinHttp::postf(const string &dest, const string &ct, const string &file)
 {
-        srInfo("BinHTTP postf: name:" + dest + ", type:" + ct + " <- " + file);
         struct curl_httppost *formpost = NULL;
         struct curl_httppost *lastptr = NULL;
         const string fz = to_string(getfilesize(file));
+        srInfo("BinHTTP postf: name:" + dest + ", type:" + ct + ", size:" +
+               fz.c_str() + " <- " + file);
         char obj[256];
         snprintf(obj, sizeof(obj), objfmt, dest.c_str(), ct.c_str());
         _formadd(&formpost, &lastptr, obj, fz.c_str());
@@ -122,7 +122,7 @@ int SrNetBinHttp::get(const string &id)
         curl_easy_setopt(curl, CURLOPT_HTTPGET, 1);
         errNo = curl_easy_perform(curl);
         if (errNo == CURLE_OK) {
-                srDebug("BinHTTP get: " + resp);
+                srInfo("BinHTTP get: response size:" + to_string(resp.size()));
                 return resp.size();
         }
         srError(string("BinHTTP get: ") + _errMsg);
@@ -132,17 +132,15 @@ int SrNetBinHttp::get(const string &id)
 
 int SrNetBinHttp::getf(const string &id, const string &dest)
 {
-        srInfo("BinHTTP getf: " + id);
+        srInfo("BinHTTP getf: " + id + " -> " + dest);
         ofstream out(dest);
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, dumpFunc);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &out);
         curl_easy_setopt(curl, CURLOPT_HTTPGET, 1);
         curl_easy_setopt(curl, CURLOPT_URL, (server + id).c_str());
         errNo = curl_easy_perform(curl);
-        if (errNo == CURLE_OK) {
-                srDebug("BinHTTP getf: saved to " + dest);
+        if (errNo == CURLE_OK)
                 return out.tellp();
-        }
         srError(string("BinHTTP getf: ") + _errMsg);
         return -1;
 }
