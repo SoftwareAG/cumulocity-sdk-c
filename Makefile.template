@@ -9,7 +9,7 @@ SRC:=$(wildcard $(SRC_DIR)/*.cc)
 
 LIB_DIR:=lib
 LIBNAME:=libsera
-REALNAME:=$(LIBNAME).so.1.19
+REALNAME:=$(LIBNAME).so.1.20
 SONAME:=$(LIBNAME).so.1
 LINKNAME:=$(LIBNAME).so
 CPPFLAGS+=-Iinclude
