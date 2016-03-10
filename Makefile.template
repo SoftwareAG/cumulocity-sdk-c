@@ -1,4 +1,4 @@
-LUA:=yes
+LUA:=no
 BUILD:=debug
 
 include init.mk
