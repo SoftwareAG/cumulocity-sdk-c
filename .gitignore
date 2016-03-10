@@ -11,3 +11,4 @@ runagent
 .dir-locals.el
 tests/*.txt
 bin
+*~
