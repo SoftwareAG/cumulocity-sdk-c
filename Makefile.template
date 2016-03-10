@@ -37,16 +37,16 @@ endif
 
 .PHONY: all release clean test test_run
 
-all: $(LIB_DIR)/$(REALNAME) watchdog
+all: $(LIB_DIR)/$(REALNAME) bin/srwatchdogd
 	@:
 
 release:
 	make "BUILD=release"
 
 WDT_LDFLAGS:=-flto -fno-exceptions -fno-rtti -fno-stack-protector
-watchdog: $(SRC_DIR)/watchdog/srwatchdogd.cc
+bin/srwatchdogd: $(SRC_DIR)/watchdog/srwatchdogd.cc
 	@mkdir -p bin/
-	$(CXX) -std=c++11 -Os -s -DNDEBUG $^ $(WDT_LDFLAGS) -o bin/srwatchdogd
+	$(CXX) -std=c++11 -Os -s -DNDEBUG $^ $(WDT_LDFLAGS) -o $@
 
 $(LIB_DIR)/$(REALNAME): $(OBJ)
 	@mkdir -p $(LIB_DIR)
