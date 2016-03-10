@@ -18,5 +18,6 @@ var annotated =
     [ "SrQueue", "classSrQueue.html", "classSrQueue" ],
     [ "SrRecord", "classSrRecord.html", "classSrRecord" ],
     [ "SrReporter", "classSrReporter.html", "classSrReporter" ],
-    [ "SrTimer", "classSrTimer.html", "classSrTimer" ]
+    [ "SrTimer", "classSrTimer.html", "classSrTimer" ],
+    [ "SrWatchDogTimer", "classSrWatchDogTimer.html", "classSrWatchDogTimer" ]
 ];

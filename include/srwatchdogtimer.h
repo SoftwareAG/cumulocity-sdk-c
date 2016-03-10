@@ -5,6 +5,14 @@
 #define SR_WDT_SIZE 8
 
 
+/**
+ *  \class SrWatchDogTimer
+ *  \brief Watchdog timer.
+ *
+ *  SrWatchDogTimer is a simple and efficient software watchdog timer
+ *  implementation. It must be used in couple with the srwatchdogd daemon for
+ *  effect.
+ */
 class SrWatchDogTimer
 {
 public:
@@ -16,7 +24,14 @@ public:
                         *shm = 1;
         }
         virtual ~SrWatchDogTimer() {shmdt(shm);}
+        /**
+         *  \brief Start the watchdog timer.
+         *  \return 0 on success, -1 on failure.
+         */
         int start() {return shm ? 0 : -1;};
+        /**
+         *  \brief *Kicking the dog* function. No effect when start() failed.
+         */
         void kick() {if (shm) shm[1] = c++;}
 private:
         char *shm;

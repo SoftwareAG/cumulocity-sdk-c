@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['unsubscribe',['unsubscribe',['../classSrDevicePush.html#a8f6b05904401703ad24787edd567621c',1,'SrDevicePush']]],
-  ['username',['username',['../classSrAgent.html#a03025779ad6b60e71566ff62ed38889e',1,'SrAgent::username()'],['../classSrBootstrap.html#adce970b3eea7c6f4c1fc01fd0faa0059',1,'SrBootstrap::username()']]]
+  ['tenant',['tenant',['../classSrAgent.html#a5cae802bae3dfd05ec3e47213c55c08a',1,'SrAgent::tenant()'],['../classSrBootstrap.html#a7bd8bec78e365b64c7bf3647efc3efa4',1,'SrBootstrap::tenant()']]],
+  ['timeout',['timeout',['../classSrNetInterface.html#a0df40b1ded7e4fbb9027ac34eae2b0b8',1,'SrNetInterface']]],
+  ['type',['type',['../classSrRecord.html#a7e54d45d603c388767628c4078ca0dff',1,'SrRecord']]],
+  ['typeint',['typeInt',['../classSrRecord.html#a11328fc3e55ca9b660b86304e59f8a09',1,'SrRecord']]]
 ];

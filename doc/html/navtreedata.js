@@ -1,6 +1,6 @@
 var NAVTREE =
 [
-  [ "Cumulocity C++ Library", "index.html", [
+  [ "Cumulocity C++ SmartREST Library", "index.html", [
     [ "class", "annotated.html", "annotated" ],
     [ "header", "files.html", "files" ],
     [ "global", "globals.html", [

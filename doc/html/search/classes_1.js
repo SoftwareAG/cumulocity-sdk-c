@@ -18,5 +18,6 @@ var searchData=
   ['srqueue_3c_20sropbatch_20_3e',['SrQueue&lt; SrOpBatch &gt;',['../classSrQueue.html',1,'']]],
   ['srrecord',['SrRecord',['../classSrRecord.html',1,'']]],
   ['srreporter',['SrReporter',['../classSrReporter.html',1,'']]],
-  ['srtimer',['SrTimer',['../classSrTimer.html',1,'']]]
+  ['srtimer',['SrTimer',['../classSrTimer.html',1,'']]],
+  ['srwatchdogtimer',['SrWatchDogTimer',['../classSrWatchDogTimer.html',1,'']]]
 ];
