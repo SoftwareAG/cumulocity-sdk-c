@@ -19,5 +19,5 @@ var searchData=
   ['srrecord',['SrRecord',['../classSrRecord.html',1,'']]],
   ['srreporter',['SrReporter',['../classSrReporter.html',1,'']]],
   ['srtimer',['SrTimer',['../classSrTimer.html',1,'']]],
-  ['srwatchdogtimer',['SrWatchDogTimer',['../classSrWatchDogTimer.html',1,'']]]
+  ['srwatchdogtimer',['SrWatchdogTimer',['../classSrWatchdogTimer.html',1,'']]]
 ];

@@ -36,7 +36,7 @@ var searchData=
   ['srreporter',['SrReporter',['../classSrReporter.html#a90fc2fb6dc654cad7ec22da32495bcc7',1,'SrReporter']]],
   ['srtimer',['SrTimer',['../classSrTimer.html#a34b099913f5920ab29d72009f2e8b4c7',1,'SrTimer']]],
   ['srwarning',['srWarning',['../srlogger_8h.html#a9035e4bba60e3e34afb8ca6a1b841349',1,'srlogger.h']]],
-  ['start',['start',['../classSrDevicePush.html#a4196feba9d48011b274478d343948674',1,'SrDevicePush::start()'],['../classSrReporter.html#af53d3618f1c459921cdeeded86ecbac5',1,'SrReporter::start()'],['../classSrTimer.html#ab6bcaa98ff30138ab349cd9430944165',1,'SrTimer::start()'],['../classSrWatchDogTimer.html#aec1fafb45b9765c8cf8a915d0ce7d5c9',1,'SrWatchDogTimer::start()']]],
+  ['start',['start',['../classSrDevicePush.html#a4196feba9d48011b274478d343948674',1,'SrDevicePush::start()'],['../classSrReporter.html#af53d3618f1c459921cdeeded86ecbac5',1,'SrReporter::start()'],['../classSrTimer.html#ab6bcaa98ff30138ab349cd9430944165',1,'SrTimer::start()'],['../classSrWatchdogTimer.html#ab96bfee0e3f32b000352340955c022f7',1,'SrWatchdogTimer::start()']]],
   ['stop',['stop',['../classSrTimer.html#a389cc0fe771270a45cdc46ae1a8f89c9',1,'SrTimer']]],
   ['subscribe',['subscribe',['../classSrDevicePush.html#a7d5b69759938024dc2827c28e8d4fdbf',1,'SrDevicePush::subscribe(const std::string &amp;xid)'],['../classSrDevicePush.html#a33aa0a330c47e9b206dc5ccbf7dc4e03',1,'SrDevicePush::subscribe()']]]
 ];

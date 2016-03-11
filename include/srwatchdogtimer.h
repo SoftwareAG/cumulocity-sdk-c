@@ -6,10 +6,10 @@
 
 
 /**
- *  \class SrWatchDogTimer
+ *  \class SrWatchdogTimer
  *  \brief Watchdog timer.
  *
- *  SrWatchDogTimer is a simple and efficient software watchdog timer
+ *  SrWatchdogTimer is a simple and efficient software watchdog timer
  *  implementation. It must be used in couple with the srwatchdogd daemon for
  *  effect.
  */
@@ -30,7 +30,7 @@ public:
          */
         int start() {return shm ? 0 : -1;};
         /**
-         *  \brief *Kicking the dog* function. No effect when start() failed.
+         *  \brief *Kicking the dog*. No effect when start() failed.
          */
         void kick() {if (shm) shm[1] = c++;}
 private:
