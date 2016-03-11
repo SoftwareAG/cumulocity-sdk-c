@@ -63,7 +63,8 @@ int SrNetBinHttp::post(const string &dest, const string &ct, const string &data)
         struct curl_httppost *lastptr = NULL;
         char obj[256];
         snprintf(obj, sizeof(obj), objfmt, dest.c_str(), ct.c_str());
-        _formadd(&formpost, &lastptr, obj, to_string(data.size()).c_str());
+        const string fz = to_string(data.size());
+        _formadd(&formpost, &lastptr, obj, fz.c_str());
         curl_formadd(&formpost, &lastptr, CURLFORM_COPYNAME, "file",
                      CURLFORM_BUFFER, dest.c_str(),
                      CURLFORM_BUFFERPTR, data.c_str(),
