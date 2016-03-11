@@ -56,13 +56,15 @@ make release
 
 make clean
 ```
-* I don't want *Lua* support, how can I build the library without *Lua*?  
-  *Lua* support is enabled by default, to build the library without *Lua* support, try:
+* How can I enable *Lua* support when building the library?  
+  *Lua* support is disabled by default, to enable *Lua* support, add:
 
 ```
 #!bash
 
-make LUA=no
+LUA=no
 ```
+  to your init.mk.
+
 * How can I contact Cumulocity in case I have questions?  
   You can reach us by email at support@cumulocity.com
