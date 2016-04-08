@@ -34,18 +34,42 @@ void *SrDevicePush::func(void *arg)
                         break;
                 case 1: push->http.clear();
                         if (push->handshake() == -1) {
+                                string err = "10000,";
+                                if (push->http.response().empty()) {
+                                        err += "0,";
+                                        err += to_string(push->http.errNo);
+                                } else {
+                                        err += "1," + push->http.response();
+                                }
+                                push->queue.put(SrOpBatch(err));
                                 ::sleep(10);
                                 srWarning("push: handshake failed!");
                                 break;
                         }
                 case 2: push->http.clear();
                         if (push->subscribe() == -1) {
+                                string err = "10001,";
+                                if (push->http.response().empty()) {
+                                        err += "0,";
+                                        err += to_string(push->http.errNo);
+                                } else {
+                                        err = "1," + push->http.response();
+                                }
+                                push->queue.put(SrOpBatch(err));
                                 ::sleep(10);
                                 srWarning("push: subscribe failed!");
                                 break;
                         }
                 case 3: push->http.clear();
                         if (push->connect() == -1) {
+                                string err = "10002,";
+                                if (push->http.response().empty()) {
+                                        err += "0,";
+                                        err += to_string(push->http.errNo);
+                                } else {
+                                        err = "1," + push->http.response();
+                                }
+                                push->queue.put(SrOpBatch(err));
                                 ::sleep(10);
                                 srWarning("push: connect failed!");
                         } else {
