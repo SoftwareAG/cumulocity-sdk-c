@@ -69,6 +69,7 @@ void SrLuaPluginManager::init(lua_State *L)
                 .beginClass<SrTimer>("SrTimer")
                 .addFunction("start", &SrTimer::start)
                 .addFunction("stop", &SrTimer::stop)
+                .addProperty("isActive", &SrTimer::isActive)
                 .addProperty("interval", &SrTimer::interval,
                              &SrTimer::setInterval)
                 .endClass()

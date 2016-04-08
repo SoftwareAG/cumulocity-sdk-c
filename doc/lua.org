@@ -1,8 +1,8 @@
 #+TITLE: Cumulocity C++ Library: Lua Plugin Documentation
-#+AUTHOR: Cumulocity
+#+AUTHOR: Cumulocity GmbH
 #+EMAIL: support@cumulocity.com
 #+OPTIONS: html-link-use-abs-url:nil html-postamble:t html-preamble:t
-#+OPTIONS: html-scripts:t html-style:t html5-fancy:nil tex:t
+#+OPTIONS: html-scripts:t html-style:t html5-fancy:t tex:t
 #+OPTIONS: creator:nil
 #+HTML_CONTAINER: div
 #+HTML_DOCTYPE: xhtml-strict
@@ -30,6 +30,10 @@ All Lua plugins are managed by a single Lua plugin manager. The Lua plugin manag
   - timer:stop()
 
     Stop a timer object. /timer/ becomes inactive.
+
+  - timer.isActive
+
+    Boolean property indicating whether the /timer/ is active or not.
 
   - timer.interval
 
