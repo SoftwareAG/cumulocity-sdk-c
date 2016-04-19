@@ -10,8 +10,8 @@ if [ "$1" == "" -o "$1" == "-h" ]; then
     echo "$USAGE"
 elif [ "$1" == "ask" ]; then
     echo -n "libsera: "
-    grep 'REALNAME:=' Makefile | cut -c 25-
+    grep 'REALNAME:=' Makefile | cut -c 21-
 else
-    sed -i --follow-symlinks '/REALNAME:=/c\REALNAME:=$(LIBNAME).so.'"$1" Makefile
+    sed -i --follow-symlinks '/REALNAME:=/c\REALNAME:=$(SONAME).'"$1" Makefile
     sed -i --follow-symlinks "/PROJECT_NUMBER/c\PROJECT_NUMBER         = $1" Doxyfile
 fi
