@@ -10,7 +10,7 @@ SRC:=$(wildcard $(SRC_DIR)/*.cc)
 LIB_DIR:=lib
 LIBNAME:=libsera.so
 SONAME:=$(LIBNAME).1
-REALNAME:=$(SONAME).1.20
+REALNAME:=$(SONAME).1.21
 CPPFLAGS+=-Iinclude
 CXXFLAGS+=-std=c++11 -fPIC -pthread -MMD
 LDFLAGS+=-Wl,-soname,$(SONAME) -Wl,--no-undefined -shared
