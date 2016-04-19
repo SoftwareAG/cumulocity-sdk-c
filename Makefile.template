@@ -53,7 +53,7 @@ $(LIB_DIR)/$(REALNAME): $(OBJ)
 	@echo "(LD) $@"
 	@$(CXX) $(LDFLAGS) $^ $(LDLIBS) -o $@
 	@cd $(LIB_DIR) && ln -fs $(REALNAME) $(SONAME)
-	@cd $(LIB_DIR) && ln -fs $(SONAME) $(LINKNAME)
+	@cd $(LIB_DIR) && ln -fs $(SONAME) $(LIBNAME)
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cc
 	@mkdir -p $(BUILD_DIR)
