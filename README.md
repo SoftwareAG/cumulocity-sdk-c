@@ -62,7 +62,7 @@ make clean
 ```
 #!bash
 
-LUA=no
+SR_PLUGIN_LUA:=1
 ```
   to your init.mk.
 
