@@ -16,9 +16,7 @@ CXXFLAGS+=-std=c++11 -fPIC -pthread -MMD
 LDFLAGS+=-Wl,-soname,$(SONAME) -Wl,--no-undefined -shared
 LDLIBS+=-pthread
 
-ifeq ($(SR_PLUGIN_LUA), 1)
-CPPFLAGS+=-Iext/LuaBridge/Source/LuaBridge
-else
+ifeq ($(SR_PLUGIN_LUA), 0)
 SRC:=$(filter-out src/srluapluginmanager.cc,$(SRC))
 endif
 

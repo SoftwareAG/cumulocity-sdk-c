@@ -6,7 +6,7 @@ extern "C" {
 #include <lauxlib.h>
 #include <lualib.h>
 }
-#include <LuaBridge.h>
+#include "../ext/LuaBridge/Source/LuaBridge/LuaBridge.h"
 #include "sragent.h"
 #include "srnetbinhttp.h"
 using namespace luabridge;
