@@ -12,3 +12,7 @@ runagent
 tests/*.txt
 bin
 *~
+**.fls
+**.fdb_latexmk
+**.tex
+_minted-devguide
