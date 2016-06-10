@@ -16,3 +16,5 @@ bin
 **.fdb_latexmk
 **.tex
 _minted-devguide
+*.lol
+*.lot
