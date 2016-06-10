@@ -25,7 +25,7 @@ using namespace luabridge;
  *  \note In the following documentation, function annotated with "For Lua
  *  plugins only" are intended only to be called in Lua plugins.
  */
-class SrLuaPluginManager: public AbstractTimerFunctor, public AbstractMsgHandler
+class SrLuaPluginManager: public SrTimerHandler, public SrMsgHandler
 {
 private:
         using string = std::string;

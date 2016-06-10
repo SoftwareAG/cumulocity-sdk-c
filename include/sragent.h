@@ -9,13 +9,13 @@
 
 
 /**
- *  \class AbstractMsgHandler
+ *  \class SrMsgHandler
  *  \brief Virtual abstract functor for SmartREST message callbacks.
  */
-class AbstractMsgHandler
+class SrMsgHandler
 {
 public:
-        virtual ~AbstractMsgHandler() {}
+        virtual ~SrMsgHandler() {}
         /**
          *  \brief SmartREST message handler interface.
          *  \param r the SmartREST message tokenized into an SrRecord.
@@ -23,6 +23,8 @@ public:
          */
         virtual void operator()(SrRecord &r, SrAgent &agent) = 0;
 };
+
+typedef SrMsgHandler AbstractMsgHandler;
 
 
 /**
@@ -144,7 +146,7 @@ public:
          *  \param msgid the message ID.
          *  \param functor pointer to a message handler.
          */
-        void addMsgHandler(MsgID msgid, AbstractMsgHandler *functor) {
+        void addMsgHandler(MsgID msgid, SrMsgHandler *functor) {
                 handlers[msgid] = functor;
         }
         /**
@@ -157,7 +159,7 @@ public:
          *  \param msgxid XID of the SmartREST template.
          *  \param msgid the message ID
          */
-        void addXMsgHandler(MsgXID msgxid, MsgID msgid, AbstractMsgHandler *f) {
+        void addXMsgHandler(MsgXID msgxid, MsgID msgid, SrMsgHandler *f) {
                 sh[XMsgID(msgxid, msgid)] = f;
         }
 
@@ -175,9 +177,9 @@ private:
         void processMessages();
 
 private:
-        typedef std::map<MsgID, AbstractMsgHandler*> _Handler;
+        typedef std::map<MsgID, SrMsgHandler*> _Handler;
         typedef std::pair<MsgXID, MsgID> XMsgID;
-        typedef std::map<XMsgID, AbstractMsgHandler*> _XHandler;
+        typedef std::map<XMsgID, SrMsgHandler*> _XHandler;
         typedef std::vector<SrTimer*> _Timer;
         typedef _Timer::iterator _TimerIter;
         _Timer timers;

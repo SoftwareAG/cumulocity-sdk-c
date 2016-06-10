@@ -1,4 +1,4 @@
 <map id="SrLuaPluginManager" name="SrLuaPluginManager">
-<area shape="rect" id="node2" href="$classAbstractTimerFunctor.html" title="Virtual abstract functor for the SrTimer callback interface. " alt="" coords="5,5,153,32"/>
-<area shape="rect" id="node3" href="$classAbstractMsgHandler.html" title="Virtual abstract functor for SmartREST message callbacks. " alt="" coords="177,5,318,32"/>
+<area shape="rect" id="node2" href="$classSrTimerHandler.html" title="Virtual abstract functor for the SrTimer callback interface. " alt="" coords="5,5,119,32"/>
+<area shape="rect" id="node3" href="$classSrMsgHandler.html" title="Virtual abstract functor for SmartREST message callbacks. " alt="" coords="143,5,248,32"/>
 </map>

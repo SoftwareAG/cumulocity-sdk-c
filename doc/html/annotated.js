@@ -1,13 +1,12 @@
 var annotated =
 [
-    [ "AbstractMsgHandler", "classAbstractMsgHandler.html", "classAbstractMsgHandler" ],
-    [ "AbstractTimerFunctor", "classAbstractTimerFunctor.html", "classAbstractTimerFunctor" ],
     [ "SrAgent", "classSrAgent.html", "classSrAgent" ],
     [ "SrBootstrap", "classSrBootstrap.html", "classSrBootstrap" ],
     [ "SrDevicePush", "classSrDevicePush.html", "classSrDevicePush" ],
     [ "SrIntegrate", "classSrIntegrate.html", "classSrIntegrate" ],
     [ "SrLexer", "classSrLexer.html", "classSrLexer" ],
     [ "SrLuaPluginManager", "classSrLuaPluginManager.html", "classSrLuaPluginManager" ],
+    [ "SrMsgHandler", "classSrMsgHandler.html", "classSrMsgHandler" ],
     [ "SrNetBinHttp", "classSrNetBinHttp.html", "classSrNetBinHttp" ],
     [ "SrNetHttp", "classSrNetHttp.html", "classSrNetHttp" ],
     [ "SrNetInterface", "classSrNetInterface.html", "classSrNetInterface" ],
@@ -19,5 +18,6 @@ var annotated =
     [ "SrRecord", "classSrRecord.html", "classSrRecord" ],
     [ "SrReporter", "classSrReporter.html", "classSrReporter" ],
     [ "SrTimer", "classSrTimer.html", "classSrTimer" ],
+    [ "SrTimerHandler", "classSrTimerHandler.html", "classSrTimerHandler" ],
     [ "SrWatchdogTimer", "classSrWatchdogTimer.html", "classSrWatchdogTimer" ]
 ];

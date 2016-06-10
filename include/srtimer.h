@@ -16,13 +16,13 @@ class SrAgent;
 bool operator<=(const timespec &l, const timespec &r);
 
 /**
- *  \class AbstractTimerFunctor
+ *  \class SrTimerHandler
  *  \brief Virtual abstract functor for the SrTimer callback interface.
  */
-class AbstractTimerFunctor
+class SrTimerHandler
 {
 public:
-        virtual ~AbstractTimerFunctor() {}
+        virtual ~SrTimerHandler() {}
         /**
          *  \brief SrTimer callback interface.
          *  \param timer reference to the SrTimer which fires the callback.
@@ -30,6 +30,8 @@ public:
          */
         virtual void operator()(SrTimer &timer, SrAgent &agent) = 0;
 };
+
+typedef SrTimerHandler AbstractTimerFunctor;
 
 
 /**
@@ -46,7 +48,7 @@ public:
          *  \param millisec timer period in milliseconds.
          *  \param callback functor to be executed when the timer fires.
          */
-        SrTimer(int millisec, AbstractTimerFunctor *callback = NULL):
+        SrTimer(int millisec, SrTimerHandler *callback = NULL):
                 cb(callback), val(millisec), active(false) {}
         virtual ~SrTimer() {}
 
@@ -91,9 +93,9 @@ public:
          *  overwritten if any. Calling this function with NULL resets the
          *  callback.
          *
-         *  \param functor A subclass of AbstractTimerFunctor.
+         *  \param functor A subclass of SrTimerHandler.
          */
-        void connect(AbstractTimerFunctor *functor) {cb = functor;}
+        void connect(SrTimerHandler *functor) {cb = functor;}
         /**
          *  \brief Start the timer.
          *
@@ -112,8 +114,7 @@ public:
         void stop() {active = false;}
 
 private:
-        typedef AbstractTimerFunctor*  Callback;
-        Callback cb;
+        SrTimerHandler *cb;
         timespec beg;
         timespec end;
         int val;

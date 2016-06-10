@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>Cumulocity C++ SmartREST Library: Class Index</title>
+<title>Cumulocity C++ SmartREST Library: SrTimerHandler Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -73,7 +73,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('classes.html','');});
+$(document).ready(function(){initNavTree('classSrTimerHandler.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -91,27 +91,80 @@ $(document).ready(function(){initNavTree('classes.html','');});
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="classSrTimerHandler-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">Class Index</div>  </div>
+<div class="title">SrTimerHandler Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="qindex"><a class="qindex" href="#letter_S">S</a></div>
-<table class="classindex">
-<tr><td rowspan="2" valign="bottom"><a name="letter_S"></a><table border="0" cellspacing="0" cellpadding="0"><tr><td><div class="ah">&#160;&#160;S&#160;&#160;</div></td></tr></table>
-</td><td valign="top"><a class="el" href="classSrIntegrate.html">SrIntegrate</a>&#160;&#160;&#160;</td><td valign="top"><a class="el" href="classSrNetHttp.html">SrNetHttp</a>&#160;&#160;&#160;</td><td valign="top"><a class="el" href="classSrParser.html">SrParser</a>&#160;&#160;&#160;</td><td valign="top"><a class="el" href="classSrTimerHandler.html">SrTimerHandler</a>&#160;&#160;&#160;</td></tr>
-<tr><td valign="top"><a class="el" href="classSrLexer.html">SrLexer</a>&#160;&#160;&#160;</td><td valign="top"><a class="el" href="classSrNetInterface.html">SrNetInterface</a>&#160;&#160;&#160;</td><td valign="top"><a class="el" href="classSrQueue.html">SrQueue</a>&#160;&#160;&#160;</td><td valign="top"><a class="el" href="classSrWatchdogTimer.html">SrWatchdogTimer</a>&#160;&#160;&#160;</td></tr>
-<tr><td valign="top"><a class="el" href="classSrAgent.html">SrAgent</a>&#160;&#160;&#160;</td><td valign="top"><a class="el" href="classSrLuaPluginManager.html">SrLuaPluginManager</a>&#160;&#160;&#160;</td><td valign="top"><a class="el" href="classSrNetSocket.html">SrNetSocket</a>&#160;&#160;&#160;</td><td valign="top"><a class="el" href="classSrRecord.html">SrRecord</a>&#160;&#160;&#160;</td><td></td></tr>
-<tr><td valign="top"><a class="el" href="classSrBootstrap.html">SrBootstrap</a>&#160;&#160;&#160;</td><td valign="top"><a class="el" href="classSrMsgHandler.html">SrMsgHandler</a>&#160;&#160;&#160;</td><td valign="top"><a class="el" href="structSrNews.html">SrNews</a>&#160;&#160;&#160;</td><td valign="top"><a class="el" href="classSrReporter.html">SrReporter</a>&#160;&#160;&#160;</td><td></td></tr>
-<tr><td valign="top"><a class="el" href="classSrDevicePush.html">SrDevicePush</a>&#160;&#160;&#160;</td><td valign="top"><a class="el" href="classSrNetBinHttp.html">SrNetBinHttp</a>&#160;&#160;&#160;</td><td valign="top"><a class="el" href="structSrOpBatch.html">SrOpBatch</a>&#160;&#160;&#160;</td><td valign="top"><a class="el" href="classSrTimer.html">SrTimer</a>&#160;&#160;&#160;</td><td></td></tr>
-<tr><td></td><td></td><td></td><td></td><td></td></tr>
+
+<p>Virtual abstract functor for the <a class="el" href="classSrTimer.html" title="A periodical timer with millisecond resolution. ">SrTimer</a> callback interface.  
+ <a href="classSrTimerHandler.html#details">More...</a></p>
+
+<p><code>#include &lt;srtimer.h&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:ac3a3c826bb2492d2870f6f568b7b6595"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSrTimerHandler.html#ac3a3c826bb2492d2870f6f568b7b6595">operator()</a> (<a class="el" href="classSrTimer.html">SrTimer</a> &amp;timer, <a class="el" href="classSrAgent.html">SrAgent</a> &amp;agent)=0</td></tr>
+<tr class="memdesc:ac3a3c826bb2492d2870f6f568b7b6595"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classSrTimer.html" title="A periodical timer with millisecond resolution. ">SrTimer</a> callback interface.  <a href="#ac3a3c826bb2492d2870f6f568b7b6595">More...</a><br /></td></tr>
+<tr class="separator:ac3a3c826bb2492d2870f6f568b7b6595"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<div class="qindex"><a class="qindex" href="#letter_S">S</a></div>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Virtual abstract functor for the <a class="el" href="classSrTimer.html" title="A periodical timer with millisecond resolution. ">SrTimer</a> callback interface. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="ac3a3c826bb2492d2870f6f568b7b6595"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void SrTimerHandler::operator() </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classSrTimer.html">SrTimer</a> &amp;&#160;</td>
+          <td class="paramname"><em>timer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classSrAgent.html">SrAgent</a> &amp;&#160;</td>
+          <td class="paramname"><em>agent</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><a class="el" href="classSrTimer.html" title="A periodical timer with millisecond resolution. ">SrTimer</a> callback interface. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">timer</td><td>reference to the <a class="el" href="classSrTimer.html" title="A periodical timer with millisecond resolution. ">SrTimer</a> which fires the callback. </td></tr>
+    <tr><td class="paramname">agent</td><td>reference to the <a class="el" href="classSrAgent.html" title="Main implementation of a device agent. ">SrAgent</a> instance. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implemented in <a class="el" href="classSrLuaPluginManager.html#af50c5cc6557d71b78a7152adabd9718f">SrLuaPluginManager</a>.</p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.10-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="classSrTimerHandler.html">SrTimerHandler</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>

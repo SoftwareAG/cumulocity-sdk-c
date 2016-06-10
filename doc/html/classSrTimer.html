@@ -106,9 +106,9 @@ $(document).ready(function(){initNavTree('classSrTimer.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a34b099913f5920ab29d72009f2e8b4c7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSrTimer.html#a34b099913f5920ab29d72009f2e8b4c7">SrTimer</a> (int millisec, <a class="el" href="classAbstractTimerFunctor.html">AbstractTimerFunctor</a> *callback=NULL)</td></tr>
-<tr class="memdesc:a34b099913f5920ab29d72009f2e8b4c7"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classSrTimer.html" title="A periodical timer with millisecond resolution. ">SrTimer</a> constructor.  <a href="#a34b099913f5920ab29d72009f2e8b4c7">More...</a><br /></td></tr>
-<tr class="separator:a34b099913f5920ab29d72009f2e8b4c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:addc7e5b519f462c7eee0fee526534c76"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSrTimer.html#addc7e5b519f462c7eee0fee526534c76">SrTimer</a> (int millisec, <a class="el" href="classSrTimerHandler.html">SrTimerHandler</a> *callback=NULL)</td></tr>
+<tr class="memdesc:addc7e5b519f462c7eee0fee526534c76"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classSrTimer.html" title="A periodical timer with millisecond resolution. ">SrTimer</a> constructor.  <a href="#addc7e5b519f462c7eee0fee526534c76">More...</a><br /></td></tr>
+<tr class="separator:addc7e5b519f462c7eee0fee526534c76"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af8be50525b56c0f4e15d22adeb88b00f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSrTimer.html#af8be50525b56c0f4e15d22adeb88b00f">isActive</a> () const </td></tr>
 <tr class="memdesc:af8be50525b56c0f4e15d22adeb88b00f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the timer is active.  <a href="#af8be50525b56c0f4e15d22adeb88b00f">More...</a><br /></td></tr>
 <tr class="separator:af8be50525b56c0f4e15d22adeb88b00f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -127,9 +127,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5464fd60d1b173e1b9b376e63869fb3e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSrTimer.html#a5464fd60d1b173e1b9b376e63869fb3e">setInterval</a> (int millisec)</td></tr>
 <tr class="memdesc:a5464fd60d1b173e1b9b376e63869fb3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the period to millisec for the timer.  <a href="#a5464fd60d1b173e1b9b376e63869fb3e">More...</a><br /></td></tr>
 <tr class="separator:a5464fd60d1b173e1b9b376e63869fb3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a608afb89a75a290a53207e6cc9b978e3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSrTimer.html#a608afb89a75a290a53207e6cc9b978e3">connect</a> (<a class="el" href="classAbstractTimerFunctor.html">AbstractTimerFunctor</a> *functor)</td></tr>
-<tr class="memdesc:a608afb89a75a290a53207e6cc9b978e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connect callback functor to the timer.  <a href="#a608afb89a75a290a53207e6cc9b978e3">More...</a><br /></td></tr>
-<tr class="separator:a608afb89a75a290a53207e6cc9b978e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8cb0ed1fd672a8e81835838777988da"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSrTimer.html#af8cb0ed1fd672a8e81835838777988da">connect</a> (<a class="el" href="classSrTimerHandler.html">SrTimerHandler</a> *functor)</td></tr>
+<tr class="memdesc:af8cb0ed1fd672a8e81835838777988da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connect callback functor to the timer.  <a href="#af8cb0ed1fd672a8e81835838777988da">More...</a><br /></td></tr>
+<tr class="separator:af8cb0ed1fd672a8e81835838777988da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab6bcaa98ff30138ab349cd9430944165"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSrTimer.html#ab6bcaa98ff30138ab349cd9430944165">start</a> ()</td></tr>
 <tr class="memdesc:ab6bcaa98ff30138ab349cd9430944165"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start the timer.  <a href="#ab6bcaa98ff30138ab349cd9430944165">More...</a><br /></td></tr>
 <tr class="separator:ab6bcaa98ff30138ab349cd9430944165"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -141,7 +141,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A periodical timer with millisecond resolution. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a34b099913f5920ab29d72009f2e8b4c7"></a>
+<a class="anchor" id="addc7e5b519f462c7eee0fee526534c76"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -157,7 +157,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classAbstractTimerFunctor.html">AbstractTimerFunctor</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="classSrTimerHandler.html">SrTimerHandler</a> *&#160;</td>
           <td class="paramname"><em>callback</em> = <code>NULL</code>&#160;</td>
         </tr>
         <tr>
@@ -357,7 +357,7 @@ Set a negative interval causes undefined behavior.</dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a608afb89a75a290a53207e6cc9b978e3"></a>
+<a class="anchor" id="af8cb0ed1fd672a8e81835838777988da"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -367,7 +367,7 @@ Set a negative interval causes undefined behavior.</dd></dl>
         <tr>
           <td class="memname">void SrTimer::connect </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classAbstractTimerFunctor.html">AbstractTimerFunctor</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="classSrTimerHandler.html">SrTimerHandler</a> *&#160;</td>
           <td class="paramname"><em>functor</em></td><td>)</td>
           <td></td>
         </tr>
@@ -383,7 +383,7 @@ Set a negative interval causes undefined behavior.</dd></dl>
 <p>The functor is called when the timer is fired. The old callback is overwritten if any. Calling this function with NULL resets the callback.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">functor</td><td>A subclass of <a class="el" href="classAbstractTimerFunctor.html" title="Virtual abstract functor for the SrTimer callback interface. ">AbstractTimerFunctor</a>. </td></tr>
+    <tr><td class="paramname">functor</td><td>A subclass of <a class="el" href="classSrTimerHandler.html" title="Virtual abstract functor for the SrTimer callback interface. ">SrTimerHandler</a>. </td></tr>
   </table>
   </dd>
 </dl>

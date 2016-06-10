@@ -17,8 +17,8 @@ var classSrAgent =
     [ "send", "classSrAgent.html#a3a9bc213877e949f1671385473b5839b", null ],
     [ "loop", "classSrAgent.html#a89e89dfb8c859f3eeb2448684461e95f", null ],
     [ "addTimer", "classSrAgent.html#ab845fe6b40039f580d5eb0216dd2fa36", null ],
-    [ "addMsgHandler", "classSrAgent.html#a49bf6d256f2936b91690928471c5bd49", null ],
-    [ "addXMsgHandler", "classSrAgent.html#a8884ffcdf857fd63fa44bf271aae6069", null ],
+    [ "addMsgHandler", "classSrAgent.html#aa515b8cade20a6a58d4ead4682e28632", null ],
+    [ "addXMsgHandler", "classSrAgent.html#a3e471ebb09bd8c89a63828e8d3b17672", null ],
     [ "ingress", "classSrAgent.html#acff6edc6927d1eb52cc4110e9a337a2c", null ],
     [ "egress", "classSrAgent.html#abf68a407c98ef6cd4d9b504a58a0d62b", null ]
 ];
