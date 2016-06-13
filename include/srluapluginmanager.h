@@ -1,5 +1,6 @@
 #ifndef SRLUAPLUGINMANAGER_H
 #define SRLUAPLUGINMANAGER_H
+#include <algorithm>
 #include <map>
 extern "C" {
 #include <lua.h>
@@ -36,11 +37,7 @@ public:
          */
         SrLuaPluginManager(SrAgent &agent):
                 agent(agent), net(agent.server(), agent.auth()) {}
-        virtual ~SrLuaPluginManager() {
-                for (auto it = timers.begin(); it != timers.end(); ++it)
-                        delete it->first;
-        }
-
+        virtual ~SrLuaPluginManager();
         /**
          *  \brief Bridging function for schedule all Lua message ID callbacks.
          *  \param r reference to the SmartREST record triggers this callback.

@@ -24,6 +24,20 @@ static int appendLuaPath(lua_State *L, const string &path)
 }
 
 
+SrLuaPluginManager::~SrLuaPluginManager()
+{
+        std::vector<lua_State*> vec;
+        for (auto it = timers.begin(); it != timers.end(); ++it) {
+                delete it->first;
+                auto L = it->second.first;
+                if (std::find(vec.begin(), vec.end(), L) == vec.end()) {
+                        lua_close(L);
+                        vec.push_back(L);
+                }
+        }
+}
+
+
 void SrLuaPluginManager::operator()(SrRecord &r, SrAgent &agent)
 {
         UNUSED(agent);
