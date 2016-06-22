@@ -1,7 +1,7 @@
 //------------------------------------------------------------------------------
 /*
   https://github.com/vinniefalco/LuaBridge
-  
+
   Copyright 2012, Vinnie Falco <vinnie.falco@gmail.com>
 
   License: The MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -64,6 +64,7 @@ public:
   Iterator& operator++ ()
   {
     int result = 0;//lua_next (m_L);
+    (void)result;
     return *this;
   }
 
@@ -86,4 +87,3 @@ private:
   // Don't use postfix increment, it is less efficient
   Iterator operator++ (int);
 };
-
