@@ -34,7 +34,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Cumulocity C++ SmartREST Library
-   &#160;<span id="projectnumber">1.21</span>
+   &#160;<span id="projectnumber">1.22</span>
    </div>
   </td>
    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
@@ -138,8 +138,10 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 </div><div class="memdoc">
 
 <p>request priority. </p>
-<p>0 means no buffering, request will be discarded if the <a class="el" href="classSrReporter.html" title="The reporter thread for sending all requests to Cumulocity. ">SrReporter</a> can not send it after multiple trials. 1 means buffering, request will be buffered and retried later if the <a class="el" href="classSrReporter.html" title="The reporter thread for sending all requests to Cumulocity. ">SrReporter</a> thread fails to send the request.</p>
-<dl class="section note"><dt>Note</dt><dd>Buffering still does not mean 100% guarantee, as the buffer of the <a class="el" href="classSrReporter.html" title="The reporter thread for sending all requests to Cumulocity. ">SrReporter</a> has an explicit capacity. Buffered old requests will be discarded if the capacity is exhausted. </dd></dl>
+<p><em>0</em>: default.</p>
+<p><em>SR_PRIO_BUF:</em> request will be buffered if send fails, and will be re-tried latter. Buffering still does not mean 100% guarantee, as the buffer of the <a class="el" href="classSrReporter.html" title="The reporter thread for sending all requests to Cumulocity. ">SrReporter</a> has an explicit capacity. Old requests will be discarded if the capacity is exhausted.</p>
+<p><em>SR_PRIO_XID:</em> request uses a different template XID than <a class="el" href="classSrAgent.html#ac97b203c0d97b346602313602e14780a" title="Get the eXternal ID of the registered SmartREST template from the integration process. ">SrAgent.XID()</a>, and the first field in the CSV is the alternate XID.</p>
+<dl class="section note"><dt>Note</dt><dd>prio can be bit-wise XOR-ed, multiple priority can be set at the same time. </dd></dl>
 
 </div>
 </div>

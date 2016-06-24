@@ -20,14 +20,18 @@ struct SrNews
         /**
          *  \brief request priority.
          *
-         *  0 means no buffering, request will be discarded if the SrReporter
-         *  can not send it after multiple trials. 1 means buffering, request
-         *  will be buffered and retried later if the SrReporter thread fails
-         *  to send the request.
+         *  \a 0: default.
          *
-         *  \note Buffering still does not mean 100% guarantee, as the buffer
-         *  of the SrReporter has an explicit capacity. Buffered old requests
-         *  will be discarded if the capacity is exhausted.
+         *  \a SR_PRIO_BUF: request will be buffered if send fails, and will be
+         *  re-tried latter. Buffering still does not mean 100% guarantee,
+         *  as the buffer of the SrReporter has an explicit capacity.
+         *  Old requests will be discarded if the capacity is exhausted.
+         *
+         *  \a SR_PRIO_XID: request uses a different template XID than
+         *  SrAgent.XID(), and the first field in the CSV is the alternate XID.
+         *
+         *  \note prio can be bit-wise XOR-ed, multiple priority can be set
+         *  at the same time.
          */
         uint8_t prio;
 };
