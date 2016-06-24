@@ -34,7 +34,7 @@ public:
         SrReporter(const string &server, const string &xid, const string &auth,
                    SrQueue<SrNews> &out, SrQueue<SrOpBatch> &in,
                    uint16_t cap=1000):
-                http(server + "/s", xid, auth), out(out),
+                http(server + "/s", "", auth), out(out),
                 in(in), xid(xid), _cap(cap), sleeping(false) {}
         virtual ~SrReporter() {}
 

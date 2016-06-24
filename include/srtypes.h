@@ -2,6 +2,9 @@
 #define SRTYPES_H
 #include <string>
 
+#define SR_PRIO_BUF 1
+#define SR_PRIO_XID 2
+
 /**
  *  \class SrNews
  *  \brief Data type represents a SmartREST request (measurement, alarm, etc.).

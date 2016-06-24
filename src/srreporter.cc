@@ -37,24 +37,35 @@ void* SrReporter::func(void *arg)
 {
         SrReporter *rep = (SrReporter*)arg;
         rep->http.setTimeout(20);
-        string s;
+        string s, myxid;
         const string selector = "87,," + rep->xid + "\n";
-        vector<string> vec;
         while (true) {
                 s.clear();
                 auto e = rep->out.get();
                 if (e.second != Q_OK) continue;
 
+                // requests buffering
                 if (!rep->sleeping) {
                         for (const auto &item: rep->buffer) s += item + "\n";
                 }
+
                 // request aggregation
                 for (int j = 1; e.second == Q_OK && j < SR_REPORTER_NUM;
                      ++j, e = rep->out.get(SR_REPORTER_VAL)) {
                         const string &data = e.first.data;
-                        s += data + "\n";
-                        if (e.first.prio & 1)
-                                _insert(rep->buffer, rep->_cap, data);
+                        const bool flag = e.first.prio & SR_PRIO_XID;
+                        size_t pos = flag ? data.find(',') : 0;
+                        const string cxid = flag ? data.substr(0, pos) : rep->xid;
+                        string alt;
+                        if (cxid != myxid) {
+                                myxid = cxid;
+                                alt = "15," + myxid + "\n";
+                        }
+                        pos = pos ? pos + 1 : 0;
+                        s += alt + data.substr(pos) + "\n";
+                        if (e.first.prio & SR_PRIO_BUF) // request buffering
+                                _insert(rep->buffer, rep->_cap,
+                                        alt + data.substr(pos));
                 }
                 if (rep->sleeping) continue;
 
@@ -66,6 +77,7 @@ void* SrReporter::func(void *arg)
                 }
                 if (c >= 0) {
                         rep->buffer.clear();
+                        myxid.clear();
                         const string &resp = rep->http.response();
                         if (!resp.empty())
                                 rep->in.put(SrOpBatch(selector + resp));

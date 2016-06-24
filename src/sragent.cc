@@ -77,7 +77,7 @@ void SrAgent::processMessages()
 {
         SrQueue<SrOpBatch>::Event e = ingress.get(200);
         if (e.second != SrQueue<SrOpBatch>::Q_OK) return;
-        MsgXID m = strtoul(xid.c_str(), NULL, 10);
+        const MsgXID m = strtoul(xid.c_str(), NULL, 10);
         MsgXID c = m;
         SmartRest sr(e.first.data);
         for (SrRecord r = sr.next(); r.size(); r = sr.next()) {
