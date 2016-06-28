@@ -11,7 +11,7 @@ SrNetInterface::SrNetInterface(const string &server): errNo(0),curl(NULL), t(0)
         curl = curl_easy_init();
         curl_easy_setopt(curl, CURLOPT_URL, server.c_str());
         curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, _errMsg);
-#ifdef SR_CURL_NOSIGNAL
+#if SR_CURL_SIGNAL == 0
         curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1);
 #endif
 #ifdef DEBUG
@@ -20,7 +20,7 @@ SrNetInterface::SrNetInterface(const string &server): errNo(0),curl(NULL), t(0)
 #ifdef SR_HTTP_1_0
         curl_easy_setopt(curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
 #endif
-#ifdef SR_NO_SSL_VERIFYPEER
+#if SR_SSL_VERIFYCERT == 0
         curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0);
 #endif
 }

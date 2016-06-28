@@ -4,9 +4,6 @@
 #include <sragent.h>
 #include <srlogger.h>
 #include <srutils.h>
-#ifndef AGENT_VAL
-#define AGENT_VAL 5
-#endif
 using namespace std;
 
 
@@ -111,7 +108,7 @@ void SrAgent::processMessages()
 
 void SrAgent::loop()
 {
-        const timespec ts = {AGENT_VAL / 1000, (AGENT_VAL % 1000) * 1000000};
+        const timespec ts = {SR_AGENT_VAL/1000, (SR_AGENT_VAL%1000) * 1000000};
         while (true) {
                 clock_nanosleep(CLOCK_MONOTONIC, 0, &ts, NULL);
                 for (auto &i: timers) {

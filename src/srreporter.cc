@@ -1,15 +1,6 @@
 #include <unistd.h>
 #include <cstring>
 #include "srreporter.h"
-#ifndef SR_REPORTER_VAL
-#define SR_REPORTER_VAL 400
-#endif
-#ifndef SR_REPORTER_NUM
-#define SR_REPORTER_NUM 32
-#endif
-#ifndef SR_REPORTER_RETRIES
-#define SR_REPORTER_RETRIES 10
-#endif
 #define Q_OK SrQueue<SrNews>::Q_OK
 using namespace std;
 

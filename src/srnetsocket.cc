@@ -1,9 +1,6 @@
 #include <cstring>
 #include <srnetsocket.h>
 #include <srlogger.h>
-#ifndef SOCK_RECV_BUF_SIZE
-#define SOCK_RECV_BUF_SIZE 1024
-#endif
 using namespace std;
 
 
@@ -108,7 +105,7 @@ int SrNetSocket::recv(size_t len)
                 srError("Sock recv: timeout.");
                 return -1;
         }
-        char buf[SOCK_RECV_BUF_SIZE];
+        char buf[SR_SOCK_RXBUF_SIZE];
         size_t n = 0;
         errNo = curl_easy_recv(curl, buf, len, &n);
         if (errNo == CURLE_OK) {
