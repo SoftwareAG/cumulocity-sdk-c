@@ -1,7 +1,8 @@
+
+// ex-02-integrate: src/integrate.h
 #ifndef INTEGRATE_H
 #define INTEGRATE_H
 #include <sragent.h>
-
 
 class Integrate: public SrIntegrate
 {
