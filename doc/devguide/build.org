@@ -1,0 +1,64 @@
+* Building the Library
+  :PROPERTIES:
+  :CUSTOM_ID: ch:build
+  :END:
+** Prerequisites
+
+#+NAME: tab:prereq
+#+CAPTION: Prerequisites for building the library.
+|-------------+-----------------+------------------------------------------|
+| Software    | Minimal Version | Comment                                  |
+|-------------+-----------------+------------------------------------------|
+| <l>         | <l>             | <l>                                      |
+| Linux       | 2.6.32          |                                          |
+| gcc (clang) | 4.7 (3.3)       | both gcc and clang are supported         |
+| libcurl     | 7.26.0          | older versions might work, but not tested |
+| Lua         | 5.0             | optional, for Lua plugin support only    |
+|-------------+-----------------+------------------------------------------|
+
+** Compiling the Library
+   First, download a copy of the library from the git repository and change to the directory.
+
+   #+BEGIN_SRC sh :exports code
+     $ git clone git@bitbucket.org:m2m/cumulocity-sdk-c.git
+     $ cd cumulocity-sdk-c
+   #+END_SRC
+
+   Second, create a /init.mk/ file, and define specific macros /CPPFLAGS/, /CXXFLAGS/ and /LDFLAGS/, /LDLIBS/ and /CXX/ if cross-compiling.
+
+   #+CAPTION: example /init.mk/ file
+   #+NAME: lst:initmk
+   #+BEGIN_SRC makefile
+     CXX:=/usr/bin/g++
+     CPPFLAGS:=-I/usr/include
+     CXXFLAGS:=-Wall -pedantic -Wextra
+     LDFLAGS:=-L/usr/lib
+     LDLIBS:=-lcurl
+   #+END_SRC
+
+   Listing [[lst:initmk]] shows a typical /init.mk/ file example. In essence, /init.mk/ defines search path for required =c++= header files, preferred warning levels, search path for required =c++= library files, and necessary linking flags.
+
+   When you do host compiling, many of these settings can obviously be omitted, these are more relevant for cross-compiling, which shall be the prevalent use case for the library. Later we will explain the /init.mk/ file is also very important for another purpse, i.e., build customization to tailor the library to your needs.
+
+   With the /init.mk/ being defined, it's time to define your /makefile/.
+
+   #+BEGIN_SRC sh
+     $ cp Makefile.template Makefile
+   #+END_SRC
+
+   The default /Makefile.template/ can be used unchanged in most cases. In case some settings are not suitable for your use case, e.g., you may want =-Os= optimization level instead of the default =-O2=, simply edit the copied /Makefile/.
+
+   Now we have done all preparation work, it's time to build the library for your target device.
+
+   #+BEGIN_SRC sh
+     $ make
+   #+END_SRC
+
+   If everything is configured correctly, this should compile the library and output the final binary into the /lib// directory, and a watchdog daemon /srwatchdogd/ into the /bin// directory in the root directory.
+
+   The build system supports both /debug/ and /release/ modes. The above command calling make without any target defaults to /debug/ build. /debug/ build produces much larger binary, more verbose output, etc, which is suitable for development phase. When releasing your software, you will likely want a /release/ build, you can clear all intermediate build files and re-build the library in /release/ mode when you want to release your software.
+
+   #+BEGIN_SRC sh
+     $ make clean
+     $ make release
+   #+END_SRC
