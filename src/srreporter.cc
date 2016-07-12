@@ -7,7 +7,17 @@ using namespace std;
 
 static void _insert(deque<string> &d, uint16_t cap, const string &s)
 {
-        if (d.size() >= cap) d.pop_front();
+        if (d.size() >= cap) {
+                const auto &ref = d.front();
+                if (ref.compare(0, 3, "15,")) {
+                        d.pop_front();
+                } else {
+                        const string front(ref);
+                        d.erase(d.begin(), d.begin() + 2);
+                        if (!d.empty() && d.front().compare(0, 3, "15,"))
+                                d.emplace_front(front);
+                }
+        }
         d.emplace_back(s);
 }
 
@@ -28,37 +38,37 @@ void* SrReporter::func(void *arg)
 {
         SrReporter *rep = (SrReporter*)arg;
         rep->http.setTimeout(20);
-        string s, myxid;
-        const string selector = "87,," + rep->xid + "\n";
+        auto &buf = rep->buffer;
+        auto &cap = rep->_cap;
+        string s;
         while (true) {
                 s.clear();
-                auto e = rep->out.get();
-                if (e.second != Q_OK) continue;
-
-                // requests buffering
                 if (!rep->sleeping) {
-                        for (const auto &item: rep->buffer) s += item + "\n";
+                        for (const auto &item: buf) s += item + "\n";
                 }
-
                 // request aggregation
-                for (int j = 1; e.second == Q_OK && j < SR_REPORTER_NUM;
-                     ++j, e = rep->out.get(SR_REPORTER_VAL)) {
+                string myxid;
+                for (int j = 0;  j < SR_REPORTER_NUM; ++j) {
+                        auto e = rep->out.get(SR_REPORTER_VAL);
+                        if (e.second != Q_OK) break;
                         const string &data = e.first.data;
-                        const bool flag = e.first.prio & SR_PRIO_XID;
-                        size_t pos = flag ? data.find(',') : 0;
-                        const string cxid = flag ? data.substr(0, pos) : rep->xid;
-                        string alt;
+                        string cxid = rep->xid;
+                        size_t pos = 0;
+                        if (e.first.prio & SR_PRIO_XID) { // alternate XID
+                                pos = data.find(',');
+                                cxid = data.substr(0, pos++);
+                        }
                         if (cxid != myxid) {
                                 myxid = cxid;
-                                alt = "15," + myxid + "\n";
+                                s += "15," + myxid + "\n";
+                                if (e.first.prio & SR_PRIO_BUF)
+                                        _insert(buf, cap, "15,"+myxid);
                         }
-                        pos = pos ? pos + 1 : 0;
-                        s += alt + data.substr(pos) + "\n";
+                        s += data.substr(pos) + "\n";
                         if (e.first.prio & SR_PRIO_BUF) // request buffering
-                                _insert(rep->buffer, rep->_cap,
-                                        alt + data.substr(pos));
+                                _insert(buf, cap, data.substr(pos));
                 }
-                if (rep->sleeping) continue;
+                if (rep->sleeping || s.empty()) continue;
 
                 // exponential waiting
                 int c = rep->http.post(s);
@@ -67,11 +77,10 @@ void* SrReporter::func(void *arg)
                         ::sleep(1 << i);
                 }
                 if (c >= 0) {
-                        rep->buffer.clear();
-                        myxid.clear();
+                        buf.clear();
                         const string &resp = rep->http.response();
                         if (!resp.empty())
-                                rep->in.put(SrOpBatch(selector + resp));
+                                rep->in.put(SrOpBatch(resp));
                 }
                 rep->http.clear();
         }
