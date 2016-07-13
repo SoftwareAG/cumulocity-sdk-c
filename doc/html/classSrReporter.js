@@ -7,5 +7,6 @@ var classSrReporter =
     [ "start", "classSrReporter.html#af53d3618f1c459921cdeeded86ecbac5", null ],
     [ "isSleeping", "classSrReporter.html#ae7ca43873df540bbded0d3036679c2e1", null ],
     [ "sleep", "classSrReporter.html#a3f668ee0837ce89249b9c234003cffcc", null ],
-    [ "resume", "classSrReporter.html#a41cf05f04a2903c397682ae1c2ceff06", null ]
+    [ "resume", "classSrReporter.html#a41cf05f04a2903c397682ae1c2ceff06", null ],
+    [ "setBufFile", "classSrReporter.html#ad17c20af57f975a544d5dfcd884d21ce", null ]
 ];

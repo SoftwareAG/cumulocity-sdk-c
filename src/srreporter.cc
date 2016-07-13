@@ -1,3 +1,5 @@
+#include <sstream>
+#include <fstream>
 #include <unistd.h>
 #include <cstring>
 #include "srreporter.h"
@@ -22,6 +24,14 @@ static void _insert(deque<string> &d, uint16_t cap, const string &s)
 }
 
 
+static void _dump(const string &fn, const deque<string> &buf)
+{
+        ofstream out(fn, ios::binary | ios::trunc);
+        for (const auto &e: buf)
+                out.write(e.c_str(), e.size());
+}
+
+
 int SrReporter::start()
 {
         int no = pthread_create(&tid, NULL, func, this);
@@ -41,13 +51,20 @@ void* SrReporter::func(void *arg)
         auto &buf = rep->buffer;
         auto &cap = rep->_cap;
         string s;
+        if (!rep->fn.empty()) {
+                ifstream in(rep->fn, ios::binary);
+                ostringstream oss;
+                oss << in.rdbuf();
+                _insert(buf, cap, oss.str());
+        }
         while (true) {
                 s.clear();
                 if (!rep->sleeping) {
-                        for (const auto &item: buf) s += item + "\n";
+                        for (const auto &item: buf) s += item;
                 }
                 // request aggregation
                 string myxid;
+                bool stale = false;
                 for (int j = 0;  j < SR_REPORTER_NUM; ++j) {
                         auto e = rep->out.get(SR_REPORTER_VAL);
                         if (e.second != Q_OK) break;
@@ -60,14 +77,18 @@ void* SrReporter::func(void *arg)
                         }
                         if (cxid != myxid) {
                                 myxid = cxid;
-                                s += "15," + myxid + "\n";
+                                s += "15," + myxid + '\n';
                                 if (e.first.prio & SR_PRIO_BUF)
-                                        _insert(buf, cap, "15,"+myxid);
+                                        _insert(buf, cap, "15,"+myxid + '\n');
                         }
-                        s += data.substr(pos) + "\n";
-                        if (e.first.prio & SR_PRIO_BUF) // request buffering
-                                _insert(buf, cap, data.substr(pos));
+                        s += data.substr(pos) + '\n';
+                        if (e.first.prio & SR_PRIO_BUF) { // request buffering
+                                stale = true;
+                                _insert(buf, cap, data.substr(pos) + '\n');
+                        }
                 }
+                if (stale)
+                        _dump(rep->fn, buf);;
                 if (rep->sleeping || s.empty()) continue;
 
                 // exponential waiting
@@ -77,6 +98,8 @@ void* SrReporter::func(void *arg)
                         ::sleep(1 << i);
                 }
                 if (c >= 0) {
+                        if (!buf.empty())
+                                _dump(rep->fn, deque<string>());
                         buf.clear();
                         const string &resp = rep->http.response();
                         if (!resp.empty())

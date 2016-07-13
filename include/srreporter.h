@@ -40,6 +40,23 @@ public:
 
         /**
          *  \brief Get the current capacity of the request buffer.
+         *
+         *  capacity indicates the maximum number of messages (with SR_PRIO_BUF
+         *  bit set) that will be buffered when the network is down. When
+         *  the network is down for longer time, and the number of messages
+         *  with SR_PRIO_BUF bit set exceeds the defined capacity, older
+         *  messages will be discarded.
+
+         *  \note Message buffering is intended for messages with higher demand
+         *  for reliability because of temporary network error, e.g., alarms.
+         *  Abuse of SR_PRIO_BUF bit by set it for all messages will not only
+         *  downgrade agent's performance, but also real important messages
+         *  will often be discarded.
+         *
+         *  \note The actual buffered messages will often be less than capacity
+         *  because messages for setting XIDs will also take slots. Therefore,
+         *  it's sensible not to use many SmartREST templates, consequently,
+         *  less XIDs will take slots.
          */
         uint16_t capacity() const {return _cap;}
         /**
@@ -63,8 +80,9 @@ public:
         /**
          *  \brief Put the SrReporter to sleep.
          *
-         *  SrNews with prio == 0 will be discarded, SrNews with prio == 1 will
-         *  be buffered. Sleeping an already slept SrReporter has no effect.
+         *  SrNews with SR_PRIO_BUF bit set will be buffered, other messages
+         *  will be discarded. Sleeping an already slept SrReporter has no
+         *  effect.
          */
         void sleep() {
                 sleeping = true;
@@ -78,6 +96,25 @@ public:
                 sleeping = false;
                 srNotice("reporter: resumed.");
         }
+        /**
+         *  \brief Set file location for file backed message buffering.
+         *
+         *  By default, message buffering flag SR_PRIO_BUF is only implemented
+         *  in memory, therefore, it doesn't survive a sudden outage or reboot.
+         *  For devices with higher demand for sending reliability, can use
+         *  this function to have a file backed message buffering.
+         *
+         *  File size is indirectly controlled by capacity() of the request
+         *  buffer. File size is approximately capacity() * average message
+         *  size.
+         *
+         *  \note Use file backed buffering incurs a substantial file I/O
+         *  operations, especially when many messages are sent with SR_PRIO_BUF
+         *  bit set.
+         *
+         *  \param filename file name for the buffering file.
+         */
+        void setBufFile(const string &filename) {fn = filename;};
 
 protected:
         /**
@@ -93,6 +130,7 @@ private:
         SrQueue<SrNews> &out;
         SrQueue<SrOpBatch> &in;
         const string &xid;
+        string fn;
         uint16_t _cap;
         bool sleeping;
 };

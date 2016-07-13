@@ -110,9 +110,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a90fc2fb6dc654cad7ec22da32495bcc7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSrReporter.html#a90fc2fb6dc654cad7ec22da32495bcc7">SrReporter</a> (const string &amp;server, const string &amp;xid, const string &amp;auth, <a class="el" href="classSrQueue.html">SrQueue</a>&lt; <a class="el" href="structSrNews.html">SrNews</a> &gt; &amp;out, <a class="el" href="classSrQueue.html">SrQueue</a>&lt; <a class="el" href="structSrOpBatch.html">SrOpBatch</a> &gt; &amp;in, uint16_t cap=1000)</td></tr>
 <tr class="memdesc:a90fc2fb6dc654cad7ec22da32495bcc7"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classSrReporter.html" title="The reporter thread for sending all requests to Cumulocity. ">SrReporter</a> constrcutor.  <a href="#a90fc2fb6dc654cad7ec22da32495bcc7">More...</a><br /></td></tr>
 <tr class="separator:a90fc2fb6dc654cad7ec22da32495bcc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6317a13a45ba5bd8d50be195c3a7dece"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6317a13a45ba5bd8d50be195c3a7dece"></a>
-uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSrReporter.html#a6317a13a45ba5bd8d50be195c3a7dece">capacity</a> () const </td></tr>
-<tr class="memdesc:a6317a13a45ba5bd8d50be195c3a7dece"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current capacity of the request buffer. <br /></td></tr>
+<tr class="memitem:a6317a13a45ba5bd8d50be195c3a7dece"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSrReporter.html#a6317a13a45ba5bd8d50be195c3a7dece">capacity</a> () const </td></tr>
+<tr class="memdesc:a6317a13a45ba5bd8d50be195c3a7dece"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current capacity of the request buffer.  <a href="#a6317a13a45ba5bd8d50be195c3a7dece">More...</a><br /></td></tr>
 <tr class="separator:a6317a13a45ba5bd8d50be195c3a7dece"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad2ff76318b5fd5e47beccd5e5a03af16"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSrReporter.html#ad2ff76318b5fd5e47beccd5e5a03af16">setCapacity</a> (uint16_t cap)</td></tr>
 <tr class="memdesc:ad2ff76318b5fd5e47beccd5e5a03af16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the capacity of the request buffer.  <a href="#ad2ff76318b5fd5e47beccd5e5a03af16">More...</a><br /></td></tr>
@@ -131,6 +130,9 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSrReporter.html#a41cf05f04a2903c397682ae1c2ceff06">resume</a> ()</td></tr>
 <tr class="memdesc:a41cf05f04a2903c397682ae1c2ceff06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resume a sleeping <a class="el" href="classSrReporter.html" title="The reporter thread for sending all requests to Cumulocity. ">SrReporter</a>. Resume a non-sleeping <a class="el" href="classSrReporter.html" title="The reporter thread for sending all requests to Cumulocity. ">SrReporter</a> has no effect. <br /></td></tr>
 <tr class="separator:a41cf05f04a2903c397682ae1c2ceff06"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad17c20af57f975a544d5dfcd884d21ce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSrReporter.html#ad17c20af57f975a544d5dfcd884d21ce">setBufFile</a> (const string &amp;filename)</td></tr>
+<tr class="memdesc:ad17c20af57f975a544d5dfcd884d21ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set file location for file backed message buffering.  <a href="#ad17c20af57f975a544d5dfcd884d21ce">More...</a><br /></td></tr>
+<tr class="separator:ad17c20af57f975a544d5dfcd884d21ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-static-methods"></a>
 Static Protected Member Functions</h2></td></tr>
@@ -214,6 +216,35 @@ Static Protected Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a6317a13a45ba5bd8d50be195c3a7dece"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t SrReporter::capacity </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the current capacity of the request buffer. </p>
+<p>capacity indicates the maximum number of messages (with SR_PRIO_BUF bit set) that will be buffered when the network is down. When the network is down for longer time, and the number of messages with SR_PRIO_BUF bit set exceeds the defined capacity, older messages will be discarded.</p>
+<dl class="section note"><dt>Note</dt><dd>Message buffering is intended for messages with higher demand for reliability because of temporary network error, e.g., alarms. Abuse of SR_PRIO_BUF bit by set it for all messages will not only downgrade agent's performance, but also real important messages will often be discarded.</dd>
+<dd>
+The actual buffered messages will often be less than capacity because messages for setting XIDs will also take slots. Therefore, it's sensible not to use many SmartREST templates, consequently, less XIDs will take slots. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ad2ff76318b5fd5e47beccd5e5a03af16"></a>
 <div class="memitem">
 <div class="memproto">
@@ -295,7 +326,42 @@ Static Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Put the <a class="el" href="classSrReporter.html" title="The reporter thread for sending all requests to Cumulocity. ">SrReporter</a> to sleep. </p>
-<p><a class="el" href="structSrNews.html" title="Data type represents a SmartREST request (measurement, alarm, etc.). ">SrNews</a> with prio == 0 will be discarded, <a class="el" href="structSrNews.html" title="Data type represents a SmartREST request (measurement, alarm, etc.). ">SrNews</a> with prio == 1 will be buffered. Sleeping an already slept <a class="el" href="classSrReporter.html" title="The reporter thread for sending all requests to Cumulocity. ">SrReporter</a> has no effect. </p>
+<p><a class="el" href="structSrNews.html" title="Data type represents a SmartREST request (measurement, alarm, etc.). ">SrNews</a> with SR_PRIO_BUF bit set will be buffered, other messages will be discarded. Sleeping an already slept <a class="el" href="classSrReporter.html" title="The reporter thread for sending all requests to Cumulocity. ">SrReporter</a> has no effect. </p>
+
+</div>
+</div>
+<a class="anchor" id="ad17c20af57f975a544d5dfcd884d21ce"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SrReporter::setBufFile </td>
+          <td>(</td>
+          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramname"><em>filename</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set file location for file backed message buffering. </p>
+<p>By default, message buffering flag SR_PRIO_BUF is only implemented in memory, therefore, it doesn't survive a sudden outage or reboot. For devices with higher demand for sending reliability, can use this function to have a file backed message buffering.</p>
+<p>File size is indirectly controlled by <a class="el" href="classSrReporter.html#a6317a13a45ba5bd8d50be195c3a7dece" title="Get the current capacity of the request buffer. ">capacity()</a> of the request buffer. File size is approximately <a class="el" href="classSrReporter.html#a6317a13a45ba5bd8d50be195c3a7dece" title="Get the current capacity of the request buffer. ">capacity()</a> * average message size.</p>
+<dl class="section note"><dt>Note</dt><dd>Use file backed buffering incurs a substantial file I/O operations, especially when many messages are sent with SR_PRIO_BUF bit set.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filename</td><td>file name for the buffering file. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
