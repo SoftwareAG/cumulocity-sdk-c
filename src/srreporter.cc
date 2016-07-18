@@ -27,6 +27,7 @@ static void _insert(deque<string> &d, uint16_t cap, const string &s)
 static void _dump(const string &fn, const deque<string> &buf)
 {
         ofstream out(fn, ios::binary | ios::trunc);
+        if (!out) return;
         for (const auto &e: buf)
                 out.write(e.c_str(), e.size());
 }
