@@ -42,3 +42,24 @@
 **** ~SR_SSL_VERIFYCERT=1~
 
      Whether to verify server's certificate when using HTTPS, defaults to 1. Many embedded devices have no CA certificates installed and thus not be able to verify server's certificate when communicating via HTTPS. As a workaround, you can disable certificate verification by setting this macro to 0.
+
+**** ~SR_FILEBUF_PAGE_SCALE=3~
+
+     Set scale of page size for file backed buffering, default is 3. When ~filebuf~ feature is enabled for =SrReporter=, messages are managed at a minimum unit of one page, instead of single message, for easy and efficient buffer managing. Therefore, larger page size will buffer more messages, but messages are also discarded in bigger chunks. In contrary, smaller page size buffers less messages, but messages are also discarded in smaller chunks. Possible page scale values and corresponding page size can be found in Table [[tab:pagescale]].
+
+#+CAPTION: List of page scale and corresponding page size for filebuf.
+#+NAME: tab:pagescale
+#+ATTR_LaTeX: :mode table
+|------------+-----------|
+| Page Scale | Page Size |
+|------------+-----------|
+|          0 | 512 B     |
+|          1 | 1 KB      |
+|          2 | 2 KB      |
+|          3 | 4 KB      |
+|            |           |
+|          4 | 8 KB      |
+|          5 | 16 KB     |
+|          6 | 32 KB     |
+|          7 | 64 KB     |
+|------------+-----------|

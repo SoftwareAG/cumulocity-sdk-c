@@ -14,4 +14,5 @@ elif [ "$1" == "ask" ]; then
 else
     sed -i --follow-symlinks '/REALNAME:=/c\REALNAME:=$(SONAME).'"$1" Makefile
     sed -i --follow-symlinks "/PROJECT_NUMBER/c\PROJECT_NUMBER         = $1" Doxyfile
+    sed -i --follow-symlinks "s/Version [0-9]\.[0-9][0-9]*/Version $1/" doc/title.tex
 fi
