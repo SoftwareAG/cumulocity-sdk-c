@@ -1,5 +1,6 @@
 #ifndef SRREPORTER_H
 #define SRREPORTER_H
+#include <memory>
 #include "srtypes.h"
 #include "srnethttp.h"
 #include "srqueue.h"
@@ -9,14 +10,23 @@
  *  \class SrReporter
  *  \brief The reporter thread for sending all requests to Cumulocity.
  *
- *  The SrReporter is responsible for sending all requests (measurements, alarms,
- *  events, etc.) to Cumulocity. For traffic saving, the SrReporter implements
- *  request aggregation when there are consecutive requests in the queue within
- *  less than 400 milliseconds. It also implements an exponential waiting from 2
- *  seconds up to 512 seconds for counteracting the instability of mobile
- *  networks. Additionally, it implements a capacity limited buffering mechanism
- *  for requests buffering in case the network is unavailable for the moment.
+ *  The SrReporter is responsible for sending all requests (measurements,
+ *  alarms, events, etc.) to Cumulocity. For traffic saving, the SrReporter
+ *  implements request aggregation when there are consecutive requests in the
+ *  queue within less than SR_REPORTER_VAL (default 400) milliseconds. It also
+ *  implements a multiple retry and exponential waiting mechanism for
+ *  counteracting the instability of mobile networks. Additionally, it
+ *  implements a capacity limited buffering technique for counteracting long
+ *  period of network error. This buffering technique can be further categorized
+ *  into memory backed and file backed buffering. Memory backed buffering is
+ *  more efficient since there is no file I/O involved, while the buffering is
+ *  limited by the available memory and doesn't survive a sudden outage.
+ *  Oppositely, file backed buffering performs a lot of file I/O operations,
+ *  but at the same time, its capacity is much larger and buffered messages will
+ *  not be lost in case of sudden outage.
  */
+class _Pager;
+
 class SrReporter
 {
 private:
@@ -30,46 +40,57 @@ public:
          *  \param out reference to the SrAgent egress queue.
          *  \param in reference to the SrAgent ingress queue.
          *  \param cap capacity of the request buffer.
+         *  \param buffile file name for file-backed buffering. Default is
+         *  memory backed buffering. Set it to a non empty string enable
+         *  file backed buffering.
          */
         SrReporter(const string &server, const string &xid, const string &auth,
                    SrQueue<SrNews> &out, SrQueue<SrOpBatch> &in,
-                   uint16_t cap=1000):
-                http(server + "/s", "", auth), out(out),
-                in(in), xid(xid), _cap(cap), sleeping(false) {}
-        virtual ~SrReporter() {}
+                   uint16_t cap=1000, const string buffile = "");
+        virtual ~SrReporter();
 
         /**
          *  \brief Get the current capacity of the request buffer.
          *
-         *  capacity indicates the maximum number of messages (with SR_PRIO_BUF
-         *  bit set) that will be buffered when the network is down. When
-         *  the network is down for longer time, and the number of messages
-         *  with SR_PRIO_BUF bit set exceeds the defined capacity, older
-         *  messages will be discarded.
+         *  capacity signifies the capacity of the underlying buffering
+         *  mechanism. For memory backed buffering, it signifies the number
+         *  of messages can be buffered. For file backed buffering, it
+         *  signifies the number of file pages available.
+         *
+         *  Messages with SR_PRIO_BUF bit set will be buffered when the network
+         *  is unavailable. However, when the network is down for longer time,
+         *  and the number of messages with SR_PRIO_BUF bit set exceeds the
+         *  defined capacity, older messages will be discarded.
 
          *  \note Message buffering is intended for messages with higher demand
-         *  for reliability because of temporary network error, e.g., alarms.
-         *  Abuse of SR_PRIO_BUF bit by set it for all messages will not only
+         *  of reliability because of temporary network error. Abuse of
+         *  SR_PRIO_BUF bit by setting it for all messages will not only
          *  downgrade agent's performance, but also real important messages
          *  will often be discarded.
          *
          *  \note The actual buffered messages will often be less than capacity
-         *  because messages for setting XIDs will also take slots. Therefore,
-         *  it's sensible not to use many SmartREST templates, consequently,
-         *  less XIDs will take slots.
+         *  because auxiliary messages for setting XIDs will also take space.
+         *  Therefore, it's sensible not to use many SmartREST templates. For
+         *  file backed buffering, page fragmentation will also waste a
+         *  fraction of the capacity.
          */
-        uint16_t capacity() const {return _cap;}
+        uint16_t capacity() const;
         /**
          *  \brief Set the capacity of the request buffer.
          *
-         *  If the new capacity is smaller than already buffered requests, these
-         *  requests will NOT be discarded.
+         *  If the new capacity is smaller than already buffered messages,
+         *  already buffered messages will NOT be discarded immediately,
+         *  rather, they are only guaranteed to be eventually discarded or
+         *  successfully sent, and the buffer capacity will eventually
+         *  converges to the new capacity.
          *
          *  \param cap new buffer capacity.
          */
-        void setCapacity(uint16_t cap) {_cap = cap;}
+        void setCapacity(uint16_t cap);
         /**
          *  \brief Start the SrReporter thread.
+         *
+         *  \return 0 for success, failure otherwise.
          */
         int start();
         /**
@@ -96,25 +117,6 @@ public:
                 sleeping = false;
                 srNotice("reporter: resumed.");
         }
-        /**
-         *  \brief Set file location for file backed message buffering.
-         *
-         *  By default, message buffering flag SR_PRIO_BUF is only implemented
-         *  in memory, therefore, it doesn't survive a sudden outage or reboot.
-         *  For devices with higher demand for sending reliability, can use
-         *  this function to have a file backed message buffering.
-         *
-         *  File size is indirectly controlled by capacity() of the request
-         *  buffer. File size is approximately capacity() * average message
-         *  size.
-         *
-         *  \note Use file backed buffering incurs a substantial file I/O
-         *  operations, especially when many messages are sent with SR_PRIO_BUF
-         *  bit set.
-         *
-         *  \param filename file name for the buffering file.
-         */
-        void setBufFile(const string &filename) {fn = filename;};
 
 protected:
         /**
@@ -124,15 +126,13 @@ protected:
         static void *func(void *arg);
 
 private:
-        std::deque<string> buffer;
         SrNetHttp http;
-        pthread_t tid;
         SrQueue<SrNews> &out;
         SrQueue<SrOpBatch> &in;
         const string &xid;
-        string fn;
-        uint16_t _cap;
+        std::unique_ptr<_Pager> ptr;
         bool sleeping;
+        bool filebuf;
 };
 
 #endif /* SRREPORTER_H */
