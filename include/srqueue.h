@@ -86,6 +86,8 @@ public:
 
                 t.tv_sec += millisec / 1000;
                 t.tv_nsec += (millisec % 1000) * 1000000;
+                t.tv_sec += t.tv_nsec / 1000000000;
+                t.tv_nsec %= 1000000000;
                 if (sem_timedwait(&sem, &t)) {
                         e.second = Q_TIMEOUT;
                         return e;
