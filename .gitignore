@@ -20,3 +20,6 @@ _minted-devguide
 *.lot
 *.out
 *.md
+*.toc
+*.log
+*.aux
