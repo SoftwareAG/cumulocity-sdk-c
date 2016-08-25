@@ -23,17 +23,17 @@
 
      Polling interval for ~SrAgent~, defaults to 5 milliseconds. Internally ~SrAgent~ schedules all ~SrTimerHandler~ and ~SrMsgHandler~ by constantly polling for expired ~SrTimer~ and arrived messages from ingress ~SrQueue~, this parameter dictates the interval between two consecutive polling. When is parameter is set too high, the agent may appear to be sluggish, whereas when set too low, many CPU cycles are wasted. This is a trade-off parameter that needs to be fine-tuned for any particular device.
 
-**** ~SR_REPORTER_NUM=32~
+**** ~SR_REPORTER_NUM=512~
 
-     Maximum number of aggregated requests, defaults to 32. For saving traffic use, ~SrReporter~ has a mechanism to aggregate many messages into one request and send them all in once. This number dictates the maximum number of messages that can be aggregated.
+     Maximum number of aggregated requests, defaults to 512. For saving traffic use, ~SrReporter~ has a mechanism to aggregate many messages into one request and send them all in once. This number dictates the maximum number of messages that can be aggregated.
 
 **** ~SR_REPORTER_VAL=400~
 
      Maximum waiting time between two consecutive requests for aggregation, defaults to 400 milliseconds. When aggregating requests, ~SrReporter~ will wait for consecutive messages with a defined timeout. If the next messages comes after the timeout, ~SrReporter~ will stop the waiting loop and starts sending the already aggregated messages. When set to a higher number, higher aggregation can be expected, therefore, results in lower traffic use, whereas when set to a lower number, agent will be more responsive since it will not wait for aggregating next message. This is a trade-off parameter that needs to be fine-tuned for any particular use case.
 
-**** ~SR_REPORTER_RETRIES=10~
+**** ~SR_REPORTER_RETRIES=9~
 
-     Maximum number of retries when sending fails, defaults to 10 times. For counteracting temporary network failures, ~SrReporter~ implemented an exponential wait and multi-trials measure. When the first trial fails, it waits 1 second and retries again, when the second trial fails, it waits 2 seconds, when the third trial fails, it waits 4 seconds, and so on, until the defined number of retries exhausted. Note when ~SrReporter~ enters the retry loop, messages sent via ~SrAgent~ will be queued up in the egress ~SrQueue~, until the ~SrReporter~ successfully sends the aggregated requests so far or exhausts all retries.
+     Maximum number of retries when sending fails, defaults to 9 times. For counteracting temporary network failures, ~SrReporter~ implemented an exponential wait and multi-trials measure. When the first trial fails, it waits 1 second and retries again, when the second trial fails, it waits 2 seconds, when the third trial fails, it waits 4 seconds, and so on, until the defined number of retries exhausted. Note when ~SrReporter~ enters the retry loop, messages sent via ~SrAgent~ will be queued up in the egress ~SrQueue~, until the ~SrReporter~ successfully sends the aggregated requests so far or exhausts all retries.
 
 **** ~SR_CURL_SIGNAL=1~
 
@@ -47,12 +47,12 @@
 
      Set scale of page size for file backed buffering, default is 3. When ~filebuf~ feature is enabled for =SrReporter=, messages are managed at a minimum unit of one page, instead of single message, for easy and efficient buffer managing. Therefore, larger page size will buffer more messages, but messages are also discarded in bigger chunks. In contrary, smaller page size buffers less messages, but messages are also discarded in smaller chunks. Possible page scale values and corresponding page size can be found in Table [[tab:pagescale]].
 
-#+CAPTION: List of page scale and corresponding page size for filebuf.
 #+NAME: tab:pagescale
-#+ATTR_LaTeX: :mode table
+#+CAPTION: List of page scale and corresponding page size for filebuf.
 |------------+-----------|
 | Page Scale | Page Size |
 |------------+-----------|
+|        <l> | <l>       |
 |          0 | 512 B     |
 |          1 | 1 KB      |
 |          2 | 2 KB      |

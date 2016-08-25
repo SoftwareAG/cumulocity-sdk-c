@@ -6,15 +6,15 @@
 
 #+NAME: tab:prereq
 #+CAPTION: Prerequisites for building the library.
-|-------------+-----------------+------------------------------------------|
-| Software    | Minimal Version | Comment                                  |
-|-------------+-----------------+------------------------------------------|
-| <l>         | <l>             | <l>                                      |
-| Linux       | 2.6.32          |                                          |
-| gcc (clang) | 4.7 (3.3)       | both gcc and clang are supported         |
+|-------------+-----------------+-------------------------------------------|
+| Software    | Minimal Version | Comment                                   |
+|-------------+-----------------+-------------------------------------------|
+| <l>         | <l>             | <l>                                       |
+| Linux       | 2.6.32          |                                           |
+| gcc (clang) | 4.7 (3.3)       | both gcc and clang are supported          |
 | libcurl     | 7.26.0          | older versions might work, but not tested |
-| Lua         | 5.0             | optional, for Lua plugin support only    |
-|-------------+-----------------+------------------------------------------|
+| Lua         | 5.0             | optional, for Lua plugin support only     |
+|-------------+-----------------+-------------------------------------------|
 
 ** Compiling the Library
    First, download a copy of the library from the git repository and change to the directory.
