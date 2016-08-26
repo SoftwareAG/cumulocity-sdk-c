@@ -434,6 +434,10 @@
      end
    #+END_SRC
 
+   #+BEGIN_NOTE
+   You may encounter an error saying "Package lua was not found in the pkg-config search path." when building this example, then you would need to modify the expression ~$(shell pkg-config --cflags lua)~ to add a proper version number to ~lua~. The proper version number depends on your installed Lua version and your Linux distribution.
+   #+END_NOTE
+
 * Footnotes
 
 [fn:1] The API reference is located in relative path ~doc/html/index.html~ in the library repository.
