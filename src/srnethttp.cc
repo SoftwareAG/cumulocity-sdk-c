@@ -10,7 +10,7 @@ static int xferinfo(void *ptr, curl_off_t dltotal, curl_off_t dlnow,
         (void)ultotal;
         (void)ulnow;
         timespec tv;
-        if (clock_gettime(CLOCK_MONOTONIC, &tv) == -1)
+        if (clock_gettime(CLOCK_MONOTONIC_COARSE, &tv) == -1)
                 return 0;
         pair<time_t, time_t> *p = (pair<time_t, time_t> *)ptr;
         if(tv.tv_sec - p->second >= 660) {
@@ -83,7 +83,7 @@ int SrNetHttp::post(const std::string &request)
 {
         srDebug("HTTP post: " + request);
         timespec tv = {0, 0};
-        clock_gettime(CLOCK_MONOTONIC, &tv);
+        clock_gettime(CLOCK_MONOTONIC_COARSE, &tv);
         meter.first = meter.second = tv.tv_sec;
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, request.c_str());
         curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, request.size());

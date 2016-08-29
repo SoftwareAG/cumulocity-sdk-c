@@ -79,7 +79,7 @@ public:
         Event get(int millisec) {
                 timespec t;
                 Event e;
-                if (clock_gettime(CLOCK_REALTIME, &t) == -1) {
+                if (clock_gettime(CLOCK_REALTIME_COARSE, &t) == -1) {
                         e.second = Q_NOTIME;
                         return e;
                 }

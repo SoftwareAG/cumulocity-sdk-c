@@ -103,7 +103,7 @@ public:
          *  and the fire time according to the current period.
          */
         void start() {
-                clock_gettime(CLOCK_MONOTONIC, &beg);
+                clock_gettime(CLOCK_MONOTONIC_COARSE, &beg);
                 end.tv_sec = beg.tv_sec + val / 1000;
                 end.tv_nsec = beg.tv_nsec + (val % 1000) * 1000000;
                 active = true;

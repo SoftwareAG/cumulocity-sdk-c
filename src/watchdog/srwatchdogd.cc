@@ -53,7 +53,7 @@ extern "C" int main(int argc, char *argv[])
         sigaction(SIGTERM, &sa, NULL);
         while (!_quit) {
                 timespec t0 = {0};
-                clock_gettime(CLOCK_MONOTONIC, &t0);
+                clock_gettime(CLOCK_MONOTONIC_COARSE, &t0);
                 *shm = 0;
                 const pid_t child = fork();
                 if (child == -1) {
@@ -72,7 +72,7 @@ extern "C" int main(int argc, char *argv[])
                                                 _quit = true;
                                 }
                                 timespec t;
-                                clock_gettime(CLOCK_MONOTONIC, &t);
+                                clock_gettime(CLOCK_MONOTONIC_COARSE, &t);
                                 bool b = true;
                                 for (int i = 1; i <= *shm; ++i)
                                         b &= shm[i] != shadow[i];
