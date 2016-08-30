@@ -4,7 +4,6 @@
 #include <time.h>
 #include <pthread.h>
 #include <semaphore.h>
-#include <iostream>
 
 /**
  *  \class SrQueue
@@ -30,10 +29,8 @@ public:
          */
         typedef std::pair<T, ErrCode> Event;
         SrQueue(): q() {
-                if (pthread_mutex_init(&mutex, NULL))
-                        std::cerr << "Mutex init failed.\n";
-                if (sem_init(&sem, 0, 0))
-                        std::cerr << "Semaphore init failed.\n";
+                mutex = PTHREAD_MUTEX_INITIALIZER;
+                sem_init(&sem, 0, 0);
         }
         virtual ~SrQueue() {
                 sem_destroy(&sem);
@@ -77,13 +74,9 @@ public:
          *  \return the element T with error code.
          */
         Event get(int millisec) {
-                timespec t;
+                timespec t = {0, 0};
                 Event e;
-                if (clock_gettime(CLOCK_REALTIME_COARSE, &t) == -1) {
-                        e.second = Q_NOTIME;
-                        return e;
-                }
-
+                clock_gettime(CLOCK_REALTIME_COARSE, &t);
                 t.tv_sec += millisec / 1000;
                 t.tv_nsec += (millisec % 1000) * 1000000;
                 t.tv_sec += t.tv_nsec / 1000000000;
