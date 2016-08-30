@@ -106,8 +106,10 @@ public:
                 clock_gettime(CLOCK_MONOTONIC_COARSE, &beg);
                 end.tv_sec = beg.tv_sec + val / 1000;
                 end.tv_nsec = beg.tv_nsec + (val % 1000) * 1000000;
-                end.tv_sec += end.tv_nsec >= 1000000000 ? 1 : 0;
-                end.tv_nsec -= end.tv_nsec >= 1000000000 ? 1 : 0;
+                if (end.tv_nsec >= 1000000000) {
+                        ++end.tv_sec;
+                        end.tv_nsec -= 1000000000;
+                }
                 active = true;
         }
         /**
