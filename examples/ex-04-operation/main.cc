@@ -1,5 +1,6 @@
 
 // ex-04-operation: src/main.cc
+#include <iostream>
 #include <cstdlib>
 #include <sragent.h>
 #include <srreporter.h>

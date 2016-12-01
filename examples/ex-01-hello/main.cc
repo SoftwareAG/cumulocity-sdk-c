@@ -1,5 +1,6 @@
 
 // ex-01-hello: src/main.cc
+#include <iostream>
 #include <sragent.h>
 #include <srlogger.h>
 using namespace std;

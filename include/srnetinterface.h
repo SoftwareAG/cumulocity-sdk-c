@@ -84,7 +84,6 @@ protected:
          */
         char _errMsg[CURL_ERROR_SIZE];
 
-private:
         int t;
 };
 

@@ -3,8 +3,11 @@
 #include <memory>
 #include "srtypes.h"
 #include "srnethttp.h"
+#include "srnetmqtt.h"
 #include "srqueue.h"
 #include "srlogger.h"
+
+#define SR_MQTTOPT_KEEPALIVE 1
 
 /**
  *  \class SrReporter
@@ -45,6 +48,10 @@ public:
          *  file backed buffering.
          */
         SrReporter(const string &server, const string &xid, const string &auth,
+                   SrQueue<SrNews> &out, SrQueue<SrOpBatch> &in,
+                   uint16_t cap=1000, const string buffile = "");
+        SrReporter(const string &server, const string &deviceId,
+                   const string &xid, const string &user, const string &pass,
                    SrQueue<SrNews> &out, SrQueue<SrOpBatch> &in,
                    uint16_t cap=1000, const string buffile = "");
         virtual ~SrReporter();
@@ -118,6 +125,8 @@ public:
                 srNotice("reporter: resumed.");
         }
 
+        void setMqttOpt(int option, long parameter);
+
 protected:
         /**
          *  \brief pthread routine function.
@@ -126,13 +135,15 @@ protected:
         static void *func(void *arg);
 
 private:
-        SrNetHttp http;
+        std::unique_ptr<SrNetHttp> http;
+        std::unique_ptr<SrNetMqtt> mqtt;
         SrQueue<SrNews> &out;
         SrQueue<SrOpBatch> &in;
         const string &xid;
         std::unique_ptr<_Pager> ptr;
         bool sleeping;
         bool filebuf;
+        bool ishttp;
 };
 
 #endif /* SRREPORTER_H */

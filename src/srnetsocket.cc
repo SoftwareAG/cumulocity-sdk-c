@@ -42,6 +42,8 @@ int SrNetSocket::connect()
         srInfo("Sock connect: " + _server);
         errNo = curl_easy_perform(curl);
         if (errNo != CURLE_OK) {
+                if (_errMsg[0] == 0)
+                        strcpy(_errMsg, strerror(errno));
                 srError(string("Sock connect: ") + _errMsg);
                 return -1;
         }
@@ -52,7 +54,6 @@ int SrNetSocket::connect()
 
 int SrNetSocket::sendBuf(const char *buf, size_t len)
 {
-        srDebug("Sock send: " + string(buf, len));
         curl_socket_t sockfd;
         errNo = getSocket(curl, sockfd);
         if (errNo != CURLE_OK) {
@@ -64,7 +65,6 @@ int SrNetSocket::sendBuf(const char *buf, size_t len)
                 srError(string("Sock send: ") + strerror(errno));
                 return -1;
         } else if (c == 0) {
-                srError("Sock send: timeout.");
                 return -1;
         }
         errNo = CURLE_OK;
@@ -72,7 +72,6 @@ int SrNetSocket::sendBuf(const char *buf, size_t len)
                 errNo = curl_easy_send(curl, buf + n, len - n, &i);
 
         if (errNo == CURLE_OK) {
-                srDebug("Sock send: OK!");
                 return len;
         } else {
                 srError(string("Sock send: ") + _errMsg);
@@ -102,7 +101,7 @@ int SrNetSocket::recv(size_t len)
                 srError(string("Sock recv: ") + strerror(errno));
                 return -1;
         } else if (c == 0) {
-                srError("Sock recv: timeout.");
+                strcpy(_errMsg, "timeout.");
                 return -1;
         }
         char buf[SR_SOCK_RXBUF_SIZE];
@@ -110,7 +109,6 @@ int SrNetSocket::recv(size_t len)
         errNo = curl_easy_recv(curl, buf, len, &n);
         if (errNo == CURLE_OK) {
                 resp.append(buf, n);
-                srDebug("Sock recv: " + resp);
                 return n;
         } else {
                 srError(string("Sock recv: ") + _errMsg);

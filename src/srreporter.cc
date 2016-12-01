@@ -278,13 +278,29 @@ private:
 SrReporter::SrReporter(const string &s, const string &x, const string &a,
                        SrQueue<SrNews> &out, SrQueue<SrOpBatch> &in,
                        uint16_t cap, const string fn):
-        http(s + "/s", "", a), out(out), in(in), xid(x),
-        ptr(), sleeping(false), filebuf(!fn.empty())
+        http(new SrNetHttp(s + "/s", "", a)), mqtt(), out(out), in(in), xid(x),
+        ptr(), sleeping(false), filebuf(!fn.empty()), ishttp(true)
 {
         if (filebuf)
                 ptr.reset(new _BFPager(fn, cap));
         else
                 ptr.reset(new _MemPager(cap));
+}
+
+
+SrReporter::SrReporter(const string &server, const string &deviceId,
+                       const string &x, const string &user, const string &pass,
+                       SrQueue<SrNews> &out, SrQueue<SrOpBatch> &in,
+                       uint16_t cap, const string fn):
+        http(), mqtt(new SrNetMqtt("d:" + deviceId, server)), out(out), in(in),
+        xid(x), ptr(), sleeping(false), filebuf(!fn.empty()), ishttp(false)
+{
+        if (filebuf)
+                ptr.reset(new _BFPager(fn, cap));
+        else
+                ptr.reset(new _MemPager(cap));
+        mqtt->setUsername(user.c_str());
+        mqtt->setPassword(pass.c_str());
 }
 
 
@@ -300,6 +316,15 @@ int SrReporter::start()
         if (no)
                 srError("reporter: start failed, " + string(strerror(no)));
         return no;
+}
+
+
+void SrReporter::setMqttOpt(int opt, long parameter)
+{
+        switch (opt) {
+        case SR_MQTTOPT_KEEPALIVE: mqtt->setKeepalive(parameter); break;
+        default: srWarning("reporter: invalid mqtt option " + to_string(opt));
+        }
 }
 
 
@@ -340,20 +365,68 @@ static string aggregate(SrQueue<SrNews> *q, _Pager *p, bool bf,
 }
 
 
-static void insert_resp(SrQueue<SrOpBatch> &in, SrNetHttp &http)
+static void insert_resp(SrQueue<SrOpBatch> &in, SrNetHttp *http)
 {
-        const string &resp = http.response();
-        if (!resp.empty()) in.put(SrOpBatch(resp));
-        http.clear();
+        const string &resp = http->response();
+        if (!resp.empty()) {
+                in.put(SrOpBatch(resp));
+                http->clear();
+        }
 }
+
+
+static int mysend(SrNetHttp *http, SrNetMqtt *mqtt, const string &data,
+                  const string &topic, const string subs[],
+                  const int qos[], int count)
+{
+        if (http) {
+                return http->post(data);
+        } else {
+                int ret = mqtt->publish(topic, data, 2);
+                if (ret == -1) {
+                        if (mqtt->connect(false) == -1)
+                                return -1;
+                        mqtt->clear();
+                        mqtt->subscribe(subs, qos, count);
+                }
+                return ret;
+        }
+}
+
+
+class MyMqttMsgHandler: public SrMqttAppMsgHandler
+{
+public:
+        MyMqttMsgHandler(SrQueue<SrOpBatch>& _in): in(_in) {}
+        virtual ~MyMqttMsgHandler() {}
+        virtual void operator()(const SrMqttAppMsg &m) {
+                in.put(SrOpBatch(m.data));
+        }
+private:
+        SrQueue<SrOpBatch> &in;
+};
 
 
 void *SrReporter::func(void *arg)
 {
         SrReporter *rpt = (SrReporter*)arg;
+        const int count = 2;
+        const string topics[] = {"s/dl/" + rpt->xid, "s/ol/" + rpt->xid};
+        const int qos[] = {1, 1};
         auto p = rpt->ptr.get();
         const bool bf = rpt->filebuf;
-        rpt->http.setTimeout(30);
+        MyMqttMsgHandler mh(rpt->in);
+        if (rpt->ishttp) {
+                rpt->http->setTimeout(30);
+        } else {
+                rpt->mqtt->setTimeout(30);
+                rpt->mqtt->connect();
+                rpt->mqtt->clear();
+                rpt->mqtt->subscribe(topics, qos, count);
+                for (auto i = 0; i < count; ++i)
+                        rpt->mqtt->addMsgHandler(topics[i], &mh);
+        }
+
         if (bf) {
                 const string s = "filebuf: " + to_string(SR_FILEBUF_VER);
                 srNotice(s + ", " + to_string(SR_FILEBUF_PAGE_SIZE));
@@ -364,13 +437,15 @@ void *SrReporter::func(void *arg)
                 string s = aggregate(&rpt->out, p, bf, rpt->xid, true);
                 if (!s.empty()) {
                         for (uint32_t i = 0; i < SR_REPORTER_RETRIES; ++i) {
-                                if (rpt->http.post(s) >= 0) {
+                                if (mysend(rpt->http.get(), rpt->mqtt.get(), s,
+                                           "s/ul", topics, qos, count) >= 0) {
                                         if (empty) p->clear();
                                         break;
                                 }
                                 ::sleep(1 << i);
                         }
-                        insert_resp(rpt->in, rpt->http);
+                        if (rpt->ishttp)
+                                insert_resp(rpt->in, rpt->http.get());
                 }
         }
         srInfo("reporter: listening...");
@@ -378,19 +453,27 @@ void *SrReporter::func(void *arg)
                 // pre-fetching
                 string s = p->front();
                 bool k = (p->bsize() <= 1);
+                if (!rpt->ishttp && rpt->mqtt->yield(1000) == -1) {
+                        rpt->mqtt->connect(false);
+                        rpt->mqtt->clear();
+                        rpt->mqtt->subscribe(topics, qos, count);
+                        rpt->mqtt->clear();
+                }
                 s += aggregate(&rpt->out, p, bf, rpt->xid, k);
                 // sleeping mode
                 if (rpt->sleeping || s.empty()) continue;
                 // exponential wait
                 for (uint32_t i = 0; i < SR_REPORTER_RETRIES; ++i) {
-                        if (rpt->http.post(s) >= 0) {
+                        if (mysend(rpt->http.get(), rpt->mqtt.get(), s,
+                                   "s/ul", topics, qos, count) >= 0) {
                                 if (k) p->clear();
                                 else if (!p->empty()) p->pop_front();
                                 break;
                         }
                         ::sleep(1 << i);
                 }
-                insert_resp(rpt->in, rpt->http);
+                if (rpt->ishttp)
+                        insert_resp(rpt->in, rpt->http.get());
         }
         return NULL;
 }

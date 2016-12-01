@@ -21,6 +21,7 @@
    #+NAME: lst:01-hello
    #+BEGIN_SRC C++ :tangle ../examples/ex-01-hello/main.cc :exports code -r
      // ex-01-hello: src/main.cc
+     #include <iostream>
      #include <sragent.h>
      #include <srlogger.h>
      using namespace std;

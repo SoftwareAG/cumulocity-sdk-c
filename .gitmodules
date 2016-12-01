@@ -1,0 +1,3 @@
+[submodule "ext/pahomqtt"]
+	path = ext/pahomqtt
+	url = https://github.com/eclipse/paho.mqtt.embedded-c.git
