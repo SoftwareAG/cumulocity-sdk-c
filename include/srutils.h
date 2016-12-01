@@ -29,10 +29,10 @@ int readSrTemplate(const std::string &path, std::string &srv, std::string &srt);
  *
  *  This function checks if the SmartREST template already exists in the server
  *  and then register it if it doesn't exist yet.
- *  \note On success, the parameter *srv* will be updated with the registered
- *  SmartREST template XID, otherwise *srv* is untouched.
+ *  \note On success, the parameter \a srv will be updated with the registered
+ *  SmartREST template XID, otherwise \a srv is untouched.
  *
- *  \param url Cumulocity server url, format <server>/s, where '/s' is endpoint.
+ *  \param url Cumulocity server url, format \a server/s, where \a /s is endpoint.
  *  \param auth HTTP basic authorization token.
  *  \param srv SmartREST version number.
  *  \param srt SmartREST template content.
@@ -47,8 +47,7 @@ int registerSrTemplate(const std::string &url, const std::string &auth,
  *  creating a new HTTP connection every time, it's preferred over its counterpart
  *  since the former one creates a new connection every time.
  *
- *  \param url Cumulocity server url, format <server>/s, where '/s' is endpoint.
- *  \param auth HTTP basic authorization token.
+ *  \param http reference to an existing SrNetHttp instance.
  *  \param srv will be written with SmartREST template XID on success.
  *  \param srt SmartREST template content.
  *  \return 0 on success, -1 otherwise.

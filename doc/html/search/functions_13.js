@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['xid',['XID',['../classSrAgent.html#ac97b203c0d97b346602313602e14780a',1,'SrAgent::XID()'],['../classSrIntegrate.html#a1bc05d4d233a22ad51e6bd607b54b713',1,'SrIntegrate::XID()']]]
+  ['value',['value',['../classSrRecord.html#a54a4c76b2a06d08602494b7bdc640563',1,'SrRecord']]]
 ];

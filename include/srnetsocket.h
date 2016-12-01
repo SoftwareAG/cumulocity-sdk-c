@@ -28,16 +28,16 @@ public:
         int connect();
         /**
          *  \brief Socket send method.
-         *  \note This function is for sending binary data that contains 0.
          *  \param buf pointer to the send buffer.
          *  \param len size of the send buffer.
-         *  \return number of bytes sent (equal to len), -1 on failure.
+         *  \return number of bytes sent (might be smaller than len),
+         *  -1 on failure.
          */
         int sendBuf(const char *buf, size_t len);
         /**
          *  \brief Socket send method.
          *  \param request request to be sent.
-         *  \return number of bytes sent, (must equals to request size),
+         *  \return number of bytes sent, (might be smaller than request.size()),
          *  -1 on failure.
          */
         int send(const string &request);

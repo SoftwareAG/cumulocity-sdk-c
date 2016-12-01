@@ -3,7 +3,7 @@ var classSrDevicePush =
     [ "SrDevicePush", "classSrDevicePush.html#a2c6836ed33a3eff96230ee82ca66cc70", null ],
     [ "~SrDevicePush", "classSrDevicePush.html#a799beaa1132eab4cc3c0c1abf43ed130", null ],
     [ "start", "classSrDevicePush.html#a4196feba9d48011b274478d343948674", null ],
-    [ "isSleeping", "classSrDevicePush.html#a60ffc0e5102f6aec2a73220a9b93fa2f", null ],
+    [ "isSleeping", "classSrDevicePush.html#a19ab058dc0ac19e792e76e6fbaa09c4e", null ],
     [ "sleep", "classSrDevicePush.html#afd72d3f89287bd19372ebdced14c38ea", null ],
     [ "resume", "classSrDevicePush.html#ac0cd6bb91a6cadcc7fd93d303fea8ef9", null ],
     [ "subscribe", "classSrDevicePush.html#a7d5b69759938024dc2827c28e8d4fdbf", null ],

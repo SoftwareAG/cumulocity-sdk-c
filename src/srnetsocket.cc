@@ -26,6 +26,9 @@ static int waitSocket(curl_socket_t sockfd, bool for_recv, int timeout)
         FD_SET(sockfd, &fds);
         fd_set *rdfds = for_recv ? &fds : NULL;
         fd_set *wrfds = for_recv ? NULL : &fds;
+        // Do not test for select() == 0, some devices has quirky libcurl or
+        // driver, select() returns 0 even there is data to read, rely on
+        // curl_easy_send() and curl_easy_recv() with CURLE_AGAIN for testing.
         return select(sockfd + 1, rdfds, wrfds, NULL, ptv);
 }
 
@@ -64,27 +67,22 @@ int SrNetSocket::sendBuf(const char *buf, size_t len)
         if (c < 0) {
                 srError(string("Sock send: ") + strerror(errno));
                 return -1;
-        } else if (c == 0) {
-                return -1;
         }
         errNo = CURLE_OK;
-        for (size_t i = 0, n = 0; errNo == CURLE_OK && n < len; n += i)
-                errNo = curl_easy_send(curl, buf + n, len - n, &i);
-
+        size_t n = 0;
+        errNo = curl_easy_send(curl, buf, len, &n);
         if (errNo == CURLE_OK) {
-                return len;
-        } else {
+                return n;
+        } else if (errNo != CURLE_AGAIN) {
                 srError(string("Sock send: ") + _errMsg);
-                return -1;
         }
+        return -1;
 }
 
 
 int SrNetSocket::send(const string &request)
 {
-        const char *pch = request.c_str();
-        const size_t s = request.size();
-        return sendBuf(pch, s);
+        return sendBuf(request.c_str(), request.size());
 }
 
 
@@ -100,9 +98,6 @@ int SrNetSocket::recv(size_t len)
         if (c < 0) {
                 srError(string("Sock recv: ") + strerror(errno));
                 return -1;
-        } else if (c == 0) {
-                strcpy(_errMsg, "timeout.");
-                return -1;
         }
         char buf[SR_SOCK_RXBUF_SIZE];
         size_t n = 0;
@@ -110,8 +105,8 @@ int SrNetSocket::recv(size_t len)
         if (errNo == CURLE_OK) {
                 resp.append(buf, n);
                 return n;
-        } else {
+        } else if (errNo != CURLE_AGAIN) {
                 srError(string("Sock recv: ") + _errMsg);
-                return -1;
         }
+        return -1;
 }

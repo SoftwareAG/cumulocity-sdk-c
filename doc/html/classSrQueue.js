@@ -13,6 +13,6 @@ var classSrQueue =
     [ "get", "classSrQueue.html#a514216d15da5628196890e6b71884417", null ],
     [ "get", "classSrQueue.html#abae81ad51e45c1c015a64f20d1a39527", null ],
     [ "put", "classSrQueue.html#afb92577b911fe4a2daa33c5b611c322e", null ],
-    [ "size", "classSrQueue.html#a13d9431c15483305a8c4d12dd053ed31", null ],
-    [ "empty", "classSrQueue.html#ad6ae0d1fc4ec7160d7affa3e313ff124", null ]
+    [ "size", "classSrQueue.html#a8ec67da39edc8abe45f9745a8215c803", null ],
+    [ "empty", "classSrQueue.html#ae0852bc138d06570ffa1c0772200e5aa", null ]
 ];

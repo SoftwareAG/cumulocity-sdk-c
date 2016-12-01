@@ -141,7 +141,7 @@ public:
          *  \brief Add a message handler to the agent. Non thread-safe.
          *
          *  Register a new handler for the same message ID overwrites the old
-         *  one. Register with NULL clears the handler for this message.
+         *  one. NULL clears the handler for this message.
          *
          *  \param msgid the message ID.
          *  \param functor pointer to a message handler.
@@ -156,8 +156,12 @@ public:
          *  callback for additional SmartREST template that are added to
          *  SrDevicePush via subscribe() method.
          *
+         *  Register a new handler for the same MsgXID and MsgID overwrites the
+         *  old one. NULL clears the handler for this message.
+         *
          *  \param msgxid XID of the SmartREST template.
          *  \param msgid the message ID
+         *  \param f Pointer to an SrMsgHandler instance.
          */
         void addXMsgHandler(MsgXID msgxid, MsgID msgid, SrMsgHandler *f) {
                 sh[XMsgID(msgxid, msgid)] = f;

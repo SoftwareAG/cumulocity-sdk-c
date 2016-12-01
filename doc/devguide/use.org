@@ -77,7 +77,7 @@
 
    #+CAPTION: Device integration flowchart.
    #+NAME: fig:integrate
-   #+ATTR_LATEX: :width 0.25\textwidth
+   #+ATTR_LATEX: :width 0.4\textwidth
    [[./img/integrate.png]]
 
    #+CAPTION: Integrate to Cumulocity: API inteface
@@ -258,6 +258,9 @@
    #+END_NOTE
 
 ** Handle Operation
+   :PROPERTIES:
+   :CUSTOM_ID: sec:op
+   :END:
 
    Besides sending requests, e.g., measurements to /Cumulocity/, the other important functionality is handle messages, either responses from /GET/ queries or real-time operations from /Cumulocity/. Listing [[lst:04-main]] demonstrates how to handle the /c8y_Restart/ operation. Again, first we will need to register necessary SmartREST templates. Then we define a message handler for handling restart operation.
 
@@ -312,7 +315,7 @@
 
    #+NAME: fig:restart
    #+CAPTION: Execute a restart operation in /Cumulocity/.
-   #+ATTR_LATEX: :width .7\textwidth
+   #+ATTR_LATEX: :width .8\textwidth
    [[./img/restart.png]]
 
 ** Store SmartREST Templates in a File
@@ -438,6 +441,33 @@
    #+BEGIN_NOTE
    You may encounter an error saying "Package lua was not found in the pkg-config search path." when building this example, then you would need to modify the expression ~$(shell pkg-config --cflags lua)~ to add a proper version number to ~lua~. The proper version number depends on your installed Lua version and your Linux distribution.
    #+END_NOTE
+
+** Use MQTT instead of HTTP
+   MQTT is a publish and subscribe based light-weight messaging protocol, renders it very suitable for IoT communication. It solves two major issues inherit to HTTP: 1) HTTP header predominantly overweights SmartREST payload since SmartREST messages are generally very short. 2) MQTT has built-in support for real-time notification via subscribe and publish mechanism, hence, there is no need for a separate connection for device push.
+
+   Above examples are all using HTTP as the transportation layer. Besides HTTP, ~SrReporter~ also supports MQTT as the transportation layer. Listing [[lst:07-main]] shows the modification needed for transforming the example in Section [[#sec:op]] from using HTTP into using MQTT.
+
+   #+CAPTION: Use MQTT for sending measurements and handle operations.
+   #+NAME: lst:07-main
+   #+BEGIN_SRC C++ :tangle ../examples/ex-07-mqtt-legacy/main.cc :exports code -r
+     // ex-07-mqtt-legacy: src/main.cc
+
+     int main()
+     {
+             // ...
+             SrReporter reporter(string(server) + ":1883", deviceID, agent.XID(),
+                                 agent.tenant() + '/' + agent.username(),
+                                 agent.password(), agent.egress, agent.ingress);
+             // set MQTT keep-alive interval to 180 seconds.
+             reporter.mqttSetOpt(SR_MQTTOPT_KEEPALIVE, 180);
+             if (reporter.start() != 0)      // Start the reporter thread
+                     return 0;
+             agent.loop();
+             return 0;
+     }
+   #+END_SRC
+
+   As you can see, all modification needed is to construct ~SrReporter~ with a different constructor so ~SrReporter~ knows to use MQTT as underlying communication protocol, and remove ~SrDevicePush~ in the code since MQTT has built-in support for real-time notification. Optionally, you can set the keep-alive interval for MQTT to prevent the underlying TCP connection from being interrupted.
 
 * Footnotes
 

@@ -1,7 +1,9 @@
 #ifndef SRQUEUE_H
 #define SRQUEUE_H
 #include <queue>
+#include <string.h>
 #include <time.h>
+#include <sys/time.h>
 #include <pthread.h>
 #include <semaphore.h>
 
@@ -30,6 +32,7 @@ public:
         typedef std::pair<T, ErrCode> Event;
         SrQueue(): q() {
                 mutex = PTHREAD_MUTEX_INITIALIZER;
+                memset(&sem, 0, sizeof(sem));
                 sem_init(&sem, 0, 0);
         }
         virtual ~SrQueue() {
@@ -51,11 +54,11 @@ public:
                 sem_wait(&sem);
                 Event e;
                 if (pthread_mutex_lock(&mutex) == 0) {
-                        if (q.size()) {
+                        if (q.empty()) {
+                                q.second = Q_EMPTY;
+                        } else {
                                 e = std::make_pair(q.front(), Q_OK);
                                 q.pop();
-                        } else {
-                                e.second = Q_EMPTY;
                         }
                         pthread_mutex_unlock(&mutex);
                 } else {
@@ -74,24 +77,23 @@ public:
          *  \return the element T with error code.
          */
         Event get(int millisec) {
-                timespec t = {0, 0};
+                timeval tv = {0, 0};
+                gettimeofday(&tv, NULL);
+                timeval delta = {millisec/1000, (millisec%1000)*1000};
+                timeval res;
+                timeradd(&tv, &delta, &res);
+                const timespec tp = {res.tv_sec, res.tv_usec * 1000};
                 Event e;
-                clock_gettime(CLOCK_REALTIME_COARSE, &t);
-                t.tv_sec += millisec / 1000;
-                t.tv_nsec += (millisec % 1000) * 1000000;
-                t.tv_sec += t.tv_nsec / 1000000000;
-                t.tv_nsec %= 1000000000;
-                if (sem_timedwait(&sem, &t)) {
+                if (sem_timedwait(&sem, &tp) == -1 && q.empty()) {
                         e.second = Q_TIMEOUT;
                         return e;
                 }
-
                 if (pthread_mutex_trylock(&mutex) == 0) {
-                        if (q.size()) {
+                        if (q.empty()) {
+                                e.second = Q_EMPTY;
+                        } else {
                                 e = std::make_pair(q.front(), Q_OK);
                                 q.pop();
-                        } else {
-                                e.second = Q_EMPTY;
                         }
                         pthread_mutex_unlock(&mutex);
                 } else {

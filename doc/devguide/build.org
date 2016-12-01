@@ -17,14 +17,21 @@
 |-------------+-----------------+-------------------------------------------|
 
 ** Compiling the Library
-   First, download a copy of the library from the git repository and change to the directory.
+   First, download a copy of the library from the git repository and change to the directory[fn:8].
 
    #+BEGIN_SRC sh :exports code
      $ git clone git@bitbucket.org:m2m/cumulocity-sdk-c.git
      $ cd cumulocity-sdk-c
    #+END_SRC
 
-   Second, create a /init.mk/ file, and define specific macros /CPPFLAGS/, /CXXFLAGS/ and /LDFLAGS/, /LDLIBS/ and /CXX/ if cross-compiling.
+   Second, initialize and update your submodule dependencies, since the library depends on the [[https://github.com/eclipse/paho.mqtt.embedded-c][paho.mqtt.embedded-c]] library for MQTT support.
+
+   #+BEGIN_SRC sh :exports code
+     $ git submodule init
+     $ git submodule update
+   #+END_SRC
+
+   Then, create a /init.mk/ file, and define specific macros /CPPFLAGS/, /CXXFLAGS/ and /LDFLAGS/, /LDLIBS/ and /CXX/ if cross-compiling.
 
    #+CAPTION: example /init.mk/ file
    #+NAME: lst:initmk
@@ -62,3 +69,7 @@
      $ make clean
      $ make release
    #+END_SRC
+
+* Footnotes
+
+[fn:8] You can also access the library repository at [[https://bitbucket.org/m2m/cumulocity-sdk-c]].

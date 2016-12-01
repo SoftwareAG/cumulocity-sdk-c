@@ -83,7 +83,9 @@ protected:
          *  \brief errMsg buffer.
          */
         char _errMsg[CURL_ERROR_SIZE];
-
+        /**
+         *  \brief timeout in seconds.
+         */
         int t;
 };
 

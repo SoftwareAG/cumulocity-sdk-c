@@ -13,7 +13,7 @@ var classSrLexer =
     [ "SrLexer", "classSrLexer.html#a1178b78dc05073c3a621e193bd18dc47", null ],
     [ "~SrLexer", "classSrLexer.html#a9198f0da48656c7011fb0fd731d52e1c", null ],
     [ "next", "classSrLexer.html#abcae3840c6159510392fa77fcfb8f002", null ],
-    [ "isdelimiter", "classSrLexer.html#aea8c50eff8b1710bd2cc682003f1a2ab", null ],
+    [ "isdelimiter", "classSrLexer.html#a9668bc8be19850652665382c219a08c2", null ],
     [ "reset", "classSrLexer.html#a8b105816542a68fc7c0b10c326093884", null ],
     [ "pre", "classSrLexer.html#afc2c8105822bf01c2dc66ba182745c5f", null ],
     [ "start", "classSrLexer.html#a47fca2469424d41da210fa2c21be8ae1", null ],

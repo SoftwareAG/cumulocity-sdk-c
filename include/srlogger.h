@@ -21,7 +21,7 @@ enum SrLogLevel{SRLOG_DEBUG = 0, SRLOG_INFO, SRLOG_NOTICE,
  *  \note You have to make sure the logging destination is write-able, otherwise
  *  this function has no effect.
  *
- *  \param destination file name.
+ *  \param filename destination file name.
  */
 void srLogSetDest(const std::string &filename);
 /**

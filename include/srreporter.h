@@ -36,7 +36,11 @@ private:
         using string = std::string;
 public:
         /**
-         *  \brief SrReporter constrcutor.
+         *  \brief SrReporter HTTP constrcutor.
+         *
+         *  Construct a SrReporter instance which uses SrNetHttp as underlying
+         *  network stack.
+         *
          *  \param server Cumulocity server URL (no trailing slash).
          *  \param xid eXternal ID of the registered SmartREST template.
          *  \param auth authentication token from SrAgent.
@@ -50,6 +54,27 @@ public:
         SrReporter(const string &server, const string &xid, const string &auth,
                    SrQueue<SrNews> &out, SrQueue<SrOpBatch> &in,
                    uint16_t cap=1000, const string buffile = "");
+        /**
+         *  \brief SrReporter MQTT constrcutor.
+         *
+         *  Construct a SrReporter instance which uses SrNetMqtt as underlying
+         *  network stack.
+         *
+         *  \param server Cumulocity server URL. Use correct port for MQTT,
+         *  i.e., 1883 for plain MQTT, 8883 for MQTT + TLS by standard. For
+         *  enabling TLS, you still need to prepend the URL with https.
+         *  \param deviceId device ID, same as SrAgent.deviceID().
+         *  \param xid SmartREST template IXD.
+         *  \param user MQTT Connect username, should be SrAgent.tenant() +
+         *  '/' + SrAgent.username().
+         *  \param pass MQTT Connect pass, should be SrAgent.password().
+         *  \param out reference to the SrAgent egress queue.
+         *  \param in reference to the SrAgent ingress queue.
+         *  \param cap capacity of the request buffer.
+         *  \param buffile file name for file-backed buffering. Default is
+         *  memory backed buffering. Set it to a non empty string enable
+         *  file backed buffering.
+         */
         SrReporter(const string &server, const string &deviceId,
                    const string &xid, const string &user, const string &pass,
                    SrQueue<SrNews> &out, SrQueue<SrOpBatch> &in,
@@ -124,8 +149,20 @@ public:
                 sleeping = false;
                 srNotice("reporter: resumed.");
         }
-
-        void setMqttOpt(int option, long parameter);
+        /**
+         *  \brief Set various options for MQTT.
+         *
+         *  Supported MQTT option list:
+         *
+         *  - SR_MQTTOPT_KEEPALIVE [E]: MQTT keepalive interval in seconds.
+         *
+         *  \param option various MQTT options.
+         *  \param parameter value for corresponding MQTT option.
+         *
+         *  \note Options marked with [E] must be set before calling start(),
+         *  as they would otherwise has no effect.
+         */
+        void mqttSetOpt(int option, long parameter);
 
 protected:
         /**
@@ -142,8 +179,7 @@ private:
         const string &xid;
         std::unique_ptr<_Pager> ptr;
         bool sleeping;
-        bool filebuf;
-        bool ishttp;
+        bool isfilebuf;
 };
 
 #endif /* SRREPORTER_H */

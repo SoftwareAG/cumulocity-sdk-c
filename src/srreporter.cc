@@ -124,6 +124,8 @@ public:
         virtual size_t size() const {return head.size;}
         virtual string front() const {
                 string s;
+                if (pcb.empty())
+                        return s;
                 char buf[SR_FILEBUF_PAGE_SIZE];
                 ifstream in(fn, ios::binary);
                 const auto flag = pcb.front().flag;
@@ -279,9 +281,9 @@ SrReporter::SrReporter(const string &s, const string &x, const string &a,
                        SrQueue<SrNews> &out, SrQueue<SrOpBatch> &in,
                        uint16_t cap, const string fn):
         http(new SrNetHttp(s + "/s", "", a)), mqtt(), out(out), in(in), xid(x),
-        ptr(), sleeping(false), filebuf(!fn.empty()), ishttp(true)
+        ptr(), sleeping(false), isfilebuf(!fn.empty())
 {
-        if (filebuf)
+        if (isfilebuf)
                 ptr.reset(new _BFPager(fn, cap));
         else
                 ptr.reset(new _MemPager(cap));
@@ -293,9 +295,9 @@ SrReporter::SrReporter(const string &server, const string &deviceId,
                        SrQueue<SrNews> &out, SrQueue<SrOpBatch> &in,
                        uint16_t cap, const string fn):
         http(), mqtt(new SrNetMqtt("d:" + deviceId, server)), out(out), in(in),
-        xid(x), ptr(), sleeping(false), filebuf(!fn.empty()), ishttp(false)
+        xid(x), ptr(), sleeping(false), isfilebuf(!fn.empty())
 {
-        if (filebuf)
+        if (isfilebuf)
                 ptr.reset(new _BFPager(fn, cap));
         else
                 ptr.reset(new _MemPager(cap));
@@ -319,7 +321,7 @@ int SrReporter::start()
 }
 
 
-void SrReporter::setMqttOpt(int opt, long parameter)
+void SrReporter::mqttSetOpt(int opt, long parameter)
 {
         switch (opt) {
         case SR_MQTTOPT_KEEPALIVE: mqtt->setKeepalive(parameter); break;
@@ -328,69 +330,40 @@ void SrReporter::setMqttOpt(int opt, long parameter)
 }
 
 
-static string aggregate(SrQueue<SrNews> *q, _Pager *p, bool bf,
-                        const string &xid, bool k)
+static string aggregate(SrQueue<SrNews> &q, _Pager *p, bool isfilebuf,
+                        const string &xid)
 {
-        string s, buf;
-        string myxid;
-        for (int j = 0; j < SR_REPORTER_NUM; ++j) {
-                auto e = q->get(SR_REPORTER_VAL);
-                if (e.second != Q_OK) break;
+        string s, buf, myxid;
+        SrQueue<SrNews>::Event e;
+        while ((e = q.get(SR_REPORTER_VAL)).second == Q_OK) {
                 const string &data = e.first.data;
-                string cxid = xid;
-                size_t pos = 0;
-                if (e.first.prio & SR_PRIO_XID) { // alternate XID
-                        pos = data.find(',');
-                        cxid = data.substr(0, pos++);
-                }
-                if (cxid != myxid) {
+                const bool alternate = e.first.prio & SR_PRIO_XID;
+                const size_t pos = alternate ? data.find(',') : 0;
+                const string cxid = alternate ? data.substr(0, pos) : xid;
+                if (cxid != myxid) { // different XID than before
                         myxid = cxid;
-                        if (k)
-                                s += "15," + myxid + '\n';
+                        s += "15," + myxid + '\n';
                         if (e.first.prio & SR_PRIO_BUF) {
-                                if (bf) buf += "15," + myxid + '\n';
-                                else p->emplace_back("15," + myxid + '\n');
+                                if (isfilebuf)
+                                        buf += "15," + myxid + '\n';
+                                else
+                                        p->emplace_back("15," + myxid + '\n');
                         }
                 }
-                if (k)
-                        s += data.substr(pos) + '\n';
+                const size_t pos2 = pos ? pos + 1 : 0;
+                s.append(data, pos2, data.size() - pos2);
+                s += '\n';
                 if (e.first.prio & SR_PRIO_BUF) {
-                        if (bf) buf += data.substr(pos) + '\n';
-                        else p->emplace_back(data.substr(pos) + '\n');
+                        if (isfilebuf) {
+                                buf.append(data, pos2, data.size() - pos2);
+                                buf += '\n';
+                        } else {
+                                p->emplace_back(data.substr(pos2) + '\n');
+                        }
                 }
         }
-        if (bf && !buf.empty())
-                p->emplace_back(buf);
+        if (!buf.empty()) p->emplace_back(buf);
         return s;
-}
-
-
-static void insert_resp(SrQueue<SrOpBatch> &in, SrNetHttp *http)
-{
-        const string &resp = http->response();
-        if (!resp.empty()) {
-                in.put(SrOpBatch(resp));
-                http->clear();
-        }
-}
-
-
-static int mysend(SrNetHttp *http, SrNetMqtt *mqtt, const string &data,
-                  const string &topic, const string subs[],
-                  const int qos[], int count)
-{
-        if (http) {
-                return http->post(data);
-        } else {
-                int ret = mqtt->publish(topic, data, 2);
-                if (ret == -1) {
-                        if (mqtt->connect(false) == -1)
-                                return -1;
-                        mqtt->clear();
-                        mqtt->subscribe(subs, qos, count);
-                }
-                return ret;
-        }
 }
 
 
@@ -398,7 +371,6 @@ class MyMqttMsgHandler: public SrMqttAppMsgHandler
 {
 public:
         MyMqttMsgHandler(SrQueue<SrOpBatch>& _in): in(_in) {}
-        virtual ~MyMqttMsgHandler() {}
         virtual void operator()(const SrMqttAppMsg &m) {
                 in.put(SrOpBatch(m.data));
         }
@@ -407,73 +379,103 @@ private:
 };
 
 
+class MyMqttDebugHandler: public SrMqttAppMsgHandler
+{
+public:
+        virtual void operator()(const SrMqttAppMsg &m) {
+                srWarning("MQTT err: " + m.topic + ", " + m.data);
+        }
+};
+
+
+static int _mqtt_connect(SrNetMqtt *mqtt, bool clean, const string &xid)
+{
+        const string topics[] = {"s/dl", "s/ol/" + xid, "s/e"};
+        int qos[] = {1, 1, 0}, N = 3;
+        if (mqtt->connect(clean) == -1)
+                return -1;
+        return mqtt->subscribe(topics, qos, N);
+}
+
+
+static int exp_send(void *net, bool ishttp, const string &data,
+                    SrQueue<SrOpBatch> &in, const string &xid)
+{
+        SrNetHttp *http = ishttp ? (SrNetHttp*)net : nullptr;
+        SrNetMqtt *mqtt = !ishttp ? (SrNetMqtt*)net : nullptr;
+        int i;
+        for (i = 0; i < SR_REPORTER_RETRIES; ++i) {
+                if (http && http->post(data) >= 0) {
+                        const string &resp = http->response();
+                        if (!resp.empty()) {
+                                in.put(SrOpBatch(resp));
+                                http->clear();
+                        }
+                        break;
+                }
+                if (mqtt) {
+                        if(mqtt->publish("s/ul", data, 2))
+                                _mqtt_connect(mqtt, false, xid);
+                        else
+                                break;
+                }
+                ::sleep(1 << i);
+        }
+        return i < SR_REPORTER_RETRIES ? 0 : -1;
+}
+
+
 void *SrReporter::func(void *arg)
 {
         SrReporter *rpt = (SrReporter*)arg;
-        const int count = 2;
-        const string topics[] = {"s/dl/" + rpt->xid, "s/ol/" + rpt->xid};
-        const int qos[] = {1, 1};
-        auto p = rpt->ptr.get();
-        const bool bf = rpt->filebuf;
+        int rc = 0;
+        void *net = rpt->http ? (void*)rpt->http.get() : (void*)rpt->mqtt.get();
+        _Pager *pager = rpt->ptr.get();
         MyMqttMsgHandler mh(rpt->in);
-        if (rpt->ishttp) {
+        MyMqttDebugHandler mherr;
+        bool ishttp = rpt->http != nullptr;
+        if (rpt->http) {
                 rpt->http->setTimeout(30);
-        } else {
-                rpt->mqtt->setTimeout(30);
-                rpt->mqtt->connect();
-                rpt->mqtt->clear();
-                rpt->mqtt->subscribe(topics, qos, count);
-                for (auto i = 0; i < count; ++i)
-                        rpt->mqtt->addMsgHandler(topics[i], &mh);
+        } else if (rpt->mqtt) {
+                rpt->mqtt->setTimeout(15);
+                rpt->mqtt->addMsgHandler("s/dl", &mh);
+                rpt->mqtt->addMsgHandler("s/ol/" + rpt->xid, &mh);
+                rpt->mqtt->addMsgHandler("s/e", &mherr);
+                _mqtt_connect(rpt->mqtt.get(), false, rpt->xid);
         }
-
-        if (bf) {
+        if (rpt->isfilebuf) {
                 const string s = "filebuf: " + to_string(SR_FILEBUF_VER);
                 srNotice(s + ", " + to_string(SR_FILEBUF_PAGE_SIZE));
         }
-        srInfo("reporter: buf capacity: " + to_string(p->capacity()));
-        if (!rpt->sleeping) {
-                bool empty = p->empty();
-                string s = aggregate(&rpt->out, p, bf, rpt->xid, true);
-                if (!s.empty()) {
-                        for (uint32_t i = 0; i < SR_REPORTER_RETRIES; ++i) {
-                                if (mysend(rpt->http.get(), rpt->mqtt.get(), s,
-                                           "s/ul", topics, qos, count) >= 0) {
-                                        if (empty) p->clear();
-                                        break;
-                                }
-                                ::sleep(1 << i);
-                        }
-                        if (rpt->ishttp)
-                                insert_resp(rpt->in, rpt->http.get());
+        srInfo("reporter: buf capacity: " + to_string(pager->capacity()));
+        size_t bsize = pager->bsize();
+        string data = pager->front();
+        string aggre = aggregate(rpt->out, pager, rpt->isfilebuf, rpt->xid);
+        if (bsize <= 1) data += aggre;
+        if (!data.empty()) {
+                rc = exp_send(net, ishttp, data, rpt->in, rpt->xid);
+                if (rc == 0) {
+                        if (bsize <= 1) pager->clear();
+                        else pager->pop_front();
                 }
         }
         srInfo("reporter: listening...");
         while (true) {
                 // pre-fetching
-                string s = p->front();
-                bool k = (p->bsize() <= 1);
-                if (!rpt->ishttp && rpt->mqtt->yield(1000) == -1) {
-                        rpt->mqtt->connect(false);
-                        rpt->mqtt->clear();
-                        rpt->mqtt->subscribe(topics, qos, count);
-                        rpt->mqtt->clear();
-                }
-                s += aggregate(&rpt->out, p, bf, rpt->xid, k);
+                bsize = pager->bsize();
+                data = pager->front();
+                if (rpt->mqtt && rpt->mqtt->yield(1000) == -1)
+                        _mqtt_connect(rpt->mqtt.get(), false, rpt->xid);
+                aggre = aggregate(rpt->out, pager, rpt->isfilebuf, rpt->xid);
+                if (bsize <= 1) data += aggre;
                 // sleeping mode
-                if (rpt->sleeping || s.empty()) continue;
+                if (rpt->sleeping || data.empty()) continue;
                 // exponential wait
-                for (uint32_t i = 0; i < SR_REPORTER_RETRIES; ++i) {
-                        if (mysend(rpt->http.get(), rpt->mqtt.get(), s,
-                                   "s/ul", topics, qos, count) >= 0) {
-                                if (k) p->clear();
-                                else if (!p->empty()) p->pop_front();
-                                break;
-                        }
-                        ::sleep(1 << i);
+                rc = exp_send(net, ishttp, data, rpt->in, rpt->xid);
+                if (rc == 0) {
+                        if (bsize <= 1) pager->clear();
+                        else pager->pop_front();
                 }
-                if (rpt->ishttp)
-                        insert_resp(rpt->in, rpt->http.get());
         }
         return NULL;
 }

@@ -11,7 +11,22 @@
  */
 struct SrNews
 {
+        /**
+         *  \brief SrNews default constructor.
+         *
+         *  Construct a SrNews with empty string and prio \a prio.
+         *
+         *  \param prio assignment to member prio.
+         */
         SrNews(uint8_t prio = 0): prio(prio) {}
+        /**
+         *  \brief SrNews constructor.
+         *
+         *  Construct a SrNews with string \a s and prio \a prio.
+         *
+         *  \param s string reference for assigning member \a data.
+         *  \param prio assignment to member \a prio.
+         */
         SrNews(const std::string &s, uint8_t prio = 0): data(s), prio(prio) {}
         /**
          *  \brief The request to send to Cumulocity.
@@ -44,7 +59,17 @@ struct SrNews
  */
 struct SrOpBatch
 {
+        /**
+         *  \brief SrOpBatch default constructor.
+         */
         SrOpBatch() {}
+        /**
+         *  \brief SrOpBatch constructor.
+         *
+         *  Construct a SrOpBatch with string \a s.
+         *
+         *  \param s string
+         */
         SrOpBatch(const std::string &s): data(s) {}
         /**
          *  \brief Buffer contains the response.
