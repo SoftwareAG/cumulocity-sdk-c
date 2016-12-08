@@ -23,6 +23,9 @@ SrNetInterface::SrNetInterface(const string &server): errNo(0),curl(NULL), t(0)
 #if SR_SSL_VERIFYCERT == 0
         curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0);
 #endif
+#ifdef SR_SSL_CACERT
+        curl_easy_setopt(curl, CURLOPT_CAINFO, SR_SSL_CACERT);
+#endif
 }
 
 
