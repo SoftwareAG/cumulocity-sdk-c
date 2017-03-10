@@ -266,7 +266,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>number of bytes sent (might be smaller than len), -1 on failure. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>number of bytes sent, which might be smaller than <em>len</em> or even 0, -1 on failure. </dd></dl>
 
 </div>
 </div>
@@ -293,7 +293,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>number of bytes sent, (might be smaller than request.size()), -1 on failure. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>number of bytes sent, which might be smaller than <em>request.size()</em> or even 0, -1 on failure. </dd></dl>
 
 </div>
 </div>
@@ -320,7 +320,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>number of bytes received on success, -1 on failure. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>number of bytes received on success, -1 on failure.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>check errNo == CURLE_AGAIN if -1 is returned. In this case, it simply indicates you should call <em><a class="el" href="classSrNetSocket.html#ae1d2458f08169bf8007f1b633bbe3d91" title="Socket recv method. ">recv()</a></em> again, not necessarily signals a network error. </dd></dl>
 
 </div>
 </div>

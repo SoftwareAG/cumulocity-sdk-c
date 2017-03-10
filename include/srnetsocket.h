@@ -30,15 +30,15 @@ public:
          *  \brief Socket send method.
          *  \param buf pointer to the send buffer.
          *  \param len size of the send buffer.
-         *  \return number of bytes sent (might be smaller than len),
-         *  -1 on failure.
+         *  \return number of bytes sent, which might be smaller than \a len
+         *  or even 0, -1 on failure.
          */
         int sendBuf(const char *buf, size_t len);
         /**
          *  \brief Socket send method.
          *  \param request request to be sent.
-         *  \return number of bytes sent, (might be smaller than request.size()),
-         *  -1 on failure.
+         *  \return number of bytes sent, which might be smaller than
+         *  \a request.size() or even 0, -1 on failure.
          */
         int send(const string &request);
         /**
@@ -46,6 +46,10 @@ public:
          *  \param len maximum bytes to receive (must not exceed
          *  SOCK_RECV_BUF_SIZE [default: 1024]).
          *  \return number of bytes received on success, -1 on failure.
+         *
+         *  \note check errNo == CURLE_AGAIN if -1 is returned. In this case,
+         *  it simply indicates you should call \a recv() again, not necessarily
+         *  signals a network error.
          */
         int recv(size_t len);
 

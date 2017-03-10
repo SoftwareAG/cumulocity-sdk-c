@@ -93,9 +93,10 @@ int SrNetMqtt::publish(const string &topic, const string &msg, char nflag)
         if (sendBuf((const char *)buf, ptr - buf) != ptr - buf)
                 return -1;
         size_t len = msg.size();
+        const char *pch = msg.c_str();
         for (size_t i = 0; i < len;) {
-                size_t n = sendBuf((const char*)msg.c_str() + i, len - i);
-                if (n <= 0) return -1;
+                int n = sendBuf(pch + i, len - i);
+                if (n == -1) return -1;
                 i += n;
         }
         errno = errNo = 0;

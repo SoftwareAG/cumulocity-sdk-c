@@ -73,12 +73,12 @@ int SrNetSocket::sendBuf(const char *buf, size_t len)
         errNo = CURLE_OK;
         size_t n = 0;
         errNo = curl_easy_send(curl, buf, len, &n);
-        if (errNo == CURLE_OK) {
+        if (errNo == CURLE_OK || errNo == CURLE_AGAIN) {
                 return n;
-        } else if (errNo != CURLE_AGAIN) {
+        } else {
                 srError(string("Sock send: ") + _errMsg);
+                return -1;
         }
-        return -1;
 }
 
 
