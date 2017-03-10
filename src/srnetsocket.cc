@@ -35,6 +35,8 @@ static int waitSocket(curl_socket_t sockfd, bool for_recv, int timeout)
 
 SrNetSocket::SrNetSocket(const string &s): SrNetInterface(s), _server(s)
 {
+        // dead connections consume significant mem when using SSL
+        curl_easy_setopt(curl, CURLOPT_MAXCONNECTS, 1);
         curl_easy_setopt(curl, CURLOPT_CONNECT_ONLY, 1L);
 }
 
