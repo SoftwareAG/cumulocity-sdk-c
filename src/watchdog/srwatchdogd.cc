@@ -43,7 +43,7 @@ extern "C" int main(int argc, char *argv[])
                 syslog(LOG_CRIT, "shm fail");
                 return -1;
         }
-        const int val = strtoul(argv[2], NULL, 10);
+        const unsigned int val = strtoul(argv[2], NULL, 10);
         char shadow[SIZE] = {0};
         struct sigaction sa;
         sa.sa_handler = quit;
@@ -80,7 +80,7 @@ extern "C" int main(int argc, char *argv[])
                                         t0.tv_sec = t.tv_sec;
                                         for (int i = 1; i <= *shm; ++i)
                                                 shadow[i] = shm[i];
-                                } else if (t.tv_sec - t0.tv_sec > val) {
+                                } else if (val && t.tv_sec - t0.tv_sec > val) {
                                         syslog(LOG_NOTICE, "child %d hangs",
                                                child);
                                         kill(child, SIGKILL);
