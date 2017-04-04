@@ -44,4 +44,5 @@
 #+INCLUDE: ./devguide/intro.org :minlevel 1
 #+INCLUDE: ./devguide/build.org :minlevel 1
 #+INCLUDE: ./devguide/use.org :minlevel 1
+#+INCLUDE: ./devguide/reference.org :minlevel 1
 #+INCLUDE: ./devguide/custom.org :minlevel 1
