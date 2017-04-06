@@ -84,6 +84,9 @@ public:
                 timeradd(&tv, &delta, &res);
                 const timespec tp = {res.tv_sec, res.tv_usec * 1000};
                 Event e;
+                // Testing for q.empty() is because for some version of
+                // sem_timedwait could timeout and return with -1 while
+                // sem_getvalue() is actual non-0.
                 if (sem_timedwait(&sem, &tp) == -1 && q.empty()) {
                         e.second = Q_TIMEOUT;
                         return e;
