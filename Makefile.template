@@ -21,7 +21,7 @@ MQTT_SRC:=$(wildcard $(MQTT_SRC_DIR)/*.c)
 LIB_DIR:=lib
 LIBNAME:=libsera.so
 SONAME:=$(LIBNAME).1
-REALNAME:=$(SONAME).2.0
+REALNAME:=$(SONAME).2.1
 
 CPPFLAGS+=-Iinclude -DSR_SOCK_RXBUF_SIZE=$(SR_SOCK_RXBUF_SIZE)
 CPPFLAGS+=-DSR_AGENT_VAL=$(SR_AGENT_VAL) -DSR_REPORTER_NUM=$(SR_REPORTER_NUM)
@@ -93,12 +93,12 @@ TEST_BIN:=$(addprefix bin/,$(notdir $(TEST_SRC:.cc=)))
 
 bin/test_%: tests/test_%.cc
 	@mkdir -p bin
-	@$(CXX) -pthread -std=c++11 -Iinclude -Llib $< -lsera -o $@
+	@$(CXX) -DSR_AGENT_VAL=$(SR_AGENT_VAL) -DSR_REPORTER_NUM=$(SR_REPORTER_NUM) -g -pthread -std=c++11 -Iinclude -Llib $< -lsera -o $@
 
 test: $(TEST_BIN)
 	@$(foreach var,$^,LD_LIBRARY_PATH=lib $(var);)
 
 clean:
-	@rm -f $(BUILD_DIR)/*.o $(BUILD_DIR)/*.d $(LIB_DIR)/$(LIBNAME).* bin/*
+	@rm -f $(BUILD_DIR)/*.o $(BUILD_DIR)/*.d $(LIB_DIR)/$(LIBNAME)* bin/*
 
 -include $(OBJ:.o=.d)
