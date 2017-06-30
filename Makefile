@@ -9,19 +9,26 @@ SR_CURL_SIGNAL:=1
 SR_SSL_VERIFYCERT:=1
 SR_FILEBUF_PAGE_SCALE:=3
 
-BUILD:=debug
-include init.mk
+BUILD:=release
+
+ifeq ($(TARGET),)
+TARGET:=linux
+endif
+
+include targets/$(TARGET).mk
 
 SRC_DIR:=src
-BUILD_DIR:=build
+BUILD_DIR:=build/$(TARGET)/$(BUILD)
 SRC:=$(wildcard $(SRC_DIR)/*.cc)
 MQTT_SRC_DIR:=ext/pahomqtt/MQTTPacket/src
 MQTT_SRC:=$(wildcard $(MQTT_SRC_DIR)/*.c)
 
-LIB_DIR:=lib
+LIB_DIR:=lib/$(TARGET)/$(BUILD)
 LIBNAME:=libsera.so
 SONAME:=$(LIBNAME).1
 REALNAME:=$(SONAME).2.2
+
+BIN_DIR:=bin/$(TARGET)/$(BUILD)
 
 CPPFLAGS+=-Iinclude -DSR_SOCK_RXBUF_SIZE=$(SR_SOCK_RXBUF_SIZE)
 CPPFLAGS+=-DSR_AGENT_VAL=$(SR_AGENT_VAL) -DSR_REPORTER_NUM=$(SR_REPORTER_NUM)
@@ -58,19 +65,19 @@ CFLAGS+=-O0 -g
 LDFLAGS+=-O0 -g
 endif
 
-.PHONY: all release clean test test_run
+.PHONY: all release clean clean_all test test_run
 
-all: $(LIB_DIR)/$(REALNAME) bin/srwatchdogd
+all: $(LIB_DIR)/$(REALNAME) $(BIN_DIR)/srwatchdogd
 	@:
 
 release:
-	@make -s "BUILD=release"
+	@make -s "BUILD=release TARGET=linux"
 
 WDT_LDFLAGS:=-flto -fno-exceptions -fno-rtti -fno-stack-protector
-bin/srwatchdogd: $(SRC_DIR)/watchdog/srwatchdogd.cc
-	@mkdir -p bin/
+$(BIN_DIR)/srwatchdogd: $(SRC_DIR)/watchdog/srwatchdogd.cc
+	@mkdir -p $(BIN_DIR)
 	@echo "(LD) $@"
-	$(CXX) -std=c++11 -Os -s -DNDEBUG $^ $(WDT_LDFLAGS) -o $@
+	$(CXX) -std=c++11 -Os -s $(CPPFLAGS) $^ $(WDT_LDFLAGS) -o $@
 
 $(LIB_DIR)/$(REALNAME): $(OBJ)
 	@mkdir -p $(LIB_DIR)
@@ -89,16 +96,19 @@ $(BUILD_DIR)/%.o: $(MQTT_SRC_DIR)/%.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
 
 TEST_SRC:=$(wildcard tests/test_*.cc)
-TEST_BIN:=$(addprefix bin/,$(notdir $(TEST_SRC:.cc=)))
+TEST_BIN:=$(addprefix $(BIN_DIR)/,$(notdir $(TEST_SRC:.cc=)))
 
-bin/test_%: tests/test_%.cc
-	@mkdir -p bin
+$(BIN_DIR)/test_%: tests/test_%.cc
+	@mkdir -p $(BIN_DIR)
 	@$(CXX) $(CPPFLAGS) -DSR_AGENT_VAL=$(SR_AGENT_VAL) -DSR_REPORTER_NUM=$(SR_REPORTER_NUM) -g -pthread -std=c++11 -Iinclude -Llib $< -lsera -o $@
 
 test: $(TEST_BIN)
 	@$(foreach var,$^,LD_LIBRARY_PATH=lib $(var);)
 
 clean:
-	@rm -f $(BUILD_DIR)/*.o $(BUILD_DIR)/*.d $(LIB_DIR)/$(LIBNAME)* bin/*
+	@rm -f $(BUILD_DIR)/* $(LIB_DIR)/* $(BIN_DIR)/*
+
+clean_all:
+	@rm -rf $ @rm -f build/* lib/* bin/*
 
 -include $(OBJ:.o=.d)
