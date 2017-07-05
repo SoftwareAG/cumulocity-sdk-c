@@ -1,3 +1,23 @@
+/*
+ * Copyright (C) 2015-2017 Cumulocity GmbH
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+ * and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 #include <algorithm>
 #include <sstream>
 #include <fstream>
@@ -22,6 +42,10 @@ using namespace std;
 #define HTTP_CONNECTION_TIMEOUT 30 // seconds
 #define MQTT_CONNECTION_TIMEOUT 15 // seconds
 
+#define MQTT_QOS_AT_MOST_ONCE 0     // Fire and Forget
+#define MQTT_QOS_AT_LEAST_ONCE 1    // Acknowledged delivery
+#define MQTT_QOS_EXACTLY_ONCE 2     // Assured Delivery
+
 
 struct _BFHead
 {
@@ -29,6 +53,7 @@ struct _BFHead
             base(_BASE), flag(0), size(0), cnt(0), pad2(0)
     {
     }
+
     uint8_t base, flag;
     uint16_t size, cnt, pad2;
 };
@@ -39,6 +64,7 @@ struct _BFPage
             index(idx), offset(oft), flag(f), cnt(0), pad(0)
     {
     }
+
     uint16_t index, offset;
     uint8_t flag, cnt;
     uint16_t pad;
@@ -144,6 +170,7 @@ public:
     virtual void clear() = 0;
 
 protected:
+
     uint16_t cap;
 };
 
@@ -598,7 +625,7 @@ public:
 static int _mqtt_connect(SrNetMqtt *mqtt, bool clean, const string &xid)
 {
     static const string topics[] = { "s/dl", "s/ol/" + xid, "s/e" };
-    int qos[] = { 1, 1, 0 }, N = 3;
+    int qos[] = { MQTT_QOS_AT_LEAST_ONCE, MQTT_QOS_AT_LEAST_ONCE, MQTT_QOS_AT_MOST_ONCE }, N = 3;
 
     if (mqtt->connect(clean) == -1)
     {
@@ -714,7 +741,7 @@ void *SrReporter::func(void *arg)
     while (true)
     {
         // wait for a period of time between report sending (SR_REPORTER_VAL is given in milliseconds)
-        static timespec ts = { SR_REPORTER_VAL / 1000, (SR_REPORTER_VAL % 1000) * 1000000 };
+        static const timespec ts = { SR_REPORTER_VAL / 1000, (SR_REPORTER_VAL % 1000) * 1000000 };
         nanosleep(&ts, NULL);
 
         // pre-fetching

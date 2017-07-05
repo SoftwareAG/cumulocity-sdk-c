@@ -1,31 +1,53 @@
+/*
+ * Copyright (C) 2015-2017 Cumulocity GmbH
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+ * and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 #include <iostream>
 #include <cassert>
 #include <smartrest.h>
-using namespace std;
 
+using namespace std;
 
 int main()
 {
-        cerr << "Test SrLexer: ";
-        const string s = "+59, \"ab cc \"\"\",-.9\n,";
-        SrLexer lex(s);
-        SrLexer::SrToken tok = lex.next();
-        assert(tok.first == SrLexer::SR_INT && tok.second == "+59");
-        tok = lex.next();
-        assert(tok.first == SrLexer::SR_STRING && tok.second == "ab cc \"");
-        assert(lex.pre == 4);
-        assert(lex.start == 5);
-        assert(lex.end == 15);
-        tok = lex.next();
-        assert(tok.first == SrLexer::SR_FLOAT && tok.second == "-.9");
-        tok = lex.next();
-        assert(tok.first == SrLexer::SR_NEWLINE && tok.second == "\n");
-        tok = lex.next();
-        assert(tok.first == SrLexer::SR_NONE && tok.second == "");
-        tok = lex.next();
-        assert(tok.first == SrLexer::SR_NONE && tok.second == "");
-        tok = lex.next();
-        assert(tok.first == SrLexer::SR_EOB && tok.second == "");
-        cerr << "OK!" << endl;
-        return 0;
+    cerr << "Test SrLexer: ";
+    const string s = "+59, \"ab cc \"\"\",-.9\n,";
+
+    SrLexer lex(s);
+    SrLexer::SrToken tok = lex.next();
+    assert(tok.first == SrLexer::SR_INT && tok.second == "+59");
+    tok = lex.next();
+    assert(tok.first == SrLexer::SR_STRING && tok.second == "ab cc \"");
+    assert(lex.pre == 4);
+    assert(lex.start == 5);
+    assert(lex.end == 15);
+    tok = lex.next();
+    assert(tok.first == SrLexer::SR_FLOAT && tok.second == "-.9");
+    tok = lex.next();
+    assert(tok.first == SrLexer::SR_NEWLINE && tok.second == "\n");
+    tok = lex.next();
+    assert(tok.first == SrLexer::SR_NONE && tok.second == "");
+    tok = lex.next();
+    assert(tok.first == SrLexer::SR_NONE && tok.second == "");
+    tok = lex.next();
+    assert(tok.first == SrLexer::SR_EOB && tok.second == "");
+    cerr << "OK!" << endl;
+
+    return 0;
 }

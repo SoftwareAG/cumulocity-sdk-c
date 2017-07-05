@@ -93,7 +93,7 @@ TEST_BIN:=$(addprefix bin/,$(notdir $(TEST_SRC:.cc=)))
 
 bin/test_%: tests/test_%.cc
 	@mkdir -p bin
-	@$(CXX) -DSR_AGENT_VAL=$(SR_AGENT_VAL) -DSR_REPORTER_NUM=$(SR_REPORTER_NUM) -g -pthread -std=c++11 -Iinclude -Llib $< -lsera -o $@
+	@$(CXX) $(CPPFLAGS) -DSR_AGENT_VAL=$(SR_AGENT_VAL) -DSR_REPORTER_NUM=$(SR_REPORTER_NUM) -g -pthread -std=c++11 -Iinclude -Llib $< -lsera -o $@
 
 test: $(TEST_BIN)
 	@$(foreach var,$^,LD_LIBRARY_PATH=lib $(var);)
