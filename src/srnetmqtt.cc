@@ -130,7 +130,7 @@ int SrNetMqtt::publish(const string &topic, const string &msg, char nflag)
 {
     const int qos = (nflag >> 1) & 3;
 
-    srDebug("MQTT pub: " + topic + '@' + to_string(qos) + ": " + msg);
+    srDebug("MQTT pub: " + topic + '@' + to_string(qos) + ":\n" + msg);
 
     unsigned char buf[100] = { 0 };
     unsigned char *ptr = buf;

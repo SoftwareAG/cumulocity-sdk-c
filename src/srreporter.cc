@@ -279,9 +279,13 @@ public:
 
         if (c < uflag.size())
         {
-            truncate(fn.c_str(), c * SR_FILEBUF_PAGE_SIZE);
-            uflag.resize(c);
-            srInfo("filebuf: truncate " + to_string(c));
+            const int success = truncate(fn.c_str(), c * SR_FILEBUF_PAGE_SIZE);
+
+            if (0 == success)
+            {
+                uflag.resize(c);
+                srInfo("filebuf: truncate " + to_string(c));
+            }
         }
     }
 
@@ -474,8 +478,7 @@ SrReporter::SrReporter(const string &server, const string &deviceId,
         const string &x, const string &user, const string &pass,
         SrQueue<SrNews> &out, SrQueue<SrOpBatch> &in, uint16_t cap,
         const string fn) :
-        http(), mqtt(new SrNetMqtt("d:" + deviceId, server)), out(out), in(in), xid(
-                x), ptr(), sleeping(false), isfilebuf(!fn.empty())
+        http(), mqtt(new SrNetMqtt("d:" + deviceId, server)), out(out), in(in), xid(x), ptr(), sleeping(false), isfilebuf(!fn.empty())
 {
     if (isfilebuf)
     {
@@ -534,42 +537,49 @@ void SrReporter::mqttSetOpt(int opt, long parameter)
     }
 }
 
-static string aggregate(SrQueue<SrNews> &q, _Pager *p, bool isfilebuf, const string &xid)
+static string aggregate(SrQueue<SrNews> &q, _Pager *p, bool isfilebuf, const string &defaultXid)
 {
-    string s, buf, myxid;
-    SrQueue<SrNews>::Event e;
+    string s, buf, currentXid;
 
     while (!q.empty())
-    {
+    {   // sending message is not empty
+
+        SrQueue<SrNews>::Event e;
+
+        // get next message from sending queue
         if ((e = q.get(0)).second != Q_OK)
         {
             break;
         }
 
-        const string &data = e.first.data;
+        // get message string
+        const string& data = e.first.data;
+
+        // check, if message contains X-ID
         const bool alternate = e.first.prio & SR_PRIO_XID;
         const size_t pos = alternate ? data.find(',') : 0;
-        const string cxid = alternate ? data.substr(0, pos) : xid;
+        const string newXid = alternate ? data.substr(0, pos) : defaultXid;
 
-        if (cxid != myxid)
-        {   // different XID than before
+        if (newXid != currentXid)
+        {   // different X-ID than current one
 
-            myxid = cxid;
-            s += "15," + myxid + '\n';
+            currentXid = newXid;
+            s += "15," + currentXid + '\n';
 
             if (e.first.prio & SR_PRIO_BUF)
             {
                 if (isfilebuf)
                 {
-                    buf += "15," + myxid + '\n';
+                    buf += "15," + currentXid + '\n';
                 }
                 else
                 {
-                    p->emplace_back("15," + myxid + '\n');
+                    p->emplace_back("15," + currentXid + '\n');
                 }
             }
         }
 
+        // append message, but without X-ID, if preceding
         const size_t pos2 = pos ? pos + 1 : 0;
         s.append(data, pos2, data.size() - pos2);
         s += '\n';
@@ -657,7 +667,7 @@ static int exp_send(void *net, bool ishttp, const string &data, SrQueue<SrOpBatc
 
         if (mqtt)
         {
-            if (mqtt->publish("s/ul", data, 2))
+            if (mqtt->publish("s/ul/" + xid, data, 2))
             {
                 _mqtt_connect(mqtt, false, xid);
             }
