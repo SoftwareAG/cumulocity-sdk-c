@@ -667,7 +667,7 @@ static int exp_send(void *net, bool ishttp, const string &data, SrQueue<SrOpBatc
 
         if (mqtt)
         {
-            if (mqtt->publish("s/ul/" + xid, data, 2))
+            if (mqtt->publish("s/ul", data, 2))
             {
                 _mqtt_connect(mqtt, false, xid);
             }
