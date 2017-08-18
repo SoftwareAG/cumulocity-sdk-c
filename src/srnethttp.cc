@@ -123,8 +123,9 @@ int SrNetHttp::post(const std::string &request)
     if (errNo == CURLE_OK)
     {
         srDebug("HTTP recv: " + resp);
-
-        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &statusCode);
+        long status;
+        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &status);
+        statusCode = status;
         return resp.size();
     } else
     {
