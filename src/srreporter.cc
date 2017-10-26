@@ -462,7 +462,7 @@ private:
 SrReporter::SrReporter(const string &s, const string &x, const string &a,
         SrQueue<SrNews> &out, SrQueue<SrOpBatch> &in, uint16_t cap,
         const string fn) :
-        http(new SrNetHttp(s + "/s", "", a)), mqtt(), out(out), in(in), xid(x), ptr(), sleeping(false), isfilebuf(!fn.empty())
+        http(new SrNetHttp(s + "/s", "", a)), mqtt(), out(out), in(in), xid(x), ptr(), sleeping(false), isfilebuf(!fn.empty()), tid(0)
 {
     if (isfilebuf)
     {
@@ -478,7 +478,7 @@ SrReporter::SrReporter(const string &server, const string &deviceId,
         const string &x, const string &user, const string &pass,
         SrQueue<SrNews> &out, SrQueue<SrOpBatch> &in, uint16_t cap,
         const string fn) :
-        http(), mqtt(new SrNetMqtt("d:" + deviceId, server)), out(out), in(in), xid(x), ptr(), sleeping(false), isfilebuf(!fn.empty())
+        http(), mqtt(new SrNetMqtt("d:" + deviceId, server)), out(out), in(in), xid(x), ptr(), sleeping(false), isfilebuf(!fn.empty()), tid(0)
 {
     if (isfilebuf)
     {
@@ -495,12 +495,14 @@ SrReporter::SrReporter(const string &server, const string &deviceId,
 
 SrReporter::~SrReporter()
 {
+    pthread_cancel(tid);
 }
 
 uint16_t SrReporter::capacity() const
 {
     return ptr->capacity();
 }
+
 void SrReporter::setCapacity(uint16_t cap)
 {
     ptr->setCapacity(cap);
@@ -508,7 +510,6 @@ void SrReporter::setCapacity(uint16_t cap)
 
 int SrReporter::start()
 {
-    pthread_t tid;
     const int success = pthread_create(&tid, NULL, func, this);
 
     if (success)

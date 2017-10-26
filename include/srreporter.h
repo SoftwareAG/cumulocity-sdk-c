@@ -207,6 +207,7 @@ private:
     std::unique_ptr<_Pager> ptr;
     bool sleeping;
     bool isfilebuf;
+    pthread_t tid;
 };
 
 #endif /* SRREPORTER_H */
