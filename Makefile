@@ -100,10 +100,10 @@ TEST_BIN:=$(addprefix $(BIN_DIR)/,$(notdir $(TEST_SRC:.cc=)))
 
 $(BIN_DIR)/test_%: tests/test_%.cc
 	@mkdir -p $(BIN_DIR)
-	@$(CXX) $(CPPFLAGS) -DSR_AGENT_VAL=$(SR_AGENT_VAL) -DSR_REPORTER_NUM=$(SR_REPORTER_NUM) -g -pthread -std=c++11 -Iinclude -Llib $< -lsera -o $@
+	@$(CXX) $(CPPFLAGS) -DSR_AGENT_VAL=$(SR_AGENT_VAL) -DSR_REPORTER_NUM=$(SR_REPORTER_NUM) -g -pthread -std=c++11 -Iinclude -L$(LIB_DIR) $< -lsera -o $@
 
 test: $(TEST_BIN)
-	@$(foreach var,$^,LD_LIBRARY_PATH=lib $(var);)
+	@$(foreach var,$^,LD_LIBRARY_PATH=$(LIB_DIR) $(var);)
 
 clean:
 	@rm -f $(BUILD_DIR)/* $(LIB_DIR)/* $(BIN_DIR)/*
