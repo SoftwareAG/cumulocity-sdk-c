@@ -57,6 +57,7 @@ public:
 
     virtual ~SrDevicePush()
     {
+        pthread_cancel(tid);
     }
 
     /**
