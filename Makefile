@@ -39,7 +39,7 @@ CPPFLAGS+=-DSR_SSL_VERIFYCERT=$(SR_SSL_VERIFYCERT)
 CPPFLAGS+=-DSR_FILEBUF_PAGE_SCALE=$(SR_FILEBUF_PAGE_SCALE)
 CFLAGS+=-fPIC -pipe -MMD
 CXXFLAGS+=-std=c++11 -fPIC -pipe -pthread -MMD
-LDFLAGS+=-Wl,-soname,$(SONAME) -Wl,--no-undefined -shared
+LDFLAGS+=-Wl,-soname,$(SONAME) -Wl,--no-undefined -shared -ldl
 LDLIBS+=-pthread
 
 ifeq ($(SR_PLUGIN_LUA), 0)
