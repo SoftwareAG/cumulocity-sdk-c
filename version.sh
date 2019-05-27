@@ -6,9 +6,9 @@ $(basename $0) -h         -- Show this help.
 $(basename $0) ask        -- Show ntcagent and smsagent current versions.
 $(basename $0) <version>  -- Update version number to <version>."
 
-if [ "$1" == "" -o "$1" == "-h" ]; then
+if [ "$1" = "" -o "$1" = "-h" ]; then
     echo "$USAGE"
-elif [ "$1" == "ask" ]; then
+elif [ "$1" = "ask" ]; then
     echo -n "libsera: "
     grep 'REALNAME:=' Makefile | cut -c 21-
 else
