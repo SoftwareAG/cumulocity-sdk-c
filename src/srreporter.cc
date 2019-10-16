@@ -670,7 +670,7 @@ static int exp_send(void *net, bool ishttp, const string &data, SrQueue<SrOpBatc
         {
             if (mqtt->publish("s/ul", data, 2))
             {
-                _mqtt_connect(mqtt, false, xid);
+                _mqtt_connect(mqtt, true, xid);
             }
             else
             {
@@ -705,7 +705,7 @@ void *SrReporter::func(void *arg)
         rpt->mqtt->addMsgHandler("s/ol/" + rpt->xid, &mh);
         rpt->mqtt->addMsgHandler("s/e", &mherr);
 
-        _mqtt_connect(rpt->mqtt.get(), false, rpt->xid);
+        _mqtt_connect(rpt->mqtt.get(), true, rpt->xid);
     }
 
     if (rpt->isfilebuf)
@@ -761,7 +761,7 @@ void *SrReporter::func(void *arg)
 
         if (rpt->mqtt && rpt->mqtt->yield(1000) == -1)
         {
-            _mqtt_connect(rpt->mqtt.get(), false, rpt->xid);
+            _mqtt_connect(rpt->mqtt.get(), true, rpt->xid);
         }
 
         aggre = aggregate(rpt->out, pager, rpt->isfilebuf, rpt->xid);
