@@ -33,7 +33,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Cumulocity C++ SmartREST Library
-   &#160;<span id="projectnumber">2.0</span>
+   &#160;<span id="projectnumber">2.2.1</span>
    </div>
   </td>
    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
@@ -107,10 +107,10 @@ $(document).ready(function(){initNavTree('classSrReporter.html','');});
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a54930a2284d230630a6246b011fe9c16"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSrReporter.html#a54930a2284d230630a6246b011fe9c16">SrReporter</a> (const string &amp;server, const string &amp;xid, const string &amp;auth, <a class="el" href="classSrQueue.html">SrQueue</a>&lt; <a class="el" href="structSrNews.html">SrNews</a> &gt; &amp;out, <a class="el" href="classSrQueue.html">SrQueue</a>&lt; <a class="el" href="structSrOpBatch.html">SrOpBatch</a> &gt; &amp;in, uint16_t cap=1000, const string buffile=&quot;&quot;)</td></tr>
-<tr class="memdesc:a54930a2284d230630a6246b011fe9c16"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classSrReporter.html" title="The reporter thread for sending all requests to Cumulocity. ">SrReporter</a> HTTP constrcutor.  <a href="#a54930a2284d230630a6246b011fe9c16">More...</a><br /></td></tr>
+<tr class="memdesc:a54930a2284d230630a6246b011fe9c16"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classSrReporter.html" title="The reporter thread for sending all requests to Cumulocity. ">SrReporter</a> HTTP constructor.  <a href="#a54930a2284d230630a6246b011fe9c16">More...</a><br /></td></tr>
 <tr class="separator:a54930a2284d230630a6246b011fe9c16"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a18b33819feee313f03ce5839509e4e65"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSrReporter.html#a18b33819feee313f03ce5839509e4e65">SrReporter</a> (const string &amp;server, const string &amp;deviceId, const string &amp;xid, const string &amp;user, const string &amp;pass, <a class="el" href="classSrQueue.html">SrQueue</a>&lt; <a class="el" href="structSrNews.html">SrNews</a> &gt; &amp;out, <a class="el" href="classSrQueue.html">SrQueue</a>&lt; <a class="el" href="structSrOpBatch.html">SrOpBatch</a> &gt; &amp;in, uint16_t cap=1000, const string buffile=&quot;&quot;)</td></tr>
-<tr class="memdesc:a18b33819feee313f03ce5839509e4e65"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classSrReporter.html" title="The reporter thread for sending all requests to Cumulocity. ">SrReporter</a> MQTT constrcutor.  <a href="#a18b33819feee313f03ce5839509e4e65">More...</a><br /></td></tr>
+<tr class="memdesc:a18b33819feee313f03ce5839509e4e65"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classSrReporter.html" title="The reporter thread for sending all requests to Cumulocity. ">SrReporter</a> MQTT constructor.  <a href="#a18b33819feee313f03ce5839509e4e65">More...</a><br /></td></tr>
 <tr class="separator:a18b33819feee313f03ce5839509e4e65"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5fe030b764d3a688bf21bc12e534557a"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSrReporter.html#a5fe030b764d3a688bf21bc12e534557a">capacity</a> () const</td></tr>
 <tr class="memdesc:a5fe030b764d3a688bf21bc12e534557a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current capacity of the request buffer.  <a href="#a5fe030b764d3a688bf21bc12e534557a">More...</a><br /></td></tr>
@@ -201,7 +201,7 @@ Static Protected Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="classSrReporter.html" title="The reporter thread for sending all requests to Cumulocity. ">SrReporter</a> HTTP constrcutor. </p>
+<p><a class="el" href="classSrReporter.html" title="The reporter thread for sending all requests to Cumulocity. ">SrReporter</a> HTTP constructor. </p>
 <p>Construct a <a class="el" href="classSrReporter.html" title="The reporter thread for sending all requests to Cumulocity. ">SrReporter</a> instance which uses <a class="el" href="classSrNetHttp.html" title="Tailored HTTP implementation for Cumulocity SmartREST protocol. Supports both HTTP and HTTPS...">SrNetHttp</a> as underlying network stack.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -286,7 +286,7 @@ Static Protected Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="classSrReporter.html" title="The reporter thread for sending all requests to Cumulocity. ">SrReporter</a> MQTT constrcutor. </p>
+<p><a class="el" href="classSrReporter.html" title="The reporter thread for sending all requests to Cumulocity. ">SrReporter</a> MQTT constructor. </p>
 <p>Construct a <a class="el" href="classSrReporter.html" title="The reporter thread for sending all requests to Cumulocity. ">SrReporter</a> instance which uses <a class="el" href="classSrNetMqtt.html" title="Generic MQTT network stack implementation. ">SrNetMqtt</a> as underlying network stack.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
