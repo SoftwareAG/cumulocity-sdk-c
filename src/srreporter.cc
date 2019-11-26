@@ -46,6 +46,8 @@ using namespace std;
 #define MQTT_QOS_AT_LEAST_ONCE 1    // Acknowledged delivery
 #define MQTT_QOS_EXACTLY_ONCE 2     // Assured Delivery
 
+#define MQTT_MAXIMUM_PAYLOAD_SIZE 16384 // bytes
+
 
 struct _BFHead
 {
@@ -542,8 +544,13 @@ static string aggregate(SrQueue<SrNews> &q, _Pager *p, bool isfilebuf, const str
 {
     string s, buf, currentXid;
 
-    while (!q.empty())
+    for (int i = 0; i < SR_REPORTER_NUM && !q.empty(); i++)
     {   // sending message is not empty
+
+        // prevent the violation of our mqtt maximum accepted payload size
+        if (s.size() > MQTT_MAXIMUM_PAYLOAD_SIZE - 1024) {
+            break;
+        }
 
         SrQueue<SrNews>::Event e;
 
