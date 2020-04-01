@@ -220,7 +220,7 @@ public:
         const auto flag = pcb.front().flag;
         for (size_t i = 0; i < pcb.size() && flag == pcb[i].flag; ++i)
         {
-            const auto offset = pcb[i].offset + 1;
+            const auto offset = pcb[i].offset;
             if (readPage(in, pcb[i].index, buf, offset) != offset)
             {
                 break;
