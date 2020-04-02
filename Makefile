@@ -26,7 +26,7 @@ MQTT_SRC:=$(wildcard $(MQTT_SRC_DIR)/*.c)
 LIB_DIR:=lib/$(TARGET)/$(BUILD)
 LIBNAME:=libsera.so
 SONAME:=$(LIBNAME).1
-REALNAME:=$(SONAME).2.2
+REALNAME:=$(SONAME).2.4
 
 BIN_DIR:=bin/$(TARGET)/$(BUILD)
 

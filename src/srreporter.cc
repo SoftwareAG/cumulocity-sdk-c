@@ -46,6 +46,8 @@ using namespace std;
 #define MQTT_QOS_AT_LEAST_ONCE 1    // Acknowledged delivery
 #define MQTT_QOS_EXACTLY_ONCE 2     // Assured Delivery
 
+#define MQTT_MAXIMUM_PAYLOAD_SIZE 16384 // bytes
+
 
 struct _BFHead
 {
@@ -218,7 +220,7 @@ public:
         const auto flag = pcb.front().flag;
         for (size_t i = 0; i < pcb.size() && flag == pcb[i].flag; ++i)
         {
-            const auto offset = pcb[i].offset + 1;
+            const auto offset = pcb[i].offset;
             if (readPage(in, pcb[i].index, buf, offset) != offset)
             {
                 break;
@@ -542,8 +544,13 @@ static string aggregate(SrQueue<SrNews> &q, _Pager *p, bool isfilebuf, const str
 {
     string s, buf, currentXid;
 
-    while (!q.empty())
+    for (int i = 0; i < SR_REPORTER_NUM && !q.empty(); i++)
     {   // sending message is not empty
+
+        // prevent the violation of our mqtt maximum accepted payload size
+        if (s.size() > MQTT_MAXIMUM_PAYLOAD_SIZE - 1024) {
+            break;
+        }
 
         SrQueue<SrNews>::Event e;
 
@@ -670,7 +677,7 @@ static int exp_send(void *net, bool ishttp, const string &data, SrQueue<SrOpBatc
         {
             if (mqtt->publish("s/ul", data, 2))
             {
-                _mqtt_connect(mqtt, false, xid);
+                _mqtt_connect(mqtt, true, xid);
             }
             else
             {
@@ -705,7 +712,7 @@ void *SrReporter::func(void *arg)
         rpt->mqtt->addMsgHandler("s/ol/" + rpt->xid, &mh);
         rpt->mqtt->addMsgHandler("s/e", &mherr);
 
-        _mqtt_connect(rpt->mqtt.get(), false, rpt->xid);
+        _mqtt_connect(rpt->mqtt.get(), true, rpt->xid);
     }
 
     if (rpt->isfilebuf)
@@ -761,7 +768,7 @@ void *SrReporter::func(void *arg)
 
         if (rpt->mqtt && rpt->mqtt->yield(1000) == -1)
         {
-            _mqtt_connect(rpt->mqtt.get(), false, rpt->xid);
+            _mqtt_connect(rpt->mqtt.get(), true, rpt->xid);
         }
 
         aggre = aggregate(rpt->out, pager, rpt->isfilebuf, rpt->xid);
