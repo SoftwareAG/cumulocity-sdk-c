@@ -215,12 +215,12 @@ public:
             return s;
         }
 
-        char buf[SR_FILEBUF_PAGE_SIZE];
+        char buf[SR_FILEBUF_PAGE_SIZE + 1];
         ifstream in(fn, ios::binary);
         const auto flag = pcb.front().flag;
         for (size_t i = 0; i < pcb.size() && flag == pcb[i].flag; ++i)
         {
-            const auto offset = pcb[i].offset;
+            const auto offset = pcb[i].offset + 1;
             if (readPage(in, pcb[i].index, buf, offset) != offset)
             {
                 break;
