@@ -74,4 +74,4 @@ SR_PLUGIN_LUA:=1
   to your init.mk.
 
 * How can I contact Cumulocity in case I have questions?  
-  You can reach us by email at support@cumulocity.com
+  You can reach us by email at Software AG Cumulocity IoT <Helpdesk-CumulocityIoT@softwareag.com>
