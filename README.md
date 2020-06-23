@@ -6,8 +6,8 @@ Cumulocity C++ Library is an asynchronous, event-driven networking library to ea
 
 * *C++ 11*
 * *Linux* >= 2.6.32
-* *libcurl* >= 7.26.0
-* *Lua* >= 5.0 (optional, for Lua support)
+* *libcurl* >= 7.57.0
+* *Lua* >= 5.1 (optional, for Lua support)
 
 ### How to build the library? ###
 
