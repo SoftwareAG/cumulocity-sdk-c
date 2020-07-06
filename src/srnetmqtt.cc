@@ -140,9 +140,10 @@ int SrNetMqtt::publish(const string &topic, const string &msg, char nflag)
     ptr += MQTTPacket_encode(ptr, remlen);
     writeCString(&ptr, topic.c_str());
 
+    unsigned short msgid = 1;
     if (qos)
     {
-        writeInt(&ptr, 1);
+        writeInt(&ptr, msgid);
     }
 
     if (sendBuf((const char *) buf, ptr - buf) != ptr - buf)
@@ -164,19 +165,30 @@ int SrNetMqtt::publish(const string &topic, const string &msg, char nflag)
         i += n;
     }
 
-    errno = errNo = 0;
-    if (qos)
-    {
-        len = recv(SR_SOCK_RXBUF_SIZE);
+    if (!qos) { // no verification in QoS = 0
+        return 0;
     }
 
-    if (len <= 0)
-    {
+    errno = errNo = 0;
+    const size_t offset = resp.size();
+    int recvlen = recv(SR_SOCK_RXBUF_SIZE);
+    if (recvlen <= 0) {
         srError(string("MQTT pub: ") + _errMsg);
-
         return -1;
-    } else
-    {
+    }
+
+    unsigned short mypacketid;
+    unsigned char dup, type;
+    unsigned char* const readbuf = (unsigned char*) resp.c_str() + offset;
+    if (MQTTDeserialize_ack(&type, &dup, &mypacketid, readbuf, recvlen) != 1) {
+        return -1;
+    } else if (mypacketid != msgid) {
+        srError("MQTT: Unexpected message ID " + to_string(mypacketid));
+        return -1;
+    } else if (type != 4) { // PUBACK
+        srError("MQTT: Unexpected message type " + to_string(type));
+        return -1;
+    } else {
         return 0;
     }
 }
