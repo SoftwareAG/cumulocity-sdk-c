@@ -19,5 +19,6 @@ function init()
    srDebug(myString)            -- myString from mylib
    timer = c8y:addTimer(10 * 1000, 'cpuMeasurement')
    c8y:addMsgHandler(502, 'restart')
+   timer:start()
    return 0                     -- signify successful initialization
 end
